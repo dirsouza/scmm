@@ -1,0 +1,21 @@
+{
+    "require": {
+        "php": ">=5.5",
+        "slim/slim": "2.6.3",
+	"mpdf/mpdf": "7.0.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "SCMM\\": "vendor\\scmm"
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packagist.org"
+        },
+        {
+            "packagist": false
+        }
+    ]
+}
