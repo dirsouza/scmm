@@ -1,0 +1,80 @@
+html, body {
+    height: 100%;
+}
+
+    body {
+        font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+        font-weight: 400;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+        .login-page, .register-page {
+            background: rgb(167,207,223); /* Old browsers */
+            background: -moz-linear-gradient(-45deg, rgba(167,207,223,1) 0%, rgba(35,83,138,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(-45deg, rgba(167,207,223,1) 0%,rgba(35,83,138,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(135deg, rgba(167,207,223,1) 0%,rgba(35,83,138,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a7cfdf', endColorstr='#23538a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        }
+        
+        .login-box, .register-box {
+            width: 360px;
+            margin: 7% auto;
+            background: -moz-linear-gradient(-45deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(-45deg, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        }
+        
+        .login-box-body {
+            margin-top: -17px;
+            padding: 20px;
+            border-top: 0;
+            color: #666;
+        }
+        
+        .login-logo {
+            font-size: 35px;
+            text-align: center;
+            padding-top: 5px;
+            margin-bottom: 5px;
+            font-weight: 300;
+            color: #fff;
+        }
+        
+        .login-box-msg {
+            margin: 0;
+            text-align: center;
+            padding: 0 20px 10px 20px;
+            color: #fff;
+        }
+        
+        .login-box-error {
+            background: #d63031;
+            margin: 0 20px 10px 20px;
+            color: #fff;
+            border-radius: 10px;
+        }
+        
+        .login-box-success {
+            background: #00b894;
+            margin: 0 20px 10px 20px;
+            color: #fff;
+            border-radius: 10px;
+        }
+        
+        .text-register {
+            color: #fff;
+        }
+        
+        .text-register:hover {
+            color: #adadad;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .login-box, .register-box {
+                width: 90%;
+                margin-top: 20px;
+            }
+        }

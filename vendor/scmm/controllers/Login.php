@@ -31,15 +31,15 @@ class Login extends Model {
 
             //Verifica se houve retorno na consulta
             if (is_array($results) && count($results) === 0) {
-                Model::returnError("Usuário ou senha incorreto.", "/scmm/login");
+                Model::returnError("Usuário ou senha incorreta.", "/scmm/login");
             }
 
             //Verifica se a senha é compatível
             if (password_verify($password, $results[0]['dessenha'])) {
-                $this->setData($results[0]); //Seta os dados na Classe Model
+                $user = new Login(); //Instancia a Classe login para acessar a Classe Model.
+                $user->setData($results[0]); //Seta os dados na Classe Model
                 session_regenerate_id(true); //Gera uma nova id de sessão
-                $_SESSION[Login::SESSION] = $this->getValues(); //Atribui os dados da Classe Model a constante de sessão User
-                return $_SESSION[Login::SESSION]; //Retorna a constante de sessão User
+                $_SESSION[Login::SESSION] = $user->getValues(); //Atribui os dados da Classe Model a constante de sessão User
             } else {
                 Model::returnError("Usuário ou senha incorreta", "/scmm/login");
             } 
@@ -62,13 +62,13 @@ class Login extends Model {
         if (
             !isset($_SESSION[Login::SESSION]) || //Verifica se a sessão existe
             !$_SESSION[Login::SESSION] || //Verifica se a sessão não contém dados
-            !(int)$_SESSION[Login::SESSION]['idusuario'] > 0 //Verifica se o id não é maior que zero
+            !(int)$_SESSION[Login::SESSION]['Idusuario'] > 0 //Verifica se o id não é maior que zero
         ) {
             //Verifica se a sessão não existe
             if (isset($_SESSION[Login::SESSION])) {
-                Model::returnError("Usuário não está logado", "/login");
+                Model::returnError("Usuário não está logado", "/scmm/login");
             } else {
-                header("location: /login");
+                header("location: /scmm/login");
             }
             exit;
         }
