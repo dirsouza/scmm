@@ -16,62 +16,262 @@ $app->config(array(
     'mode' => 'development'
 ));
 
+/**
+ * Index
+ * Url: http://scmm/index
+ */
 $app->get('/', function() use ($app) {
     Login::verifyLogin();
     
     $user = new Login();
     $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+    $data = $user->getValues();
     
-    $app->render('default/header.php', array(
-        'user' => $user->getValues()
-    ));
-    $app->render('default/index.php');
-    $app->render('default/footer.php');
-});
-
-$app->get('/login', function() use ($app) {
-    $app->render("/login/header.php");
-    $app->render("/login/login.php");
-    $app->render("/login/footer.php");
-});
-
-$app->post('/login', function() use ($app) {
-    $login = new Login();
-    $login->login($_POST['desLogin'], $_POST['desSenha']);
-    $app->redirect('/scmm/');
-});
-
-$app->get('/register', function() use ($app) {
-    $app->render("/login/header.php");
-    $app->render("/login/registrar.php");
-    $app->render("/login/footer.php");
-});
-
-$app->post('/register', function() use ($app) {
-    $register = $_POST;
-    
-    if ($register['desSenha'] === $register['desReSenha']) {
-        $user = new User();
-        $user->setData($register);
-        $user->addUsuario();
-        
-        $_SESSION['register'] = array(
-            'msg' => "Usuário Cadastrado com Sucesso!"
-        );
-        $app->redirect('/scmm/login');
+    if ($data['Desadmin'] === '1') {
+        $app->render('default/header.php', array(
+            'user' => $data,
+            'page' => 'Dashboard'
+        ));
+        $app->render('default/index.php');
+        $app->render('default/footer.php');    
     } else {
-        $_SESSION['register'] = array(
-            'user' => $register['desLogin'],
-            'msg' => "As senhas não são identicas."
-        );
-        $app->redirect('/scmm/register');
+        $app->redirect('/scmm/client');
     }
 });
 
-$app->get('/logout', function() use ($app) {
-    Login::logout();
+/**
+ * Login
+ * Url: http://scmm/login
+ */
+
+$app->group('/login', function() use ($app) {
+    $app->get('/', function() use ($app) {
+        $app->render("/login/header.php");
+        $app->render("/login/login.php");
+        $app->render("/login/footer.php");
+    });
     
-    $app->redirect('/scmm/');
+    $app->post('/', function() use ($app) {
+        $login = new Login();
+        $login->login($_POST['desLogin'], $_POST['desSenha']);
+        $app->redirect('/scmm/');
+    });
+});
+
+/**
+ * Logout
+ * Url: http://scmm/logout
+ */
+$app->group('/logout', function() use ($app) {
+    $app->get('/', function() use ($app) {
+        Login::logout();
+        $app->redirect('/scmm/');
+    });
+});
+
+/**
+ * Registro
+ * Url: http://scmm/register
+ */
+$app->group('/register', function() use ($app) {
+    $app->get('/', function() use ($app) {
+        $app->render("/login/header.php");
+        $app->render("/login/registrar.php");
+        $app->render("/login/footer.php");
+    });
+    
+    $app->post('/', function() {
+        $register = $_POST;
+    
+        if ($register['desSenha'] === $register['desReSenha']) {
+            $user = new User();
+            $user->setData($register);
+            $user->addUsuario();
+
+            $_SESSION['register'] = array(
+                'msg' => "Usuário Cadastrado com Sucesso!"
+            );
+            $app->redirect('/scmm/login');
+        } else {
+            $_SESSION['register'] = array(
+                'user' => $register['desLogin'],
+                'msg' => "As senhas não são identicas."
+            );
+            $app->redirect('/scmm/register');
+        }
+    });
+});
+
+/**
+ * Cadastros
+ * Url: http://scmm/registration
+ */
+$app->group('/registration', function() use ($app) {
+    /**
+     * Comércio
+     * Url: http://scmm/registration/commerce
+     */
+    $app->group('/commerce', function() use ($app) {
+        $app->get('/', function() use ($app) {
+            Login::verifyLogin();
+            
+            $user = new Login();
+            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+            
+            $app->render('default/header.php', array(
+                'user' => $user->getValues(),
+                'page' => "Lista de Comércios"
+            ));
+            $app->render('commerce/index.php');
+            $app->render('default/footer.php');
+        });
+
+        $app->get('/commerce/create', function() use ($app) {
+
+        });
+
+        $app->post('/commerce/create', function() use ($app) {
+
+        });
+
+        $app->get('/commerce/update/:id', function($id) use ($app) {
+
+        });
+
+        $app->post('/commerce/update/:id', function($id) {
+
+        });
+
+        $app->get('/commerce/delete/:id', function($id) {
+
+        });
+    });
+
+    /**
+     * Produto
+     * Url: http://scmm/registration/product
+     */
+    $app->group('/product', function() use ($app) {
+        $app->get('/', function() use ($app) {
+
+        });
+
+        $app->get('/product/create', function() use ($app) {
+
+        });
+
+        $app->post('/product/create', function() use ($app) {
+
+        });
+
+        $app->get('/product/update/:id', function($id) use ($app) {
+
+        });
+
+        $app->post('/product/update/:id', function($id) {
+
+        });
+
+        $app->get('/product/delete/:id', function($id) {
+
+        });
+    });
+    
+    /**
+    * Produtos por Comércio
+    * Url: http://scmm/registration/product_commerce
+    */   
+    $app->group('/product_commerce', function() use ($app) {
+        $app->get('/', function() use ($app) {
+
+        });
+
+        $app->get('/product_commerce/create', function() use ($app) {
+
+        });
+
+        $app->post('/product_commerce/create', function() use ($app) {
+
+        });
+
+        $app->get('/product_commerce/update/:id', function($id) use ($app) {
+
+        });
+
+        $app->post('/product_commerce/update/:id', function($id) {
+
+        });
+
+        $app->get('/product_commerce/delete/:id', function($id) {
+
+        });
+    });
+});
+
+/**
+ * Usuários
+ * Url: http://scmm/users
+ */
+$app->group('/users', function() use ($app) {
+    /**
+    * Administrador
+    * Url: http://scmm/users/admin
+    */
+    $app->group('/admin', function() use ($app) {
+        $app->get('/', function() use ($app) {
+        
+        });
+
+        $app->get('/create', function() use ($app) {
+
+        });
+
+        $app->post('/create', function() use ($app) {
+
+        });
+
+        $app->get('/update/:id', function($id) use ($app) {
+
+        });
+
+        $app->post('/update/:id', function($id) {
+
+        });
+
+        $app->get('/delete/:id', function($id) {
+
+        });
+    });
+    
+    /**
+    * Cliente
+    * Url: http://scmm/users/client
+    */
+    $app->group('/client', function() use ($app) {
+        $app->get('/', function() use ($app) {
+        
+        });
+    });
+});
+
+/**
+ * Cliente
+ * Url: http://scmm/client
+ */
+$app->group('/client', function() use ($app) {
+    $app->get('/', function() use ($app) {
+        Login::verifyLogin();
+    
+        $user = new Login();
+        $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+
+        $app->render('default/header.php', array(
+            'user' => $user->getValues(),
+            'page' => 'Faça sua pesquisa'
+        ));
+        $app->render('clientSearch/index.php');
+        $app->render('default/footer.php');
+    });
 });
 
 $app->run();
