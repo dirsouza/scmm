@@ -2,20 +2,15 @@
     "require": {
         "php": ">=5.5",
         "slim/slim": "2.6.3",
-	"mpdf/mpdf": "7.0.3"
+	"dompdf/dompdf": "0.8.2",
+        "ext-gd": "*",
+        "ext-dom": "*",
+        "ext-mbstring": "*",
+        "phenx/php-font-lib": "0.5.*"
     },
     "autoload": {
         "psr-4": {
             "SCMM\\": "vendor\\scmm"
         }
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packagist.org"
-        },
-        {
-            "packagist": false
-        }
-    ]
+    }
 }

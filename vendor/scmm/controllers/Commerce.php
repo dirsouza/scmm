@@ -18,14 +18,14 @@ class Commerce extends Model {
         try {
             $sql = new Dao();
             $sql->allQuery("INSERT INTO tbcomercio (desnome,descep,desrua,desbairro)
-                            VALUES (:DESNOME,:DESCEP,:DESRUA,DESBAIRRO)", array(
+                            VALUES (:DESNOME,:DESCEP,:DESRUA,:DESBAIRRO)", array(
                                 ':DESNOME' => $this->getDesNome(),
                                 ':DESCEP' => $this->getDesCEP(),
                                 ':DESRUA' => $this->getDesRua(),
                                 ':DESBAIRRO' => $this->getDesBairro()
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Cadastrar o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/commerce/create");
+            Model::returnError("Não foi possível Cadastrar o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce/create");
         }
     }
     
@@ -48,7 +48,7 @@ class Commerce extends Model {
                                 ':DESBAIRRO' => $this->getDesBairro()
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/commerce/update/".$idCommerce);
+            Model::returnError("Não foi possível Atualizar o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce/update/".$idCommerce);
         }
     }
     
@@ -64,7 +64,7 @@ class Commerce extends Model {
                                 ':IDCOMERCIO' => $idCommerce
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Excluir o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/commerce");
+            Model::returnError("Não foi possível Excluir o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce");
         }
     }
     
@@ -81,7 +81,7 @@ class Commerce extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados de Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/commerce");
+            Model::returnError("Não foi possível recuperar os dados de Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce");
         }
     }
     
@@ -102,7 +102,7 @@ class Commerce extends Model {
                 return $result;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados do Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/commerce/update/".$idCommerce);
+            Model::returnError("Não foi possível recuperar os dados do Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce/update/".$idCommerce);
         }
     }
 }

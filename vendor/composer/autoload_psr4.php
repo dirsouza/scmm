@@ -7,6 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'SCMM\\' => array($vendorDir . '/scmm'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
-    'Mpdf\\' => array($vendorDir . '/mpdf/mpdf/src'),
+    'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
+    'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
 );

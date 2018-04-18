@@ -8,6 +8,11 @@ session_start();
 use Slim\Slim;
 use SCMM\Controllers\Login;
 use SCMM\Controllers\User;
+use SCMM\Controllers\Commerce;
+use SCMM\Controllers\Product;
+use SCMM\Controllers\ProductCommerce;
+use SCMM\Controllers\ProductFilter;
+use Dompdf\Dompdf;
 
 $app = new Slim();
 $app->config(array(
@@ -118,32 +123,83 @@ $app->group('/registration', function() use ($app) {
             $user = new Login();
             $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
             
+            $commerces = Commerce::listComercios();
+            
             $app->render('default/header.php', array(
                 'user' => $user->getValues(),
                 'page' => "Lista de Comércios"
             ));
-            $app->render('commerce/index.php');
+            $app->render('commerce/index.php', array(
+                'commerces' => $commerces
+            ));
             $app->render('default/footer.php');
         });
 
-        $app->get('/commerce/create', function() use ($app) {
-
+        $app->get('/create', function() use ($app) {
+            Login::verifyLogin();
+            
+            $user = new Login();
+            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+            
+            $app->render('default/header.php', array(
+                'user' => $user->getValues(),
+                'page' => "Novo Comércio"
+            ));
+            $app->render('commerce/create.php');
+            $app->render('default/footer.php');
         });
 
-        $app->post('/commerce/create', function() use ($app) {
-
+        $app->post('/create', function() use ($app) {
+            Login::verifyLogin();
+            
+            $commerce = new Commerce();
+            $commerce->setData($_POST);
+            $commerce->addComercio();
+            
+            $app->redirect('/scmm/registration/commerce');
         });
 
-        $app->get('/commerce/update/:id', function($id) use ($app) {
-
+        $app->get('/update/:id', function($id) use ($app) {
+            Login::verifyLogin();
+            
+            $user = new Login();
+            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+            
+            $commerce = Commerce::listComercioId((int)$id);
+            
+            $app->render('default/header.php', array(
+                'user' => $user->getValues(),
+                'page' => "Editar Comércio"
+            ));
+            $app->render('commerce/update.php', array(
+                'commerce' => $commerce[0]
+            ));
+            $app->render('default/footer.php');
         });
 
-        $app->post('/commerce/update/:id', function($id) {
-
+        $app->post('/update/:id', function($id) use ($app) {
+            Login::verifyLogin();
+            
+            $commerce = new Commerce();
+            $commerce->setData($_POST);
+            $commerce->updateComercio((int)$id);
+            
+            $app->redirect('/scmm/registration/commerce');
         });
 
-        $app->get('/commerce/delete/:id', function($id) {
-
+        $app->get('/delete/:id', function($id) use ($app) {
+            Login::verifyLogin();
+            
+            $commerce = new Commerce();
+            $commerce->deleteComercio((int)$id);
+            
+            $app->redirect('/scmm/registration/commerce');
+        });
+        
+        $app->get('/report', function() use ($app) {
+            Login::verifyLogin();
+            
+            $app->render('commerce/report.php');
         });
     });
 
@@ -156,23 +212,23 @@ $app->group('/registration', function() use ($app) {
 
         });
 
-        $app->get('/product/create', function() use ($app) {
+        $app->get('/create', function() use ($app) {
 
         });
 
-        $app->post('/product/create', function() use ($app) {
+        $app->post('/create', function() use ($app) {
 
         });
 
-        $app->get('/product/update/:id', function($id) use ($app) {
+        $app->get('/update/:id', function($id) use ($app) {
 
         });
 
-        $app->post('/product/update/:id', function($id) {
+        $app->post('/update/:id', function($id) {
 
         });
 
-        $app->get('/product/delete/:id', function($id) {
+        $app->get('/delete/:id', function($id) {
 
         });
     });
@@ -186,23 +242,23 @@ $app->group('/registration', function() use ($app) {
 
         });
 
-        $app->get('/product_commerce/create', function() use ($app) {
+        $app->get('/create', function() use ($app) {
 
         });
 
-        $app->post('/product_commerce/create', function() use ($app) {
+        $app->post('/create', function() use ($app) {
 
         });
 
-        $app->get('/product_commerce/update/:id', function($id) use ($app) {
+        $app->get('/update/:id', function($id) use ($app) {
 
         });
 
-        $app->post('/product_commerce/update/:id', function($id) {
+        $app->post('/update/:id', function($id) {
 
         });
 
-        $app->get('/product_commerce/delete/:id', function($id) {
+        $app->get('/delete/:id', function($id) {
 
         });
     });

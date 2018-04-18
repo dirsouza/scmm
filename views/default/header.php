@@ -5,14 +5,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SCMM</title>
-        <link href="../../../scmm/lib/api/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../../scmm/lib/api/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-        <link href="../../../scmm/lib/api/metismenu/metisMenu.min.css" rel="stylesheet">
-        <link href="../../../scmm/lib/api/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet">
-        <link href="../../../scmm/lib/api/datatables/extensions/responsive/css/responsive.bootstrap.min.css" rel="stylesheet">
-        <link href="../../../scmm/lib/api/datatables/extensions/selected/css/select.bootstrap.min.css" rel="stylesheet">
-        <link href="../../../scmm/lib/api/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="../../../scmm/lib/style/css/scmm.css" rel="stylesheet">
+        <link href="/scmm/lib/api/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/scmm/lib/api/metismenu/metisMenu.min.css" rel="stylesheet">
+        <link href="/scmm/lib/api/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="/scmm/lib/api/datatables/extensions/responsive/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="/scmm/lib/api/datatables/extensions/selected/css/select.bootstrap.min.css" rel="stylesheet">
+        <link href="/scmm/lib/api/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/scmm/lib/style/css/scmm.css" rel="stylesheet">
     </head>
     <body class="clearfix">
         
