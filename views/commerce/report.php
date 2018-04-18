@@ -21,5 +21,9 @@ $pdf = new Dompdf();
 $pdf->loadHtml($html);
 $pdf->setPaper('A4', 'Portrait');
 $pdf->render();
-$pdf->stream('documento');
+$pdf->stream('listCommerce.pdf', array(
+    'Attachment' => false
+));
+
+exit(0);
 ?>
