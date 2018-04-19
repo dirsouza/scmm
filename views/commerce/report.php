@@ -1,7 +1,4 @@
 <?php
-$_dompdf_show_warnings = true;
-$_dompdf_warnings = [];
-
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -93,6 +90,9 @@ $pdf = new Dompdf($options);
 $pdf->loadHtml($html);
 $pdf->setPaper('A4', 'Portrait');
 $pdf->render();
+$canvas = $pdf->get_canvas();
+$font = Font_Metrics::get_font("helvetica", "bold");
+$canvas->page_text(16, 800, "Page: {PAGE_NUM} of {PAGE_COUNT}", $font, 8, array(0,0,0));
 $pdf->stream('listCommerce.pdf', array(
     'Attachment' => false
 ));
