@@ -85,7 +85,7 @@ $app->group('/register', function() use ($app) {
         $app->render("/login/footer.php");
     });
     
-    $app->post('/', function() {
+    $app->post('/', function() use ($app) {
         $register = $_POST;
     
         if ($register['desSenha'] === $register['desReSenha']) {

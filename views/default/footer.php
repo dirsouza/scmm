@@ -26,6 +26,9 @@
                     $('#selectCheckbox').DataTable({
                         autoWidth: true,
                         responsive: true,
+                        language: {
+                            url: "../../../scmm/lib/api/datatables/language/pt-BR.json"
+                        },
                         columnDefs: [{
                                 orderable: false,
                                 className: 'select-checkbox',

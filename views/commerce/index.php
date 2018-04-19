@@ -22,6 +22,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php if (is_array($commerces) && count($commerces) > 0): ?>
                                             <?php foreach ($commerces as $value): ?>
                                             <tr>
                                                 <td class="text-center"><?= str_pad($value['idcomercio'], 5, 0, STR_PAD_LEFT)?></td>
@@ -34,6 +35,7 @@
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
