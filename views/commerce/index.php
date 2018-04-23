@@ -30,8 +30,8 @@
                                                 <td><?=$value['desrua']?></td>
                                                 <td><?=$value['desbairro']?></td>
                                                 <td class="text-center">
-                                                    <a href="/scmm/registration/commerce/update/<?=$value['idcomercio']?>" class="btn btn-xs btn-primary"><i class="fa fa-edit"></i></a>
-                                                    <a href="/scmm/registration/commerce/delete/<?=$value['idcomercio']?>" onclick="return confirm('Deseja excluir este registro?')" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                                                    <a href="/scmm/registration/commerce/update/<?=$value['idcomercio']?>" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
+                                                    <a href="/scmm/registration/commerce/delete/<?=$value['idcomercio']?>" onclick="return confirm('Deseja excluir este registro?')" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

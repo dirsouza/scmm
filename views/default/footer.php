@@ -1,5 +1,13 @@
 
-
+            
+            </div>
+            <!-- /#page-wrapper -->
+            <footer class="footer">
+                <div class="container">
+                    <p class="text-muted left"><?= $_SESSION['system']['name'] ?></p>
+                    <p class="text-muted right">Versão <?= $_SESSION['system']['version'] ?></p>
+                </div>
+            </footer>
         </div>
         <!-- /#wrapper -->
 
@@ -47,6 +55,11 @@
                         }
                     });
                 }
+
+                /**
+                * Tootip
+                */
+                $('[data-toggle="tooltip"]').tooltip();
                 
                 /**
                 * jQuery Mask

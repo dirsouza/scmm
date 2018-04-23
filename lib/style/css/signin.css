@@ -71,6 +71,10 @@ html, body {
             color: #adadad;
             text-decoration: none;
         }
+
+        .fa {
+            padding-top: 10px !important;
+        }
         
         @media (max-width: 768px) {
             .login-box, .register-box {

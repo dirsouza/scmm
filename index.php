@@ -94,7 +94,7 @@ $app->group('/logout', function() use ($app) {
 $app->group('/register', function() use ($app) {
     $app->get('/', function() use ($app) {
         $app->render("/login/header.php");
-        $app->render("/login/registrar.php");
+        $app->render("/login/register.php");
         $app->render("/login/footer.php");
     });
     

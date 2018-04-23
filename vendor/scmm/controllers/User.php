@@ -44,9 +44,10 @@ class User extends Model {
     private function addCliente($idUser) {
         try {
             $sql = new Dao();
-            $sql->allQuery("INSERT INTO tbcliente (idusuario)
-                            VALUES (:IDUSUARIO)", array(
-                                ':IDUSUARIO' => $idUser
+            $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome)
+                            VALUES (:IDUSUARIO,:DESNOME)", array(
+                                ':IDUSUARIO' => $idUser,
+                                ':DESNOME' => $this->getDesNome()
                             ));
         } catch (\PDOException $e) {
             $this->deleteUsuario($idUser);
