@@ -10,9 +10,15 @@ ob_start();
         <meta charset="UTF-8">
         <title>SCMM</title>
         <style>
-            .content {
-                font:20px Arial, Sans-serif;
-                border: 1px solid #000;
+            @page { margin: 100px 25px; }
+
+            header {
+                position: fixed;
+                top: -60px;
+                left: 0;
+                right: 0;
+                font: 20px Arial, Sans-serif;
+                border: 2px solid #000;
                 border-radius: 3px;
                 width: 100%;
                 height: 50px;
@@ -20,59 +26,109 @@ ob_start();
                 line-height: 40px;
                 font-weight: bold;
             }
+
+            footer {
+                position: fixed;
+                bottom: -100px;
+                left: 0;
+                right: 0;
+                font: 10px Arial, Sans-serif;
+                border-top: 1px solid #000;
+                width: 100%;
+                height: 50px;
+                padding: 0 3px 0 3px;
+            }
             
             .logo-left {
                 float: left;
                 margin: 10px;
                 width: 50px;
             }
+
+            .logo-right {
+                font-size: 12px;
+                font-weight: none;
+                float: right;
+                margin-top: -15px;
+                width: 50px;
+            }
+
+            .footer-left {
+                float: left;
+                width: 50%;
+                text-align: left;
+            }
+
+            .footer-right {
+                float: right;
+                width: 50%;
+                text-align: right;
+            }
             
             .table {
                 font-size: 15px;
                 margin-top: 10px;
+                border-collapse: collapse;
                 border: 1px solid #000;
-                border-radius: 2px;
                 width: 100%;
-                background: #2980b9;
                 color: #fff;
             }
             .table th {
+                font-size: 16px;
                 height: 20px;
+                border: 1px solid #000;
                 text-align: center;
                 vertical-align: middle;
+                background: #2980b9;
             }
             .table td {
                 height: 15px;
-                text-align: left;
+                border: 1px solid #000;
                 vertical-align: middle;
                 background: #fff;
                 color: #000;
+                padding: 3px;
+            }
+
+            .text-center {
+                text-align: center;
             }
         </style>
     </head>
     <body>
-        <div class="content">
+        <header class="content">
             <img class="logo-left" src="C:/xampp/htdocs/scmm/src/img/logo-pdf.jpg">
             Relatório de Comércios
-        </div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="5%">Código</th>
-                    <th>Nome</th>
-                    <th>Rua</th>
-                    <th>Bairro</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>00001</td>
-                    <td>Casa da Carne</td>
-                    <td>Rua Izaurina Braga</td>
-                    <td>Compensa</td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="logo-right">Página</div>
+        </header>
+        <footer>
+            <div class="footer-left"><?= $_SESSION['system']['name'] ?></div>
+            <div class="footer-right">Versão <?= $_SESSION['system']['version'] ?></div>
+        </footer>
+        <main>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th width="6%">Código</th>
+                        <th width="30%">Nome</th>
+                        <th width="30%">Rua</th>
+                        <th width="25%">Bairro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php if (is_array($commerces) && count($commerces) > 0): ?>
+                    <?php foreach ($commerces as $value): ?>
+                    <tr>
+                        <td class="text-center"><?= str_pad($value['idcomercio'], 5, 0, STR_PAD_LEFT)?></td>
+                        <td><?=$value['desnome']?></td>
+                        <td><?=$value['desrua']?></td>
+                        <td><?=$value['desbairro']?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </main>
     </body>
 </html>
 <?php
@@ -88,11 +144,12 @@ $options->set('isPhpEnabled', true);
 
 $pdf = new Dompdf($options);
 $pdf->loadHtml($html);
-$pdf->setPaper('A4', 'Portrait');
+$pdf->setPaper('A4', 'landscape');
 $pdf->render();
+$font = $pdf->getFontMetrics()->get_font("Sans-serif");
+$page = "{PAGE_NUM}";
 $canvas = $pdf->get_canvas();
-$font = Font_Metrics::get_font("helvetica", "bold");
-$canvas->page_text(16, 800, "Page: {PAGE_NUM} of {PAGE_COUNT}", $font, 8, array(0,0,0));
+$canvas->page_text(792, 53, $page, $font, 10, array(0,0,0));
 $pdf->stream('listCommerce.pdf', array(
     'Attachment' => false
 ));

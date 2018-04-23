@@ -1,6 +1,4 @@
 
-            </div>
-            <!-- /#page-wrapper -->
 
         </div>
         <!-- /#wrapper -->
@@ -16,12 +14,12 @@
         <script src="/scmm/lib/api/datatables/extensions/selected/js/dataTables.select.min.js"></script>
         <script src="/scmm/lib/api/jquery-mask/jquery.mask.min.js"></script>
         <script src="/scmm/lib/api/viacep/jquery.autocomplete-address.min.js"></script>
-        
+
         <script>
             $(document).ready(function() {
                 /**
-                 * DataTables
-                 */
+                * DataTables
+                */
                 if (document.getElementById('selectCheckbox') !== null) {
                     $('#selectCheckbox').DataTable({
                         autoWidth: true,
@@ -30,9 +28,9 @@
                             url: "../../../scmm/lib/api/datatables/language/pt-BR.json"
                         },
                         columnDefs: [{
-                                orderable: false,
-                                className: 'select-checkbox',
-                                targets: 0
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: 0
                         }],
                         select: {
                             style: 'multi',
@@ -51,17 +49,17 @@
                 }
                 
                 /**
-                 * jQuery Mask
-                 */
+                * jQuery Mask
+                */
                 $('#cep').mask('00000-000', {placeholder: "_____-___"});
-                
+
                 /**
-                 * ViaCep
-                 */
+                * ViaCep
+                */
                 $('#cep').autocompleteAddress({
                     address: '#rua',
                     neighborhood: '#bairro',
-                    setReadonly: false
+                    setReadonly: false  
                 });
             });
         </script>

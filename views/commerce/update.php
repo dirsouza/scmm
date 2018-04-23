@@ -12,7 +12,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Nome:</label>
-                                                    <input type="text" name="desNome" class="form-control" value="<?=$commerce['desnome']?>" required>
+                                                    <input type="text" name="desNome" class="form-control" value="<?=$commerce['desnome']?>" required autofocus>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">

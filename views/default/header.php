@@ -14,7 +14,7 @@
         <link href="/scmm/lib/style/css/scmm.css" rel="stylesheet">
     </head>
     <body class="clearfix">
-        
+
         <div id="wrapper">
 
             <!-- Navigation -->
@@ -35,23 +35,23 @@
 
                 <ul class="nav navbar-right navbar-top-links">
                     <li class="dropdown navbar-inverse">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user-circle-o fa-fw"></i> <?= $user['Deslogin'] ?> <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="/scmm/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a></li>
-                        </ul>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-user-circle-o fa-fw"></i> admin <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="/scmm/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a></li>
+                            </ul>
+                        </li>
                     </li>
                 </ul>
                 <!-- /.navbar-top-links -->
-                <?php if ($user['Desadmin'] === '1'): ?>
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
                                 <a href="/scmm/" class="active">
-                                    <i class="fa fa-dashboard fa-fw"></i> Dashboard
+                                    <i class="fa fa-dashboard fa-fw"></i> Painel Principal
                                 </a>
                             </li>
                             <li>
@@ -82,15 +82,12 @@
                         </ul>
                     </div>
                 </div>
-                <?php endif; ?>
             </nav>
 
-            <div id="page-wrapper" <?= ($user['Desadmin'] === '1') ? 'class="page-wrapper-admin"' : 'class="page-wrapper-client"' ?>>
+            <div id="page-wrapper" class="page-wrapper-admin">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">
-                        <?= $page ?>
-                        </h1>
+                        <h1 class="page-header">Painel Principal</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>

@@ -5,6 +5,11 @@ require_once "vendor/autoload.php";
 
 session_start();
 
+$_SESSION['system'] = array(
+    'name' => 'SCMM - Sistema de Controle de Mercadorias de Comércios',
+    'version' => '1.0.0'
+);
+
 use Slim\Slim;
 use SCMM\Controllers\Login;
 use SCMM\Controllers\User;
@@ -12,7 +17,6 @@ use SCMM\Controllers\Commerce;
 use SCMM\Controllers\Product;
 use SCMM\Controllers\ProductCommerce;
 use SCMM\Controllers\ProductFilter;
-use Dompdf\Dompdf;
 
 $app = new Slim();
 $app->config(array(
@@ -33,12 +37,21 @@ $app->get('/', function() use ($app) {
     $data = $user->getValues();
     
     if ($data['Desadmin'] === '1') {
+        $mainPanel = array(
+            'commerces' => (is_array(Commerce::listComercios()) && count(Commerce::listComercios()) > 0) ? count(Commerce::listComercios()) : 0,
+            'products' => (is_array(Product::listProdutos()) && count(Product::listProdutos()) > 0) ? count(Product::listProdutos()) : 0,
+            'admins' => (is_array(User::listAdministradores()) && count(User::listAdministradores()) > 0) ? count(User::listAdministradores()) : 0,
+            'clients' => (is_array(User::listClientes()) && count(User::listClientes()) > 0) ? count(User::listClientes()) : 0
+        );
+        
         $app->render('default/header.php', array(
             'user' => $data,
-            'page' => 'Dashboard'
+            'page' => 'Painel Principal'
         ));
-        $app->render('default/index.php');
-        $app->render('default/footer.php');    
+        $app->render('default/index.php', array(
+            'mainPanel' => $mainPanel
+        ));
+        $app->render('default/footer.php');
     } else {
         $app->redirect('/scmm/client');
     }
@@ -198,8 +211,12 @@ $app->group('/registration', function() use ($app) {
         
         $app->get('/report', function() use ($app) {
             Login::verifyLogin();
+
+            $commerces = Commerce::listComercios();
             
-            $app->render('commerce/report.php');
+            $app->render('commerce/report.php', array(
+                'commerces' => $commerces
+            ));
         });
     });
 
