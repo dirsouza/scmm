@@ -9,7 +9,7 @@
                                         <i class="fa fa-shopping-cart fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">34</div>
+                                        <div class="huge"><?= $mainPanel['commerces'] ?></div>
                                         <div>Comércios</div>
                                     </div>
                                 </div>
@@ -32,7 +32,7 @@
                                         <i class="fa fa-shopping-basket fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">0</div>
+                                        <div class="huge"><?= $mainPanel['products'] ?></div>
                                         <div>Produtos</div>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                         <i class="fa fa-black-tie fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">1</div>
+                                        <div class="huge"><?= $mainPanel['admins'] ?></div>
                                         <div>Administradores</div>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                                         <i class="fa fa-user fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">0</div>
+                                        <div class="huge"><?= $mainPanel['clients'] ?></div>
                                         <div>Clientes</div>
                                     </div>
                                 </div>

@@ -20,11 +20,11 @@
                 <?php endif; ?>
                 <form action="/scmm/login" method="POST">
                     <div class="form-group has-feedback">
-                        <input type="text" name="desLogin" class="form-control" placeholder="Usuário" autofocus tabindex="1">
+                        <input type="text" name="desLogin" class="form-control" placeholder="Usuário" required autofocus tabindex="1">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" name="desSenha" class="form-control" placeholder="Senha" tabindex="2">
+                        <input type="password" name="desSenha" class="form-control" placeholder="Senha" required tabindex="2">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="row">

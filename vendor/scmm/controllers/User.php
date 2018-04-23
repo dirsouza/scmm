@@ -18,22 +18,26 @@ class User extends Model {
      */
     public function addUsuario() {
         try {
-            $sql = new Dao();
-            $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,desadmin)
-                            VALUES (:DESLOGIN,:DESSENHA,:DESADMIN)", array(
-                                ':DESLOGIN' => $this->getDesLogin(),
-                                ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
-                                ':DESADMIN' => (array_key_exists("DesAdmin", $this->getValues())) ? $this->getDesAdmin() : 0
-                            ));
+            if ($this->verifyUsuario()) {
+                $sql = new Dao();
+                $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,desadmin)
+                                VALUES (:DESLOGIN,:DESSENHA,:DESADMIN)", array(
+                                    ':DESLOGIN' => $this->getDesLogin(),
+                                    ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
+                                    ':DESADMIN' => (array_key_exists("DesAdmin", $this->getValues())) ? $this->getDesAdmin() : 0
+                                ));
 
-            $idUser = $_SESSION[Dao::SESSION];
-            
-            (array_key_exists("DesAdmin", $this->getValues())) ? $this->addAdministrador($idUser) : $this->addCliente($idUser);
+                $idUser = $_SESSION[Dao::SESSION];
+                
+                (array_key_exists("DesAdmin", $this->getValues())) ? $this->addAdministrador($idUser) : $this->addCliente($idUser);
 
-            $this->setUser($idUser);
+                $this->setUser($idUser);
+            } else {
+                $this->recoveryData();
+                Model::returnError("Nome de usuário informado já existe no banco de dados.", $_SERVER["REQUEST_URI"]);
+            }
         } catch (\PDOException $e) {
-            $url = "/scmm" . ((array_key_exists("DesAdmin", $this->getValues())) ? "/admin" : "/client") . "/user/create";
-            Model::returnError("Não foi possível Cadastrar o Usuário.<br>".\PDOException($e->getMessage()), $url);
+            Model::returnError("Não foi possível Cadastrar o Usuário.<br>".\PDOException($e->getMessage()), $_SERVER["REQUEST_URI"]);
         }
     }
     
@@ -51,7 +55,7 @@ class User extends Model {
                             ));
         } catch (\PDOException $e) {
             $this->deleteUsuario($idUser);
-            Model::returnError("Não foi possível Cadastrar o Cliente.<br>".\PDOException($e->getMessage()), "/scmm/client/user/create");
+            Model::returnError("Não foi possível Cadastrar o Cliente.<br>".\PDOException($e->getMessage()), "/scmm/register");
         }
     }
 
@@ -186,6 +190,49 @@ class User extends Model {
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível recuperar os dados dos Clientes.<br>".\PDOException($e->getMessage()), "/scmm/admin/client");
         }
+    }
+
+    /**
+     * Retorna os dados de um Cliente
+     * @param type $idUser
+     * @return type Array
+     */
+    public static function listClienteId($idUser) {
+        try {
+            $sql = new Dao();
+            $result = $sql->allSelect("SELECT * FROM tbcliente
+                                        WHERE idusuario = :IDUSUARIO", array(
+                                            ':IDUSUARIO' => $idUser
+                                        ));
+
+            if (is_array($result) && count($result) > 0) {
+                return $result;
+            }
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível recuperar os dados do Cliente.<br>".\PDOException($e->getMessage()), "/scmm/admin/user/update/".$idUser);
+        }
+    }
+
+    private function verifyUsuario() {
+        $sql = new Dao();
+        $result = $sql->allSelect("SELECT * FROM tbusuario WHERE deslogin = :DESLOGIN", array(
+            ':DESLOGIN' => $this->getDesLogin()
+        ));
+        
+        if (is_array($result) && count($result) > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function recoveryData() {
+        if ($_SERVER["REQUEST_URI"] === "/scmm/register") {
+            $_SESSION['register'] = array(
+                'desNome' => $this->getDesNome(),
+                'desLogin' => $this->getDesLogin()
+            );
+        }        
     }
 
     /**

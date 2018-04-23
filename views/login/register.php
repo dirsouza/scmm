@@ -1,41 +1,47 @@
                 
                 <p class="login-box-msg">Novo Usuário</p>
-                <?php if (isset($_SESSION['register']) && !empty($_SESSION['register']['msg'])): ?>
+                <?php if (isset($_SESSION['register']) || isset($_SESSION['error'])): ?>
                 <div class="row login-box-error">
                     <div class="col-xs-12">
                         <div class="text-center">
-                            <?= $_SESSION['register']['msg'] ?>
+                        <?php
+                            if (!empty($_SESSION['register']['msg'])) {
+                                echo $_SESSION['register']['msg'];
+                            } elseif (!empty($_SESSION['error'])) {
+                                echo $_SESSION['error'];
+                                unset($_SESSION['error']);
+                            }
+                        ?>
                         </div>
                     </div>
                 </div>
                 <?php endif; ?>
                 <form action="/scmm/register" method="POST">
                     <div class="form-group has-feedback">
-                        <input type="text" name="desNome" class="form-control" placeholder="Nome e Sobrenome" autofocus tabindex="1"
+                        <input type="text" name="desNome" class="form-control" placeholder="Nome e Sobrenome" autofocus required tabindex="1"
                         <?php
                         if (isset($_SESSION['register'])) {
-                            echo 'value="'.$_SESSION['register']['user'].'"';
-                            unset($_SESSION['register']);
+                            echo 'value="'.$_SESSION['register']['desNome'].'"';
                         }
                         ?>>
                         <span class="fa fa-user form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="text" name="desLogin" class="form-control" placeholder="Nome de Usuário" autofocus tabindex="2"
+                        <input type="text" name="desLogin" class="form-control" placeholder="Nome de Usuário" required tabindex="2"
                         <?php
                         if (isset($_SESSION['register'])) {
-                            echo 'value="'.$_SESSION['register']['user'].'"';
+                            echo 'value="'.$_SESSION['register']['desLogin'].'"';
                             unset($_SESSION['register']);
                         }
                         ?>>
                         <span class="fa fa-user-plus form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" name="desSenha" class="form-control" placeholder="Senha" tabindex="3">
+                        <input type="password" name="desSenha" class="form-control" placeholder="Senha" required tabindex="3">
                         <span class="fa fa-lock form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" name="desReSenha" class="form-control" placeholder="Repetir Senha" tabindex="4">
+                        <input type="password" name="desReSenha" class="form-control" placeholder="Repetir Senha" required tabindex="4">
                         <span class="fa fa-unlock-alt form-control-feedback"></span>
                     </div>
                     <div class="row">

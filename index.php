@@ -43,6 +43,10 @@ $app->get('/', function() use ($app) {
             'admins' => (is_array(User::listAdministradores()) && count(User::listAdministradores()) > 0) ? count(User::listAdministradores()) : 0,
             'clients' => (is_array(User::listClientes()) && count(User::listClientes()) > 0) ? count(User::listClientes()) : 0
         );
+
+        $userName = User::listAdministradorId((int)$data['Idusuario']);
+        $userName = explode(" ", $userName[0]['desnome']);
+        $_SESSION['userName'] = $userName[0];
         
         $app->render('default/header.php', array(
             'user' => $data,
@@ -112,7 +116,8 @@ $app->group('/register', function() use ($app) {
             $app->redirect('/scmm/login');
         } else {
             $_SESSION['register'] = array(
-                'user' => $register['desLogin'],
+                'desLogin' => $register['desLogin'],
+                'desNome' => $register['desNome'],
                 'msg' => "As senhas não são identicas."
             );
             $app->redirect('/scmm/register');
@@ -337,9 +342,14 @@ $app->group('/client', function() use ($app) {
     
         $user = new Login();
         $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+        $data = $user->getValues();
+
+        $userName = User::listClienteId((int)$data['Idusuario']);
+        $userName = explode(" ", $userName[0]['desnome']);
+        $_SESSION['userName'] = $userName[0];
 
         $app->render('default/header.php', array(
-            'user' => $user->getValues(),
+            'user' => $data,
             'page' => 'Faça sua pesquisa'
         ));
         $app->render('clientSearch/index.php');

@@ -1,6 +1,10 @@
 
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>.
+                        </div>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 Dados

@@ -16,16 +16,21 @@ class Commerce extends Model {
      */
     public function addComercio() {
         try {
-            $sql = new Dao();
-            $sql->allQuery("INSERT INTO tbcomercio (desnome,descep,desrua,desbairro)
-                            VALUES (:DESNOME,:DESCEP,:DESRUA,:DESBAIRRO)", array(
-                                ':DESNOME' => $this->getDesNome(),
-                                ':DESCEP' => $this->getDesCEP(),
-                                ':DESRUA' => $this->getDesRua(),
-                                ':DESBAIRRO' => $this->getDesBairro()
-                            ));
+            if ($this->verifyComercio()) {
+                $sql = new Dao();
+                $sql->allQuery("INSERT INTO tbcomercio (desnome,descep,desrua,desbairro)
+                                VALUES (:DESNOME,:DESCEP,:DESRUA,:DESBAIRRO)", array(
+                                    ':DESNOME' => $this->getDesNome(),
+                                    ':DESCEP' => $this->getDesCEP(),
+                                    ':DESRUA' => $this->getDesRua(),
+                                    ':DESBAIRRO' => $this->getDesBairro()
+                                ));
+            } else {
+                $this->restoreData();
+                Model::returnError("O Comércio informado já encontra-se cadastrado.", $_SERVER["REQUEST_URI"]);
+            }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Cadastrar o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce/create");
+            Model::returnError("Não foi possível Cadastrar o Comércio.<br>".\PDOException($e->getMessage()), $_SERVER["REQUEST_URI"]);
         }
     }
     
@@ -104,5 +109,27 @@ class Commerce extends Model {
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível recuperar os dados do Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce/update/".$idCommerce);
         }
+    }
+
+    private function verifyComercio() {
+        $sql = new Dao();
+        $result = $sql->allSelect('SELECT * FROM tbcomercio WHERE desnome = :DESNOME', array(
+            ':DESNOME' => $this->getDesNome()
+        ));
+
+        if (is_array($result) && count($result) > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function restoreData() {
+        $_SESSION['restoreData'] = array(
+            'desNome' => $this->getDesNome(),
+            'desCEP' => $this->getDesCEP(),
+            'desRua' => $this->getDesRua(),
+            'desBairro' => $this->getDesBairro()
+        );
     }
 }
