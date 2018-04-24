@@ -158,12 +158,26 @@ $app->group('/registration', function() use ($app) {
             
             $user = new Login();
             $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+
+            if (isset($_SESSION['restoreData'])) {
+                $data = array(
+                    'desNome' => $_SESSION['restoreData']['desNome'],
+                    'desCEP' => $_SESSION['restoreData']['desCEP'],
+                    'desRua' => $_SESSION['restoreData']['desRua'],
+                    'desBairro' => $_SESSION['restoreData']['desBairro']
+                );
+                unset($_SESSION['restoreData']);
+            } else {
+                $data = null;
+            }
             
             $app->render('default/header.php', array(
                 'user' => $user->getValues(),
                 'page' => "Novo Comércio"
             ));
-            $app->render('commerce/create.php');
+            $app->render('commerce/create.php', array(
+                'data' => $data
+            ));
             $app->render('default/footer.php');
         });
 

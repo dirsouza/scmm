@@ -27,7 +27,7 @@ class Commerce extends Model {
                                 ));
             } else {
                 $this->restoreData();
-                Model::returnError("O Comércio informado já encontra-se cadastrado.", $_SERVER["REQUEST_URI"]);
+                Model::returnError("O Comércio informado já encontra-se cadastrado ou estão faltando dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível Cadastrar o Comércio.<br>".\PDOException($e->getMessage()), $_SERVER["REQUEST_URI"]);
@@ -40,18 +40,22 @@ class Commerce extends Model {
      */
     public function updateComercio($idCommerce) {
         try {
-            $sql = new Dao();
-            $sql->allQuery("UPDATE tbcomercio SET desnome = :DESNOME,
-                                                  descep = :DESCEP,
-                                                  desrua = :DESRUA,
-                                                  desbairro = :DESBAIRRO
-                            WHERE idcomercio = :IDCOMERCIO", array(
-                                ':IDCOMERCIO' => $idCommerce,
-                                ':DESNOME' => $this->getDesNome(),
-                                ':DESCEP' => $this->getDesCEP(),
-                                ':DESRUA' => $this->getDesRua(),
-                                ':DESBAIRRO' => $this->getDesBairro()
-                            ));
+            if ($this->verifyDados()) {
+                $sql = new Dao();
+                $sql->allQuery("UPDATE tbcomercio SET desnome = :DESNOME,
+                                                    descep = :DESCEP,
+                                                    desrua = :DESRUA,
+                                                    desbairro = :DESBAIRRO
+                                WHERE idcomercio = :IDCOMERCIO", array(
+                                    ':IDCOMERCIO' => $idCommerce,
+                                    ':DESNOME' => $this->getDesNome(),
+                                    ':DESCEP' => $this->getDesCEP(),
+                                    ':DESRUA' => $this->getDesRua(),
+                                    ':DESBAIRRO' => $this->getDesBairro()
+                                ));
+            } else {
+                Model::returnError("Algum campo não foi informado.", $_SERVER["REQUEST_URI"]);
+            }
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível Atualizar o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce/update/".$idCommerce);
         }
@@ -112,12 +116,36 @@ class Commerce extends Model {
     }
 
     private function verifyComercio() {
-        $sql = new Dao();
-        $result = $sql->allSelect('SELECT * FROM tbcomercio WHERE desnome = :DESNOME', array(
-            ':DESNOME' => $this->getDesNome()
-        ));
+        if ($this->verifyDados()) {
+            $sql = new Dao();
+            $result = $sql->allSelect('SELECT * FROM tbcomercio WHERE desnome = :DESNOME', array(
+                ':DESNOME' => $this->getDesNome()
+            ));
 
-        if (is_array($result) && count($result) > 0) {
+            if (is_array($result) && count($result) > 0) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function verifyDados() {
+        if (empty(trim($this->getDesNome()))) {
+            return false;
+        }
+
+        if (empty(trim($this->getDesCEP()))) {
+            return false;
+        }
+
+        if (empty(trim($this->getDesRua()))) {
+            return false;
+        }
+
+        if (empty(trim($this->getDesBairro()))) {
             return false;
         }
 

@@ -1,6 +1,12 @@
 
                 <div class="row">
                     <div class="col-md-12">
+                        <?php if (isset($_SESSION['error']) && !empty($_SESSION['error'])): ?>
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <?=$_SESSION['error']; unset($_SESSION['error'])?>
+                        </div>
+                        <?php endif; ?>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 Dados
