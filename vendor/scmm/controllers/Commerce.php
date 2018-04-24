@@ -20,10 +20,10 @@ class Commerce extends Model {
                 $sql = new Dao();
                 $sql->allQuery("INSERT INTO tbcomercio (desnome,descep,desrua,desbairro)
                                 VALUES (:DESNOME,:DESCEP,:DESRUA,:DESBAIRRO)", array(
-                                    ':DESNOME' => $this->getDesNome(),
-                                    ':DESCEP' => $this->getDesCEP(),
-                                    ':DESRUA' => $this->getDesRua(),
-                                    ':DESBAIRRO' => $this->getDesBairro()
+                                    ':DESNOME' => trim($this->getDesNome()),
+                                    ':DESCEP' => trim($this->getDesCEP()),
+                                    ':DESRUA' => trim($this->getDesRua()),
+                                    ':DESBAIRRO' => trim($this->getDesBairro())
                                 ));
             } else {
                 $this->restoreData();
@@ -48,10 +48,10 @@ class Commerce extends Model {
                                                     desbairro = :DESBAIRRO
                                 WHERE idcomercio = :IDCOMERCIO", array(
                                     ':IDCOMERCIO' => $idCommerce,
-                                    ':DESNOME' => $this->getDesNome(),
-                                    ':DESCEP' => $this->getDesCEP(),
-                                    ':DESRUA' => $this->getDesRua(),
-                                    ':DESBAIRRO' => $this->getDesBairro()
+                                    ':DESNOME' => trim($this->getDesNome()),
+                                    ':DESCEP' => trim($this->getDesCEP()),
+                                    ':DESRUA' => trim($this->getDesRua()),
+                                    ':DESBAIRRO' => trim($this->getDesBairro())
                                 ));
             } else {
                 Model::returnError("Algum campo não foi informado.", $_SERVER["REQUEST_URI"]);
@@ -115,6 +115,9 @@ class Commerce extends Model {
         }
     }
 
+    /**
+     * Verifica se o nome do comércio informado já consta no banco de dados
+     */
     private function verifyComercio() {
         if ($this->verifyDados()) {
             $sql = new Dao();
@@ -132,6 +135,11 @@ class Commerce extends Model {
         return true;
     }
 
+    /**
+     * Verifica se todos os dados existem e se não foi passado em branco
+     * -- trim() = remove espaços antes e depois da string
+     * -- empty() = verifica se valor é vazio
+     */
     private function verifyDados() {
         if (empty(trim($this->getDesNome()))) {
             return false;
@@ -154,10 +162,10 @@ class Commerce extends Model {
 
     private function restoreData() {
         $_SESSION['restoreData'] = array(
-            'desNome' => $this->getDesNome(),
-            'desCEP' => $this->getDesCEP(),
-            'desRua' => $this->getDesRua(),
-            'desBairro' => $this->getDesBairro()
+            'desNome' => trim($this->getDesNome()),
+            'desCEP' => trim($this->getDesCEP()),
+            'desRua' => trim($this->getDesRua()),
+            'desBairro' => trim($this->getDesBairro())
         );
     }
 }
