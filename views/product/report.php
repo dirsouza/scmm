@@ -8,7 +8,7 @@ ob_start();
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
-        <title>SCMM - Comércios</title>
+        <title>SCMM - Produtos</title>
         <style>
             @page { margin: 100px 25px; }
 
@@ -98,7 +98,7 @@ ob_start();
     <body>
         <header class="content">
             <img class="logo-left" src="C:/xampp/htdocs/scmm/src/img/logo-pdf.jpg">
-            Relatório de Comércios
+            Relatório de Produtos
             <div class="logo-right">Página</div>
         </header>
         <footer>
@@ -109,20 +109,18 @@ ob_start();
             <table class="table">
                 <thead>
                     <tr>
-                        <th width="6%">Código</th>
-                        <th width="30%">Nome</th>
-                        <th width="30%">Rua</th>
-                        <th width="25%">Bairro</th>
+                        <th width="10%">Código</th>
+                        <th width="50%">Nome</th>
+                        <th width="40%">Marca</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php if (is_array($commerces) && count($commerces) > 0): ?>
-                    <?php foreach ($commerces as $value): ?>
+                <?php if (is_array($products) && count($products) > 0): ?>
+                    <?php foreach ($products as $value): ?>
                     <tr>
-                        <td class="text-center"><?= str_pad($value['idcomercio'], 5, 0, STR_PAD_LEFT)?></td>
+                        <td class="text-center"><?= str_pad($value['idproduto'], 5, 0, STR_PAD_LEFT)?></td>
                         <td><?=$value['desnome']?></td>
-                        <td><?=$value['desrua']?></td>
-                        <td><?=$value['desbairro']?></td>
+                        <td><?=$value['desmarca']?></td>
                     </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -144,13 +142,13 @@ $options->set('isPhpEnabled', true);
 
 $pdf = new Dompdf($options);
 $pdf->loadHtml($html);
-$pdf->setPaper('A4', 'landscape');
+$pdf->setPaper('A4', 'portrait');
 $pdf->render();
 $font = $pdf->getFontMetrics()->get_font("Sans-serif");
 $page = "{PAGE_NUM}";
 $canvas = $pdf->get_canvas();
-$canvas->page_text(792, 53, $page, $font, 10, array(0,0,0));
-$pdf->stream('listCommerce.pdf', array(
+$canvas->page_text(545, 53, $page, $font, 10, array(0,0,0));
+$pdf->stream('listProduct.pdf', array(
     'Attachment' => false
 ));
 

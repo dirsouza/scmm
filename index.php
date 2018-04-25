@@ -245,27 +245,105 @@ $app->group('/registration', function() use ($app) {
      */
     $app->group('/product', function() use ($app) {
         $app->get('/', function() use ($app) {
-
+            Login::verifyLogin();
+            
+            $user = new Login();
+            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+            
+            $products = Product::listProdutos();
+            
+            $app->render('default/header.php', array(
+                'user' => $user->getValues(),
+                'page' => "Lista de Produtos"
+            ));
+            $app->render('product/index.php', array(
+                'products' => $products
+            ));
+            $app->render('default/footer.php');
         });
 
         $app->get('/create', function() use ($app) {
+            Login::verifyLogin();
+            
+            $user = new Login();
+            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
 
+            if (isset($_SESSION['restoreData'])) {
+                $data = array(
+                    'desNome' => $_SESSION['restoreData']['desNome'],
+                    'desMarca' => $_SESSION['restoreData']['desMarca'],
+                    'desDescricao' => $_SESSION['restoreData']['desDescricao']
+                );
+                unset($_SESSION['restoreData']);
+            } else {
+                $data = null;
+            }
+            
+            $app->render('default/header.php', array(
+                'user' => $user->getValues(),
+                'page' => "Novo Produto"
+            ));
+            $app->render('product/create.php', array(
+                'data' => $data
+            ));
+            $app->render('default/footer.php');
         });
 
         $app->post('/create', function() use ($app) {
-
+            Login::verifyLogin();
+            
+            $product = new Product();
+            $product->setData($_POST);
+            $product->addProduto();
+            
+            $app->redirect('/scmm/registration/product');
         });
 
         $app->get('/update/:id', function($id) use ($app) {
-
+            Login::verifyLogin();
+            
+            $user = new Login();
+            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+            
+            $product = Product::listProdutoId((int)$id);
+            
+            $app->render('default/header.php', array(
+                'user' => $user->getValues(),
+                'page' => "Editar Produto"
+            ));
+            $app->render('product/update.php', array(
+                'product' => $product[0]
+            ));
+            $app->render('default/footer.php');
         });
 
-        $app->post('/update/:id', function($id) {
-
+        $app->post('/update/:id', function($id) use ($app) {
+            Login::verifyLogin();
+            
+            $product = new Product();
+            $product->setData($_POST);
+            $product->updateProduto((int)$id);
+            
+            $app->redirect('/scmm/registration/product');
         });
 
-        $app->get('/delete/:id', function($id) {
+        $app->get('/delete/:id', function($id) use ($app) {
+            Login::verifyLogin();
+            
+            $product = new Product();
+            $product->deleteProduto((int)$id);
+            
+            $app->redirect('/scmm/registration/product');
+        });
+        
+        $app->get('/report', function() use ($app) {
+            Login::verifyLogin();
 
+            $products = Product::listProdutos();
+            
+            $app->render('product/report.php', array(
+                'products' => $products
+            ));
         });
     });
     
