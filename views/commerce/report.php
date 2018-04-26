@@ -82,6 +82,8 @@ ob_start();
                 background: #2980b9;
             }
             .table td {
+                overflow: hidden;
+                white-space: nowrap;
                 height: 15px;
                 border: 1px solid #000;
                 vertical-align: middle;
