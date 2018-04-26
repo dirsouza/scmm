@@ -83,5 +83,7 @@ nbactions.xml
 !.vscode/extensions.json
 .history
 
+.phpintel
+.phpintel/*
 
 # End of https://www.gitignore.io/api/netbeans,jetbrains,visualstudiocode
