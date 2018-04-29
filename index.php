@@ -11,12 +11,12 @@ $_SESSION['system'] = array(
 );
 
 use Slim\Slim;
-use SCMM\Controllers\Login;
-use SCMM\Controllers\User;
-use SCMM\Controllers\Commerce;
-use SCMM\Controllers\Product;
-use SCMM\Controllers\ProductCommerce;
-use SCMM\Controllers\ProductFilter;
+use SCMM\Models\Login;
+use SCMM\Models\User;
+use SCMM\Models\Commerce;
+use SCMM\Models\Product;
+use SCMM\Models\ProductCommerce;
+use SCMM\Models\ProductFilter;
 
 $app = new Slim();
 $app->config(array(
@@ -36,7 +36,7 @@ $app->get('/', function() use ($app) {
     $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
     $data = $user->getValues();
     
-    if ($data['Desadmin'] === '1') {
+    if ($data['Destipo'] === '1') {
         $mainPanel = array(
             'commerces' => (is_array(Commerce::listComercios()) && count(Commerce::listComercios()) > 0) ? count(Commerce::listComercios()) : 0,
             'products' => (is_array(Product::listProdutos()) && count(Product::listProdutos()) > 0) ? count(Product::listProdutos()) : 0,

@@ -46,7 +46,7 @@
                     </li>
                 </ul>
                 <!-- /.navbar-top-links -->
-                <?php if ($user['Desadmin'] === "1"): ?>
+                <?php if ($user['Destipo'] === "1"): ?>
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
@@ -86,7 +86,7 @@
                 <?php endif; ?>
             </nav>
 
-            <div id="page-wrapper" class="<?= ($user['Desadmin'] === "1") ? "page-wrapper-admin" : "page-wrapper-client" ?>">
+            <div id="page-wrapper" class="<?= ($user['Destipo'] === "1") ? "page-wrapper-admin" : "page-wrapper-client" ?>">
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header"><?= $page ?></h1>

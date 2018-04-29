@@ -1,8 +1,8 @@
 <?php
 
-namespace SCMM\Controllers;
+namespace SCMM\Models;
 
-use SCMM\Models\Model;
+use SCMM\Configs\Model;
 use SCMM\Configs\Dao;
 
 /**
@@ -18,19 +18,17 @@ class Commerce extends Model {
         try {
             if ($this->verifyComercio()) {
                 $sql = new Dao();
-                $sql->allQuery("INSERT INTO tbcomercio (desnome,descep,desrua,desbairro)
-                                VALUES (:DESNOME,:DESCEP,:DESRUA,:DESBAIRRO)", array(
-                                    ':DESNOME' => trim($this->getDesNome()),
-                                    ':DESCEP' => trim($this->getDesCEP()),
-                                    ':DESRUA' => trim($this->getDesRua()),
-                                    ':DESBAIRRO' => trim($this->getDesBairro())
+                $sql->allQuery("INSERT INTO tbcomercio (desnome,desendereco)
+                                VALUES (:DESNOME,:DESENDERECO)", array(
+                                    ':DESNOME' => $this->getDesNome(),
+                                    ':DESENDERECO' => $this->getDesEndereco()
                                 ));
             } else {
                 $this->restoreData();
                 Model::returnError("O Comércio informado já encontra-se cadastrado ou estão faltando dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Cadastrar o Comércio.<br>".\PDOException($e->getMessage()), $_SERVER["REQUEST_URI"]);
+            Model::returnError("Não foi possível Cadastrar o Comércio.<br>".$e->getMessage(), $_SERVER["REQUEST_URI"]);
         }
     }
     
@@ -43,21 +41,17 @@ class Commerce extends Model {
             if ($this->verifyDados()) {
                 $sql = new Dao();
                 $sql->allQuery("UPDATE tbcomercio SET desnome = :DESNOME,
-                                                    descep = :DESCEP,
-                                                    desrua = :DESRUA,
-                                                    desbairro = :DESBAIRRO
+                                                    desendereco = :DESENDERECO
                                 WHERE idcomercio = :IDCOMERCIO", array(
                                     ':IDCOMERCIO' => $idCommerce,
-                                    ':DESNOME' => trim($this->getDesNome()),
-                                    ':DESCEP' => trim($this->getDesCEP()),
-                                    ':DESRUA' => trim($this->getDesRua()),
-                                    ':DESBAIRRO' => trim($this->getDesBairro())
+                                    ':DESNOME' => $this->getDesNome(),
+                                    ':DESENDERECO' => $this->getDesEndereco()
                                 ));
             } else {
                 Model::returnError("Algum campo não foi informado.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce/update/".$idCommerce);
+            Model::returnError("Não foi possível Atualizar o Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -73,7 +67,7 @@ class Commerce extends Model {
                                 ':IDCOMERCIO' => $idCommerce
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Excluir o Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce");
+            Model::returnError("Não foi possível Excluir o Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -90,7 +84,7 @@ class Commerce extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados de Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce");
+            Model::returnError("Não foi possível recuperar os dados de Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -111,7 +105,7 @@ class Commerce extends Model {
                 return $result;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados do Comércio.<br>".\PDOException($e->getMessage()), "/scmm/registration/commerce/update/".$idCommerce);
+            Model::returnError("Não foi possível recuperar os dados do Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
@@ -141,19 +135,11 @@ class Commerce extends Model {
      * -- empty() = verifica se valor é vazio
      */
     private function verifyDados() {
-        if (empty(trim($this->getDesNome()))) {
+        if (empty($this->getDesNome())) {
             return false;
         }
 
-        if (empty(trim($this->getDesCEP()))) {
-            return false;
-        }
-
-        if (empty(trim($this->getDesRua()))) {
-            return false;
-        }
-
-        if (empty(trim($this->getDesBairro()))) {
+        if (empty($this->getDesEndereco())) {
             return false;
         }
 
@@ -162,10 +148,8 @@ class Commerce extends Model {
 
     private function restoreData() {
         $_SESSION['restoreData'] = array(
-            'desNome' => trim($this->getDesNome()),
-            'desCEP' => trim($this->getDesCEP()),
-            'desRua' => trim($this->getDesRua()),
-            'desBairro' => trim($this->getDesBairro())
+            'desNome' => $this->getDesNome(),
+            'desEndereco' => $this->getDesEndereco()
         );
     }
 }

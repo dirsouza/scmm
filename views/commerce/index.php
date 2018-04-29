@@ -15,10 +15,9 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%">Cod.</th>
-                                                <th width="45%">Nome</th>
-                                                <th width="30%">Rua</th>
-                                                <th width="20%">Bairro</th>
-                                                <th>Opções</th>
+                                                <th width="35%">Nome</th>
+                                                <th>Endereço</th>
+                                                <th width="5%">Opções</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -27,8 +26,7 @@
                                             <tr>
                                                 <td class="text-center"><?= str_pad($value['idcomercio'], 5, 0, STR_PAD_LEFT)?></td>
                                                 <td><?=$value['desnome']?></td>
-                                                <td><?=$value['desrua']?></td>
-                                                <td><?=$value['desbairro']?></td>
+                                                <td><?=$value['desendereco']?></td>
                                                 <td class="text-center">
                                                     <a href="/scmm/registration/commerce/update/<?=$value['idcomercio']?>" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
                                                     <a href="/scmm/registration/commerce/delete/<?=$value['idcomercio']?>" onclick="return confirm('Deseja excluir este registro?')" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>

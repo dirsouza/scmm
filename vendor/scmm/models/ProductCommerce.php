@@ -1,8 +1,8 @@
 <?php
 
-namespace SCMM\Controllers;
+namespace SCMM\Models;
 
-use SCMM\Models\Model;
+use SCMM\Configs\Model;
 use SCMM\Configs\Dao;
 
 /**
@@ -25,7 +25,7 @@ class ProductCommerce extends Model {
                                 ':DESPRECO' => $this->getDesPreco()
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Cadastrar o vinculo de Produto e Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/product_commerce/create");
+            Model::returnError("Não foi possível Cadastrar o vinculo de Produto e Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }                
     }
     
@@ -46,7 +46,7 @@ class ProductCommerce extends Model {
                                 ':DESPRECO' => $this->getDesPreco()
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar o vinculo de Produto e Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/product_commerce/update/".$idProdutoComercio);
+            Model::returnError("Não foi possível Atualizar o vinculo de Produto e Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         } 
     }
     
@@ -62,7 +62,7 @@ class ProductCommerce extends Model {
                                 ':IDPRODUTOCOMERCIO' => $idProdutoComercio
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Deletar o vinculo de Produto e Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/product_commerce");
+            Model::returnError("Não foi possível Deletar o vinculo de Produto e Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -90,7 +90,7 @@ class ProductCommerce extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Listar os Produto e Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/product_commerce");
+            Model::returnError("Não foi possível Listar os Produto e Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -119,7 +119,7 @@ class ProductCommerce extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Listar o Produto e Comércio.<br>".\PDOException($e->getMessage()), "/scmm/admin/product_commerce/update/".$idProdutoComercio);
+            Model::returnError("Não foi possível Listar o Produto e Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 }

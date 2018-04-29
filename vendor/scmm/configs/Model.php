@@ -1,6 +1,6 @@
 <?php
 
-namespace SCMM\Models;
+namespace SCMM\Configs;
 
 /**
  * Classe que prepara os dados tanto para consulta quanto para inserção
@@ -30,18 +30,19 @@ class Model {
                 break;
         }
     }
-    
+
     /**
      * Chama pela referência $this a função construtora __call, passando os parâmetros:
      * {"set".ucfirst($key)} para $name --"set" é concatenado ao nome da chave da array
      * para cair no caso "set" da switch; e
-     * ($value) para $arguments --Valor contido na chave $key da array.
+     * (trim($value)) para $arguments --Valor contido na chave $key da array.
      * Obs.: a função ucfirst() pega o primeiro caracter da string e a torna maúscula.
+     *       a função trim() remove os espaços em branco antes e depois do valor.
      * @param type $param
      */
     public function setData($param = array()) {
         foreach ($param as $key => $value) {
-            $this->{"set". ucfirst($key)}($value);
+            $this->{"set". ucfirst($key)}(trim($value));
         }
     }
     

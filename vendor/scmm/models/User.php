@@ -1,10 +1,10 @@
 <?php
 
-namespace SCMM\Controllers;
+namespace SCMM\Models;
 
+use SCMM\Configs\Model;
 use SCMM\Configs\Dao;
-use SCMM\Models\Model;
-use SCMM\Controllers\Login;
+use SCMM\Models\Login;
 
 /**
  * Classe para cadastrar e controlar os Usuários
@@ -20,16 +20,16 @@ class User extends Model {
         try {
             if ($this->verifyUsuario()) {
                 $sql = new Dao();
-                $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,desadmin)
-                                VALUES (:DESLOGIN,:DESSENHA,:DESADMIN)", array(
+                $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,destipo)
+                                VALUES (:DESLOGIN,:DESSENHA,:DESTIPO)", array(
                                     ':DESLOGIN' => $this->getDesLogin(),
                                     ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
-                                    ':DESADMIN' => (array_key_exists("DesAdmin", $this->getValues())) ? $this->getDesAdmin() : 0
+                                    ':DESTIPO' => (array_key_exists("DesTipo", $this->getValues())) ? $this->getDesTipo() : 0
                                 ));
 
                 $idUser = $_SESSION[Dao::SESSION];
                 
-                (array_key_exists("DesAdmin", $this->getValues())) ? $this->addAdministrador($idUser) : $this->addCliente($idUser);
+                (array_key_exists("DesTipo", $this->getValues())) ? $this->addAdministrador($idUser) : $this->addCliente($idUser);
 
                 $this->setUser($idUser);
             } else {
@@ -37,7 +37,7 @@ class User extends Model {
                 Model::returnError("Nome de usuário informado já existe no banco de dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Cadastrar o Usuário.<br>".\PDOException($e->getMessage()), $_SERVER["REQUEST_URI"]);
+            Model::returnError("Não foi possível Cadastrar o Usuário.<br>".$e->getMessage(), $_SERVER["REQUEST_URI"]);
         }
     }
     
@@ -48,14 +48,15 @@ class User extends Model {
     private function addCliente($idUser) {
         try {
             $sql = new Dao();
-            $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome)
-                            VALUES (:IDUSUARIO,:DESNOME)", array(
+            $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome,desemail)
+                            VALUES (:IDUSUARIO,:DESNOME,:DESEMAIL)", array(
                                 ':IDUSUARIO' => $idUser,
-                                ':DESNOME' => $this->getDesNome()
+                                ':DESNOME' => $this->getDesNome(),
+                                ':DESEMAIL' => $this->getDesEmail()
                             ));
         } catch (\PDOException $e) {
             $this->deleteUsuario($idUser);
-            Model::returnError("Não foi possível Cadastrar o Cliente.<br>".\PDOException($e->getMessage()), "/scmm/register");
+            Model::returnError("Não foi possível Cadastrar o Cliente.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
@@ -77,7 +78,7 @@ class User extends Model {
                             ));
         } catch (\PDOException $e) {
             $this->deleteUsuario($idUser);
-            Model::returnError("Não foi possível Cadastrar o Administrador.<br>".\PDOException($e->getMessage()), "/scmm/admin/user/create");
+            Model::returnError("Não foi possível Cadastrar o Administrador.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -98,7 +99,7 @@ class User extends Model {
                                 ':DESEMAIL' => $this->getDesEmail()
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar o Administrador.<br>".\PDOException($e->getMessage()), "/scmm/admin/user/update/".$idAdministrador);
+            Model::returnError("Não foi possível Atualizar o Administrador.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -115,7 +116,7 @@ class User extends Model {
                                 ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT)
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar a Senha do Administrador.<br>".\PDOException($e->getMessage()), "/scmm/admin/user");
+            Model::returnError("Não foi possível Atualizar a Senha do Administrador.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -131,7 +132,7 @@ class User extends Model {
                                 ':IDUSUARIO' => $idUser
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Excluir o Administrador.<br>".\PDOException($e->getMessage()), "/scmm/admin/user");
+            Model::returnError("Não foi possível Excluir o Administrador.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -148,7 +149,7 @@ class User extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados dos Administradores.<br>".\PDOException($e->getMessage()), "/scmm/admin/user");
+            Model::returnError("Não foi possível recuperar os dados dos Administradores.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -169,7 +170,7 @@ class User extends Model {
                 return $result;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados do Administrador.<br>".\PDOException($e->getMessage()), "/scmm/admin/user/update/".$idUser);
+            Model::returnError("Não foi possível recuperar os dados do Administrador.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
@@ -188,7 +189,7 @@ class User extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados dos Clientes.<br>".\PDOException($e->getMessage()), "/scmm/admin/client");
+            Model::returnError("Não foi possível recuperar os dados dos Clientes.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
@@ -209,7 +210,7 @@ class User extends Model {
                 return $result;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados do Cliente.<br>".\PDOException($e->getMessage()), "/scmm/admin/user/update/".$idUser);
+            Model::returnError("Não foi possível recuperar os dados do Cliente.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
@@ -230,6 +231,7 @@ class User extends Model {
         if ($_SERVER["REQUEST_URI"] === "/scmm/register") {
             $_SESSION['register'] = array(
                 'desNome' => $this->getDesNome(),
+                'desEmail' => $this->getDesEmail(),
                 'desLogin' => $this->getDesLogin()
             );
         }        

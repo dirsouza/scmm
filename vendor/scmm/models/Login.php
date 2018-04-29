@@ -1,9 +1,9 @@
 <?php
 
-namespace SCMM\Controllers;
+namespace SCMM\Models;
 
+use SCMM\Configs\Model;
 use SCMM\Configs\Dao;
-use SCMM\Models\Model;
 
 /**
  * Classe que controla o Login no sistema
@@ -31,7 +31,7 @@ class Login extends Model {
 
             //Verifica se houve retorno na consulta
             if (is_array($results) && count($results) === 0) {
-                Model::returnError("Usuário ou senha incorreta.", "/scmm/login");
+                Model::returnError("Usuário ou senha incorreta.", $_SERVER['REQUEST_URI']);
             }
 
             //Verifica se a senha é compatível
@@ -41,10 +41,10 @@ class Login extends Model {
                 session_regenerate_id(true); //Gera uma nova id de sessão
                 $_SESSION[Login::SESSION] = $user->getValues(); //Atribui os dados da Classe Model a constante de sessão User
             } else {
-                Model::returnError("Usuário ou senha incorreta", "/scmm/login");
+                Model::returnError("Usuário ou senha incorreta", $_SERVER['REQUEST_URI']);
             } 
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível validar os dados de Usuário.<br>".\PDOException($e->getMessage()), "/scmm/login");
+            Model::returnError("Não foi possível validar os dados de Usuário.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }  
     }
     
@@ -77,7 +77,7 @@ class Login extends Model {
     /**
      * Seta os dados do Usuário
      * @param type $idUser
-     */
+     */ 
     public function getUser($idUser) {
         try {
             $sql = new Dao();
@@ -86,13 +86,13 @@ class Login extends Model {
                                             ':IDUSUARIO' => $idUser
                                         ));
 
-            if ($result[0]['desadmin'] === 1) {
+            if ($result[0]['destipo'] === 1) {
                 $this->getUserAdmin($idUser);
             } else {
                 $this->setData($result[0]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível obter os dados do Cliente.<br>".\PDOException($e->getMessage()), "/scmm/login");
+            Model::returnError("Não foi possível obter os dados do Cliente.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -112,7 +112,7 @@ class Login extends Model {
 
             $this->setData($result[0]);
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível obter os dados do Administrador.<br>".\PDOException($e->getMessage()), "/scmm/login");
+            Model::returnError("Não foi possível obter os dados do Administrador.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace SCMM\Controllers;
+namespace SCMM\Models;
 
-use SCMM\Models\Model;
+use SCMM\Configs\Model;
 use SCMM\Configs\Dao;
 
 /**
@@ -20,16 +20,16 @@ class Product extends Model {
                 $sql = new Dao();
                 $sql->allQuery("INSERT INTO tbproduto (desnome,desmarca,desdescricao)
                                 VALUE (:DESNOME,:DESMARCA,:DESDESCRICAO)", array(
-                                    ':DESNOME' => trim($this->getDesNome()),
-                                    ':DESMARCA' => trim($this->getDesMarca()),
-                                    ':DESDESCRICAO' => trim($this->getDesDescricao())
+                                    ':DESNOME' => $this->getDesNome(),
+                                    ':DESMARCA' => $this->getDesMarca(),
+                                    ':DESDESCRICAO' => $this->getDesDescricao()
                                 ));
             } else {
                 $this->restoreData();
                 Model::returnError("O produto informado já está cadastrado ou estão faltando dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Cadastrar o Produto.<br>".\PDOException($e->getMessage()), "/scmm/admin/product/create");
+            Model::returnError("Não foi possível Cadastrar o Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -46,15 +46,15 @@ class Product extends Model {
                                                     desdescricao = :DESDESCRICAO
                                 WHERE idproduto = :IDPRODUTO", array(
                                     ':IDPRODUTO' => $idProduct,
-                                    ':DESNOME' => trim($this->getDesNome()),
-                                    ':DESMARCA' => trim($this->getDesMarca()),
-                                    ':DESDESCRICAO' => trim($this->getDesDescricao())
+                                    ':DESNOME' => $this->getDesNome(),
+                                    ':DESMARCA' => $this->getDesMarca(),
+                                    ':DESDESCRICAO' => $this->getDesDescricao()
                                 ));
             } else {
                 Model::returnError("Estão faltando dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar o Produto.<br>".\PDOException($e->getMessage()), "/scmm/admin/product/update/".$idProduct);
+            Model::returnError("Não foi possível Atualizar o Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -70,7 +70,7 @@ class Product extends Model {
                                 ':IDPRODUTO' => $idProduct
                             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Deletar o Produto.<br>".\PDOException($e->getMessage()), "/scmm/admin/product");
+            Model::returnError("Não foi possível Deletar o Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -87,7 +87,7 @@ class Product extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados de Produto.<br>".\PDOException($e->getMessage()), "/scmm/admin/product");
+            Model::returnError("Não foi possível recuperar os dados de Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -108,7 +108,7 @@ class Product extends Model {
                 return $result;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados do Produto.<br>".\PDOException($e->getMessage()), "/scmm/admin/product/update/".$idProduct);
+            Model::returnError("Não foi possível recuperar os dados do Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
@@ -119,8 +119,8 @@ class Product extends Model {
         if ($this->verifyDados()) {
             $sql = new Dao();
             $result = $sql->allSelect('SELECT * FROM tbproduto WHERE desnome = :DESNOME AND desmarca = :DESMARCA', array(
-                ':DESNOME' => trim($this->getDesNome()),
-                ':DESMARCA' => trim($this->getDesMarca())
+                ':DESNOME' => $this->getDesNome(),
+                ':DESMARCA' => $this->getDesMarca()
             ));
 
             if (is_array($result) && count($result) > 0) {
@@ -139,15 +139,15 @@ class Product extends Model {
      * -- empty() = verifica se valor é vazio
      */
     private function verifyDados() {
-        if (empty(trim($this->getDesNome()))) {
+        if (empty($this->getDesNome())) {
             return false;
         }
 
-        if (empty(trim($this->getDesMarca()))) {
+        if (empty($this->getDesMarca())) {
             return false;
         }
 
-        if (empty(trim($this->getDesDescricao()))) {
+        if (empty($this->getDesDescricao())) {
             return false;
         }
 
@@ -156,9 +156,9 @@ class Product extends Model {
 
     private function restoreData() {
         $_SESSION['restoreData'] = array(
-            'desNome' => trim($this->getDesNome()),
-            'desMarca' => trim($this->getDesMarca()),
-            'desDescricao' => trim($this->getDesDescricao())
+            'desNome' => $this->getDesNome(),
+            'desMarca' => $this->getDesMarca(),
+            'desDescricao' => $this->getDesDescricao()
         );
     }
 }

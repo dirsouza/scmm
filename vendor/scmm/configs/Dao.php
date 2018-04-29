@@ -2,7 +2,7 @@
 
 namespace SCMM\Configs;
 
-use SCMM\Models\Model;
+use SCMM\Configs\Model;
 
 /**
  * Classe de conexão com o Banco de Dados
@@ -26,9 +26,13 @@ class Dao extends Model {
      * Construtor da conexão
      */
     public function __construct() {
-        $this->conn = new \PDO("mysql:dbname=".Dao::DBNAME.";host=".Dao::HOSTNAME, Dao::USERNAME, Dao::PASSWORD);
-        $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
+        try {
+            $this->conn = new \PDO("mysql:dbname=" . Dao::DBNAME . ";host=" . Dao::HOSTNAME, Dao::USERNAME, Dao::PASSWORD, array(
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+            ));
+        } catch (\PDOException $e) {
+            Model::returnError($e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
     }
     
     /**
@@ -68,7 +72,7 @@ class Dao extends Model {
             $this->conn->commit();
         } catch (\PDOException $e) {
             $this->conn->rollBack();
-            return \PDOException($e->getMessage());
+            Model::returnError($e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
     
@@ -88,7 +92,7 @@ class Dao extends Model {
             $this->conn->commit();
         } catch (\PDOException $e) {
             $this->conn->rollBack();
-            return \PDOException($e->getMessage());
+            Model::returnError($e->getMessage(), $_SERVER['REQUEST_URI']);
         }
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }

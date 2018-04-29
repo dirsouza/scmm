@@ -20,8 +20,6 @@
         <script src="/scmm/lib/api/datatables/extensions/responsive/js/dataTables.responsive.min.js"></script>
         <script src="/scmm/lib/api/datatables/extensions/responsive/js/responsive.bootstrap.min.js"></script>
         <script src="/scmm/lib/api/datatables/extensions/selected/js/dataTables.select.min.js"></script>
-        <script src="/scmm/lib/api/jquery-mask/jquery.mask.min.js"></script>
-        <script src="/scmm/lib/api/viacep/jquery.autocomplete-address.min.js"></script>
 
         <script>
             $(document).ready(function() {
@@ -60,20 +58,6 @@
                 * Tootip
                 */
                 $('[data-toggle="tooltip"]').tooltip();
-                
-                /**
-                * jQuery Mask
-                */
-                $('#cep').mask('00000-000', {placeholder: "_____-___"});
-
-                /**
-                * ViaCep
-                */
-                $('#cep').autocompleteAddress({
-                    address: '#rua',
-                    neighborhood: '#bairro',
-                    setReadonly: false  
-                });
             });
         </script>
     </body>

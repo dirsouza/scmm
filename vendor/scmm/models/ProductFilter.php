@@ -1,8 +1,8 @@
 <?php
 
-namespace SCMM\Controllers;
+namespace SCMM\Models;
 
-use SCMM\Models\Model;
+use SCMM\Configs\Model;
 use SCMM\Configs\Dao;
 
 /**

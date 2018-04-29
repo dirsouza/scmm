@@ -21,22 +21,10 @@
                                                     <input type="text" name="desNome" class="form-control" value="<?=$commerce['desnome']?>" required autofocus>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label>CEP:</label>
-                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?=$commerce['descep']?>" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label>Rua:</label>
-                                                    <input type="text" name="desRua" id="rua" class="form-control" value="<?=$commerce['desrua']?>" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label>Bairro:</label>
-                                                    <input type="text" name="desBairro" id="bairro" class="form-control" value="<?=$commerce['desbairro']?>" required>
+                                                    <label>Endereço:</label>
+                                                    <input type="text" name="desEndereco" class="form-control" value="<?=$commerce['desendereco']?>" required>
                                                 </div>
                                             </div>
                                             <div class="text-right col-md-12">
