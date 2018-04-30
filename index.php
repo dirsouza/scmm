@@ -353,7 +353,21 @@ $app->group('/registration', function() use ($app) {
     */   
     $app->group('/product_commerce', function() use ($app) {
         $app->get('/', function() use ($app) {
+            Login::verifyLogin();
 
+            $user = new Login();
+            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+
+            $products_commerces = ProductCommerce::listProdutosComercios();
+
+            $app->render('default/header.php', array(
+                'user' => $user->getValues(),
+                'page' => "Lista de Produtos por Comércio"
+            ));
+            $app->render('product_commerce/index.php', array(
+                'products_commerces' => $products_commerces
+            ));
+            $app->render('default/footer.php');
         });
 
         $app->get('/create', function() use ($app) {

@@ -75,10 +75,11 @@ class ProductCommerce extends Model {
             $sql = new Dao();
             $results = $sql->allSelect("SELECT a.idProdutoComercio,
                                                b.idproduto, 
-                                               b.desnome AS 'desproduto',
+                                               b.desnome AS 'desProduto',
+                                               b.desmarca,
                                                c.idcomercio, 
-                                               c.desnome AS 'descomercio',
-                                               a.despreco
+                                               c.desnome AS 'desComercio',
+                                               concat('R$ ',format(a.despreco,2,'de_DE')) as desPreco
                                         FROM tbprodutocomercio a
                                         INNER JOIN tbproduto b
                                         USING (idproduto)
