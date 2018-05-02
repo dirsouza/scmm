@@ -9,7 +9,7 @@
                         <?php endif; ?>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Dados
+                                Código: <?= str_pad($product['idproduto'], 5, 0, STR_PAD_LEFT) ?>
                             </div>
                             <div class="panel-body">
                                 <div class="row">

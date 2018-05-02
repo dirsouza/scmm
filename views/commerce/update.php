@@ -9,7 +9,7 @@
                         <?php endif; ?>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Dados
+                                Código: <?= str_pad($commerce['idcomercio'], 5, 0, STR_PAD_LEFT) ?>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -21,10 +21,16 @@
                                                     <input type="text" name="desNome" class="form-control" value="<?=$commerce['desnome']?>" required autofocus>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>CEP:</label>
+                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?= (array_key_exists('descep', $commerce)) ? $commerce['descep'] : null ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
                                                 <div class="form-group">
                                                     <label>Endereço:</label>
-                                                    <input type="text" name="desEndereco" class="form-control" value="<?=$commerce['desendereco']?>" required>
+                                                    <input type="text" name="desEndereco" id="desEndereco" class="form-control" value="<?=$commerce['desendereco']?>" required>
                                                 </div>
                                             </div>
                                             <div class="text-right col-md-12">

@@ -21,10 +21,16 @@
                                                     <input type="text" name="desNome" class="form-control" value="<?=($data != null)?$data['desNome']:null?>" required autofocus>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>CEP:</label>
+                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?= ($data != null) ? $data['desCEP'] : null ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
                                                 <div class="form-group">
                                                     <label>Endereço:</label>
-                                                    <input type="text" name="desEndereco" class="form-control" value="<?=($data != null)?$data['desEndereco']:null?>" required>
+                                                    <input type="text" name="desEndereco" id="desEndereco" class="form-control" value="<?=($data != null)?$data['desEndereco']:null?>" required>
                                                 </div>
                                             </div>
                                             <div class="text-right col-md-12">

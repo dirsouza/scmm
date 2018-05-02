@@ -21,7 +21,7 @@ class Commerce extends Model {
                 $sql->allQuery("INSERT INTO tbcomercio (desnome,desendereco)
                                 VALUES (:DESNOME,:DESENDERECO)", array(
                                     ':DESNOME' => $this->getDesNome(),
-                                    ':DESENDERECO' => $this->getDesEndereco()
+                                    ':DESENDERECO' => (array_key_exists('DesCEP', $this->getValues())) ? $this->getDesCEP() . " - " . $this->getDesEndereco() : $this->getDesEndereco()
                                 ));
             } else {
                 $this->restoreData();
@@ -45,7 +45,7 @@ class Commerce extends Model {
                                 WHERE idcomercio = :IDCOMERCIO", array(
                                     ':IDCOMERCIO' => $idCommerce,
                                     ':DESNOME' => $this->getDesNome(),
-                                    ':DESENDERECO' => $this->getDesEndereco()
+                                    ':DESENDERECO' => (array_key_exists('DesCEP', $this->getValues())) ? $this->getDesCEP() . " - " . $this->getDesEndereco() : $this->getDesEndereco()
                                 ));
             } else {
                 Model::returnError("Algum campo não foi informado.", $_SERVER["REQUEST_URI"]);
@@ -149,6 +149,7 @@ class Commerce extends Model {
     private function restoreData() {
         $_SESSION['restoreData'] = array(
             'desNome' => $this->getDesNome(),
+            'desCEP' => (array_key_exists('DesCEP', $this->getValues())) ? $this->getDesCEP() : null,
             'desEndereco' => $this->getDesEndereco()
         );
     }

@@ -11,6 +11,8 @@
         <link href="/scmm/lib/api/datatables/extensions/responsive/css/responsive.bootstrap.min.css" rel="stylesheet">
         <link href="/scmm/lib/api/datatables/extensions/selected/css/select.bootstrap.min.css" rel="stylesheet">
         <link href="/scmm/lib/api/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/scmm/lib/api/select2/css/select2.min.css" rel="stylesheet">
+        <link href="/scmm/lib/api/select2/css/select2-bootstrap.min.css" rel="stylesheet">
         <link href="/scmm/lib/style/css/scmm.css" rel="stylesheet">
     </head>
     <body class="clearfix">
@@ -65,7 +67,7 @@
                                         <a href="/scmm/registration/product">Produtos</a>
                                     </li>
                                     <li>
-                                        <a href="/scmm/registration/product_commerce">Produtos por Comércio</a>
+                                        <a href="/scmm/registration/prodsByCommerce">Produtos por Comércio</a>
                                     </li>
                                 </ul>
                             </li>

@@ -142,6 +142,12 @@ $app->group('/registration', function() use ($app) {
             $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
             
             $commerces = Commerce::listComercios();
+            foreach ($commerces as &$key) {
+                $address = explode(" - ", $key['desendereco']);
+                if (count($address) > 1) {
+                    $key['desendereco'] = $address[1];
+                }
+            }
             
             $app->render('default/header.php', array(
                 'user' => $user->getValues(),
@@ -163,8 +169,7 @@ $app->group('/registration', function() use ($app) {
                 $data = array(
                     'desNome' => $_SESSION['restoreData']['desNome'],
                     'desCEP' => $_SESSION['restoreData']['desCEP'],
-                    'desRua' => $_SESSION['restoreData']['desRua'],
-                    'desBairro' => $_SESSION['restoreData']['desBairro']
+                    'desEndereco' => $_SESSION['restoreData']['desEndereco']
                 );
                 unset($_SESSION['restoreData']);
             } else {
@@ -183,6 +188,10 @@ $app->group('/registration', function() use ($app) {
 
         $app->post('/create', function() use ($app) {
             Login::verifyLogin();
+
+            if (array_key_exists('desCEP', $_POST) && $_POST['desCEP'] === "") {
+                unset($_POST['desCEP']);
+            }
             
             $commerce = new Commerce();
             $commerce->setData($_POST);
@@ -199,6 +208,14 @@ $app->group('/registration', function() use ($app) {
             
             $commerce = Commerce::listComercioId((int)$id);
             
+            foreach ($commerce as &$key) {
+                $address = explode(" - ", $key['desendereco']);
+                if (count($address) > 1) {
+                    $commerce[0] = array_merge($commerce[0], ['descep' => $address[0]]);
+                    $key['desendereco'] = $address[1];
+                }
+            }
+            
             $app->render('default/header.php', array(
                 'user' => $user->getValues(),
                 'page' => "Editar Comércio"
@@ -211,6 +228,10 @@ $app->group('/registration', function() use ($app) {
 
         $app->post('/update/:id', function($id) use ($app) {
             Login::verifyLogin();
+
+            if (array_key_exists('desCEP', $_POST) && $_POST['desCEP'] === "") {
+                unset($_POST['desCEP']);
+            }
             
             $commerce = new Commerce();
             $commerce->setData($_POST);
@@ -346,12 +367,12 @@ $app->group('/registration', function() use ($app) {
             ));
         });
     });
-    
+
     /**
-    * Produtos por Comércio
-    * Url: http://scmm/registration/product_commerce
-    */   
-    $app->group('/product_commerce', function() use ($app) {
+     * Produtos por Comércio
+     * Url: http://scmm/registration/prodsByCommerce
+     */   
+    $app->group('/prodsByCommerce', function() use ($app) {
         $app->get('/', function() use ($app) {
             Login::verifyLogin();
 
