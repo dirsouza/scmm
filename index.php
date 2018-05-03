@@ -142,10 +142,12 @@ $app->group('/registration', function() use ($app) {
             $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
             
             $commerces = Commerce::listComercios();
-            foreach ($commerces as &$key) {
-                $address = explode(" - ", $key['desendereco']);
-                if (count($address) > 1) {
-                    $key['desendereco'] = $address[1];
+            if (is_array($commerces)) {
+                foreach ($commerces as &$key) {
+                    $address = explode(" - ", $key['desendereco']);
+                    if (count($address) > 1) {
+                        $key['desendereco'] = $address[1];
+                    }
                 }
             }
             
@@ -392,7 +394,24 @@ $app->group('/registration', function() use ($app) {
         });
 
         $app->get('/create', function() use ($app) {
+            Login::verifyLogin();
 
+            $user = new Login();
+            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
+
+            $commerces = Commerce::listComercios();
+            
+            $products = Product::listProdutos();
+
+            $app->render('default/header.php', array(
+                'user' => $user->getValues(),
+                'page' => "Associar Produtos ao Comércio"
+            ));
+            $app->render('product_commerce/create.php', array(
+                'commerces' => $commerces,
+                'products' => $products
+            ));
+            $app->render('default/footer.php');
         });
 
         $app->post('/create', function() use ($app) {

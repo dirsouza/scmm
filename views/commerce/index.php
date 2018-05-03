@@ -11,7 +11,7 @@
                                     <a href="/scmm/registration/commerce/report" target="_blank" class="btn btn-primary">Relatório</a>
                                 </div>
                                 <div class="row-border" style="margin-top: 20px;">
-                                    <table class="table table-striped table-bordered nowrap" width="100%">
+                                    <table id="table" class="table table-striped table-bordered nowrap" width="100%">
                                         <thead>
                                             <tr>
                                                 <th width="5%">Cod.</th>

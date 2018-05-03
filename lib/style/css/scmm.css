@@ -25,7 +25,7 @@ body {
     background-color: #fff;
 }
 
-@media(min-width:768px) {
+@media(min-width: 768px) {
     .page-wrapper-admin {
         position: inherit;
         margin-left: 250px;
@@ -60,6 +60,16 @@ body {
     float: left;
     width: 50%;
     text-align: left;
+}
+
+@media(max-width: 768px) {
+    .container .left {
+        overflow: hidden;
+        white-space: nowrap;
+        float: left;
+        width: 100%;
+        text-align: left;
+    }   
 }
 
 .container .right {

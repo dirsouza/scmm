@@ -5,7 +5,7 @@
             <footer class="footer">
                 <div class="container">
                     <p class="text-muted left"><?= $_SESSION['system']['name'] ?></p>
-                    <p class="text-muted right">Versão <?= $_SESSION['system']['version'] ?></p>
+                    <p class="text-muted right hidden-xs">Versão <?= $_SESSION['system']['version'] ?></p>
                 </div>
             </footer>
         </div>
@@ -21,6 +21,7 @@
         <script src="/scmm/lib/api/datatables/extensions/selected/js/dataTables.select.min.js"></script>
         <script src="/scmm/lib/api/jquery-mask/jquery.mask.min.js"></script>
         <script src="/scmm/lib/api/select2/js/select2.min.js"></script>
+        <script src="/scmm/lib/api/select2/js/i18n/pt-BR.js"></script>
         <script src="/scmm/lib/api/bootbox/bootbox.min.js"></script>
         <script src="/scmm/lib/style/js/scmm.js"></script>
         <script src="/scmm/lib/style/js/custumer.js"></script>
