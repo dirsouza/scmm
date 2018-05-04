@@ -43,10 +43,14 @@
                                                         <tbody>
                                                             <?php foreach ($products as $key) : ?>
                                                             <tr>
-                                                                <td class="text-center"><?= str_pad($key['idproduto'], 5, 0, STR_PAD_LEFT)?></td>
+                                                                <td style="margin: auto; padding: 3px;">
+                                                                    <input type="text" name="cod[]" class="form-control input-sm text-center" style="width: 100%" value="<?= str_pad($key['idproduto'], 5, 0, STR_PAD_LEFT)?>">                                                                    
+                                                                </td>
                                                                 <td><?= $key['desnome'] ?></td>
                                                                 <td><?= $key['desmarca'] ?></td>
-                                                                <td style="margin: auto; padding: 3px;"><input type="text" name="preco[]" id="preco" class="form-control input-sm" style="width: 100%"></td>
+                                                                <td style="margin: auto; padding: 3px;">
+                                                                    <input type="text" name="preco[]" id="preco" class="form-control input-sm" style="width: 100%">
+                                                                </td>
                                                             </tr>
                                                             <?php endforeach; ?>
                                                         </tbody>

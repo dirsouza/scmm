@@ -35,9 +35,9 @@ class Product extends Model {
     
     /**
      * Atualiza os dados de um produto
-     * @param type $idProduct
+     * @param type $idProduto
      */
-    public function updateProduto($idProduct) {
+    public function updateProduto($idProduto) {
         try {
             if ($this->verifyDados()) {
                 $sql = new Dao();
@@ -45,7 +45,7 @@ class Product extends Model {
                                                     desmarca = :DESMARCA,
                                                     desdescricao = :DESDESCRICAO
                                 WHERE idproduto = :IDPRODUTO", array(
-                                    ':IDPRODUTO' => $idProduct,
+                                    ':IDPRODUTO' => $idProduto,
                                     ':DESNOME' => $this->getDesNome(),
                                     ':DESMARCA' => $this->getDesMarca(),
                                     ':DESDESCRICAO' => $this->getDesDescricao()
@@ -60,14 +60,14 @@ class Product extends Model {
     
     /**
      * Exclui um produto
-     * @param type $idProduct
+     * @param type $idProduto
      */
-    public function deleteProduto($idProduct) {
+    public function deleteProduto($idProduto) {
         try {
             $sql = new Dao();
             $sql->allQuery("DELETE FROM tbproduto
                             WHERE idproduto = :IDPRODUTO", array(
-                                ':IDPRODUTO' => $idProduct
+                                ':IDPRODUTO' => $idProduto
                             ));
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível Deletar o Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
@@ -93,15 +93,15 @@ class Product extends Model {
     
     /**
      * Lista um produto e retorna uma Array
-     * @param type $idProduct
+     * @param type $idProduto
      * @return type Array
      */
-    public static function listProdutoId($idProduct) {
+    public static function listProdutoId($idProduto) {
         try {
             $sql = new Dao();
             $result = $sql->allSelect("SELECT * FROM tbproduto
                                         WHERE idproduto = :IDPRODUTO", array(
-                                            ':IDPRODUTO' => $idProduct
+                                            ':IDPRODUTO' => $idProduto
                                         ));
 
             if (is_array($result) && count($result) > 0) {

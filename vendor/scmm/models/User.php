@@ -107,12 +107,12 @@ class User extends Model {
      * Atualiza a senha do Administrador
      * @param type $idUser
      */
-    public function updateSenhaAdministrador($idUser) {
+    public function updateSenhaAdministrador($idAdministrador) {
         try {
             $sql = new Dao();
             $sql->allQuery("UPDATE tbusuario SET dessenha = :DESSENHA
                             WHERE idusuario = :IDUSUARIO", array(
-                                ':IDUSUARIO' => $idUser,
+                                ':IDUSUARIO' => $idAdministrador,
                                 ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT)
                             ));
         } catch (\PDOException $e) {

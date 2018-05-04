@@ -34,16 +34,16 @@ class Commerce extends Model {
     
     /**
      * Atualiza os dados de um comércio
-     * @param type $idCommerce
+     * @param type $idComercio
      */
-    public function updateComercio($idCommerce) {
+    public function updateComercio($idComercio) {
         try {
             if ($this->verifyDados()) {
                 $sql = new Dao();
                 $sql->allQuery("UPDATE tbcomercio SET desnome = :DESNOME,
                                                     desendereco = :DESENDERECO
                                 WHERE idcomercio = :IDCOMERCIO", array(
-                                    ':IDCOMERCIO' => $idCommerce,
+                                    ':IDCOMERCIO' => $idComercio,
                                     ':DESNOME' => $this->getDesNome(),
                                     ':DESENDERECO' => (array_key_exists('DesCEP', $this->getValues())) ? $this->getDesCEP() . " - " . $this->getDesEndereco() : $this->getDesEndereco()
                                 ));
@@ -57,14 +57,14 @@ class Commerce extends Model {
     
     /**
      * Exclui um comércio
-     * @param type $idCommerce
+     * @param type $idComercio
      */
-    public function deleteComercio($idCommerce) {
+    public function deleteComercio($idComercio) {
         try {
             $sql = new Dao();
             $sql->allQuery("DELETE FROM tbcomercio
                             WHERE idcomercio = :IDCOMERCIO", array(
-                                ':IDCOMERCIO' => $idCommerce
+                                ':IDCOMERCIO' => $idComercio
                             ));
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível Excluir o Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
@@ -90,15 +90,15 @@ class Commerce extends Model {
     
     /**
      * Lista um comercio e retorna uma Array
-     * @param type $idCommerce
+     * @param type $idComercio
      * @return type Array
      */
-    public static function listComercioId($idCommerce) {
+    public static function listComercioId($idComercio) {
         try {
             $sql = new Dao();
             $result = $sql->allSelect("SELECT * FROM tbcomercio
                                        WHERE idcomercio = :IDCOMERCIO", array(
-                                            ':IDCOMERCIO' => $idCommerce
+                                            ':IDCOMERCIO' => $idComercio
                                         ));
 
             if (is_array($result) && count($result) > 0) {
