@@ -18,10 +18,11 @@ class Commerce extends Model {
         try {
             if ($this->verifyComercio()) {
                 $sql = new Dao();
-                $sql->allQuery("INSERT INTO tbcomercio (desnome,desendereco)
-                                VALUES (:DESNOME,:DESENDERECO)", array(
+                $sql->allQuery("CALL sp_add_comercio (:DESNOME,:DESCEP,:DESRUA,:DESBAIRRO)", array(
                                     ':DESNOME' => $this->getDesNome(),
-                                    ':DESENDERECO' => (array_key_exists('DesCEP', $this->getValues())) ? $this->getDesCEP() . " - " . $this->getDesEndereco() : $this->getDesEndereco()
+                                    ':DESCEP' => $this->getDesCEP(),
+                                    ':DESRUA' => $this->getDesRua(),
+                                    ':DESBAIRRO' => $this->getDesBairro()
                                 ));
             } else {
                 $this->restoreData();
@@ -40,12 +41,11 @@ class Commerce extends Model {
         try {
             if ($this->verifyDados()) {
                 $sql = new Dao();
-                $sql->allQuery("UPDATE tbcomercio SET desnome = :DESNOME,
-                                                    desendereco = :DESENDERECO
-                                WHERE idcomercio = :IDCOMERCIO", array(
+                $sql->allQuery("CALL sp_update_comercio (:IDCOMERCIO,:DESCEP,:DESRUA,:DESBAIRRO)", array(
                                     ':IDCOMERCIO' => $idComercio,
-                                    ':DESNOME' => $this->getDesNome(),
-                                    ':DESENDERECO' => (array_key_exists('DesCEP', $this->getValues())) ? $this->getDesCEP() . " - " . $this->getDesEndereco() : $this->getDesEndereco()
+                                    ':DESCEP' => $this->getDesCEP(),
+                                    ':DESRUA' => $this->getDesRua(),
+                                    ':DESBAIRRO' => $this->getDesBairro()
                                 ));
             } else {
                 Model::returnError("Algum campo não foi informado.", $_SERVER["REQUEST_URI"]);
@@ -78,7 +78,7 @@ class Commerce extends Model {
     public static function listComercios() {
         try {
             $sql = new Dao();
-            $results = $sql->allSelect("SELECT * FROM tbcomercio");
+            $results = $sql->allSelect("SELECT * FROM vw_comercios");
 
             if (is_array($results) && count($results) > 0) {
                 return $results;
@@ -96,8 +96,8 @@ class Commerce extends Model {
     public static function listComercioId($idComercio) {
         try {
             $sql = new Dao();
-            $result = $sql->allSelect("SELECT * FROM tbcomercio
-                                       WHERE idcomercio = :IDCOMERCIO", array(
+            $result = $sql->allSelect("SELECT * FROM vw_comercios
+                                        WHERE idcomercio = :IDCOMERCIO", array(
                                             ':IDCOMERCIO' => $idComercio
                                         ));
 
@@ -106,6 +106,25 @@ class Commerce extends Model {
             }
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível recuperar os dados do Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
+    }
+
+    /**
+     * Busca o Endereço com base no CEP passado por parâmetro
+     * @param type $cep
+     */
+    public static function getCep($cep) {
+        try {
+            $sql = new Dao();
+            $result = $sql->allSelect("SELECT * FROM tbbairro WHERE descep = :DESCEP", array(
+                ':DESCEP' => $cep
+            ));
+
+            if (is_array($result) && count($result) > 0) {
+                return $result[0];
+            }
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível recuperar os dados de Bairros.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
@@ -139,7 +158,15 @@ class Commerce extends Model {
             return false;
         }
 
-        if (empty($this->getDesEndereco())) {
+        if (empty($this->getDesCEP())) {
+            return false;
+        }
+
+        if (empty($this->getDesRua())) {
+            return false;
+        }
+
+        if (empty($this->getDesBairro())) {
             return false;
         }
 
@@ -149,8 +176,9 @@ class Commerce extends Model {
     private function restoreData() {
         $_SESSION['restoreData'] = array(
             'desNome' => $this->getDesNome(),
-            'desCEP' => (array_key_exists('DesCEP', $this->getValues())) ? $this->getDesCEP() : null,
-            'desEndereco' => $this->getDesEndereco()
+            'desCEP' => $this->getDesCEP(),
+            'desRua' => $this->getDesRua(),
+            'desBairro' => $this->getDesBairro()
         );
     }
 }

@@ -24,13 +24,19 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>CEP:</label>
-                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?= ($data != null) ? $data['desCEP'] : null ?>">
+                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?= ($data != null) ? $data['desCEP'] : null ?>" required>
                                                 </div>
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-5">
                                                 <div class="form-group">
-                                                    <label>Endereço:</label>
-                                                    <input type="text" name="desEndereco" id="desEndereco" class="form-control" value="<?=($data != null)?$data['desEndereco']:null?>" required>
+                                                    <label>Rua:</label>
+                                                    <input type="text" name="desRua" id="desRua" class="form-control" value="<?=($data != null)?$data['desRua']:null?>" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label>Bairro:</label>
+                                                    <input type="text" name="desBairro" id="desBairro" class="form-control" value="<?= ($data != null) ? $data['desBairro'] : null ?>" required>
                                                 </div>
                                             </div>
                                             <div class="text-right col-md-12">

@@ -18,19 +18,25 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Nome:</label>
-                                                    <input type="text" name="desNome" class="form-control" value="<?=$commerce['desnome']?>" required autofocus>
+                                                    <input type="text" name="desNome" class="form-control" value="<?=$commerce['desnome']?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>CEP:</label>
-                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?= (array_key_exists('descep', $commerce)) ? $commerce['descep'] : null ?>">
+                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?= (array_key_exists('descep', $commerce)) ? $commerce['descep'] : null ?>" required autofocus>
                                                 </div>
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-5">
                                                 <div class="form-group">
-                                                    <label>Endereço:</label>
-                                                    <input type="text" name="desEndereco" id="desEndereco" class="form-control" value="<?=$commerce['desendereco']?>" required>
+                                                    <label>Rua:</label>
+                                                    <input type="text" name="desRua" id="desRua" class="form-control" value="<?=$commerce['desrua']?>" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label>Bairro:</label>
+                                                    <input type="text" name="desBairro" id="desBairro" class="form-control" value="<?= $commerce['desbairro'] ?>" required>
                                                 </div>
                                             </div>
                                             <div class="text-right col-md-12">

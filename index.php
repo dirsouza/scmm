@@ -142,14 +142,6 @@ $app->group('/registration', function() use ($app) {
             $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
             
             $commerces = Commerce::listComercios();
-            if (is_array($commerces)) {
-                foreach ($commerces as &$key) {
-                    $address = explode(" - ", $key['desendereco']);
-                    if (count($address) > 1) {
-                        $key['desendereco'] = $address[1];
-                    }
-                }
-            }
             
             $app->render('default/header.php', array(
                 'user' => $user->getValues(),
@@ -171,7 +163,8 @@ $app->group('/registration', function() use ($app) {
                 $data = array(
                     'desNome' => $_SESSION['restoreData']['desNome'],
                     'desCEP' => $_SESSION['restoreData']['desCEP'],
-                    'desEndereco' => $_SESSION['restoreData']['desEndereco']
+                    'desRua' => $_SESSION['restoreData']['desRua'],
+                    'desBairro' => $_SESSION['restoreData']['desBairro']
                 );
                 unset($_SESSION['restoreData']);
             } else {
@@ -209,14 +202,6 @@ $app->group('/registration', function() use ($app) {
             $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
             
             $commerce = Commerce::listComercioId((int)$id);
-            
-            foreach ($commerce as &$key) {
-                $address = explode(" - ", $key['desendereco']);
-                if (count($address) > 1) {
-                    $commerce[0] = array_merge($commerce[0], ['descep' => $address[0]]);
-                    $key['desendereco'] = $address[1];
-                }
-            }
             
             $app->render('default/header.php', array(
                 'user' => $user->getValues(),
@@ -475,6 +460,20 @@ $app->group('/users', function() use ($app) {
         $app->get('/', function() use ($app) {
         
         });
+    });
+});
+
+/**
+ * Cep
+ * Url: http://scmm/getcep
+ */
+$app->group('/getcep', function () use ($app) {
+    $app->get('/:cep', function ($cep) {
+        Login::verifyLogin();
+
+        $setCep = Commerce::getCep($cep);
+
+        echo json_encode($setCep);
     });
 });
 

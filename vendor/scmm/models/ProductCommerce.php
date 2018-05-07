@@ -73,19 +73,7 @@ class ProductCommerce extends Model {
     public static function listProdutosComercios() {
         try {
             $sql = new Dao();
-            $results = $sql->allSelect("SELECT a.idProdutoComercio,
-                                               b.idproduto, 
-                                               b.desnome AS 'desProduto',
-                                               b.desmarca,
-                                               c.idcomercio, 
-                                               c.desnome AS 'desComercio',
-                                               concat('R$ ',format(a.despreco,2,'de_DE')) as desPreco
-                                        FROM tbprodutocomercio a
-                                        INNER JOIN tbproduto b
-                                        USING (idproduto)
-                                        INNER JOIN tbcomercio c
-                                        USING (idcomercio)
-                                        ORDER BY a.idProdutoComercio ASC");
+            $results = $sql->allSelect("SELECT * FROM vw_produtocomercio");
 
             if (is_array($results) && count($results) > 0) {
                 return $results;
@@ -102,16 +90,7 @@ class ProductCommerce extends Model {
     public static function listProdutosComerciosId($idProdutoComercio) {
         try {
             $sql = new Dao();
-            $results = $sql->allSelect("SELECT b.idproduto, 
-                                               b.desnome AS 'desproduto',
-                                               c.idcomercio, 
-                                               c.desnome AS 'descomercio',
-                                               a.despreco
-                                        FROM tbprodutocomercio a
-                                        INNER JOIN tbproduto b
-                                        USING (idproduto)
-                                        INNER JOIN tbcomercio c
-                                        USING (idcomercio)
+            $results = $sql->allSelect("SELECT * FROM vw_produtocomercio
                                         WHERE idProdutoComercio = :IDPRODUTOCOMERCIO", array(
                                             ':IDPRODUTOCOMERCIO' => $idProdutoComercio
                                         ));

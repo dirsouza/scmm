@@ -83,7 +83,7 @@ ob_start();
             }
             .table td {
                 overflow: hidden;
-                white-space: nowrap;
+                white-space: pre-wrap;
                 height: 15px;
                 border: 1px solid #000;
                 vertical-align: middle;
@@ -111,7 +111,7 @@ ob_start();
             <table class="table">
                 <thead>
                     <tr>
-                        <th width="10%">Código</th>
+                        <th width="8%">Código</th>
                         <th width="40%">Nome</th>
                         <th>Endereço</th>
                     </tr>
@@ -122,7 +122,7 @@ ob_start();
                     <tr>
                         <td class="text-center"><?= str_pad($value['idcomercio'], 5, 0, STR_PAD_LEFT)?></td>
                         <td><?=$value['desnome']?></td>
-                        <td><?=$value['desendereco']?></td>
+                        <td><?=$value['desrua']." - ".$value['desbairro']?></td>
                     </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -144,12 +144,12 @@ $options->set('isPhpEnabled', true);
 
 $pdf = new Dompdf($options);
 $pdf->loadHtml($html);
-$pdf->setPaper('A4', 'Portrait');
+$pdf->setPaper('A4', 'Landscape');
 $pdf->render();
 $font = $pdf->getFontMetrics()->get_font("Sans-serif");
 $page = "{PAGE_NUM}";
 $canvas = $pdf->get_canvas();
-$canvas->page_text(545, 53, $page, $font, 10, array(0,0,0));
+$canvas->page_text(795, 53, $page, $font, 10, array(0,0,0));
 $pdf->stream('listCommerce.pdf', array(
     'Attachment' => false
 ));
