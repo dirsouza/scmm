@@ -245,6 +245,14 @@ $app->group('/registration', function() use ($app) {
                 'commerces' => $commerces
             ));
         });
+        
+        $app->get('/getcep/:cep', function ($cep) {
+            Login::verifyLogin();
+
+            $setCep = Commerce::getCep($cep);
+
+            echo json_encode($setCep[0]);
+        });
     });
 
     /**
@@ -464,20 +472,6 @@ $app->group('/users', function() use ($app) {
         $app->get('/', function() use ($app) {
         
         });
-    });
-});
-
-/**
- * Cep
- * Url: http:/local.scmm.com.br/getcep
- */
-$app->group('/getcep', function () use ($app) {
-    $app->get('/:cep', function ($cep) {
-        Login::verifyLogin();
-
-        $setCep = Commerce::getCep($cep);
-
-        echo json_encode($setCep[0]);
     });
 });
 
