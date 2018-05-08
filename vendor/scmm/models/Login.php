@@ -66,9 +66,9 @@ class Login extends Model {
         ) {
             //Verifica se a sessão não existe
             if (isset($_SESSION[Login::SESSION])) {
-                Model::returnError("Usuário não está logado", "/scmm/login");
+                Model::returnError("Usuário não está logado", "/login");
             } else {
-                header("location: /scmm/login");
+                header("location: /login");
             }
             exit;
         }

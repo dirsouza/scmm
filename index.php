@@ -27,7 +27,7 @@ $app->config(array(
 
 /**
  * Index
- * Url: http://scmm/index
+ * Url: http:/local.scmm.com.br/index
  */
 $app->get('/', function() use ($app) {
     Login::verifyLogin();
@@ -57,13 +57,13 @@ $app->get('/', function() use ($app) {
         ));
         $app->render('default/footer.php');
     } else {
-        $app->redirect('/scmm/client');
+        $app->redirect('/client');
     }
 });
 
 /**
  * Login
- * Url: http://scmm/login
+ * Url: http:/local.scmm.com.br/login
  */
 
 $app->group('/login', function() use ($app) {
@@ -76,24 +76,24 @@ $app->group('/login', function() use ($app) {
     $app->post('/', function() use ($app) {
         $login = new Login();
         $login->login($_POST['desLogin'], $_POST['desSenha']);
-        $app->redirect('/scmm/');
+        $app->redirect('/');
     });
 });
 
 /**
  * Logout
- * Url: http://scmm/logout
+ * Url: http:/local.scmm.com.br/logout
  */
 $app->group('/logout', function() use ($app) {
     $app->get('/', function() use ($app) {
         Login::logout();
-        $app->redirect('/scmm/');
+        $app->redirect('/');
     });
 });
 
 /**
  * Registro
- * Url: http://scmm/register
+ * Url: http:/local.scmm.com.br/register
  */
 $app->group('/register', function() use ($app) {
     $app->get('/', function() use ($app) {
@@ -113,26 +113,26 @@ $app->group('/register', function() use ($app) {
             $_SESSION['register'] = array(
                 'msg' => "Usuário Cadastrado com Sucesso!"
             );
-            $app->redirect('/scmm/login');
+            $app->redirect('/login');
         } else {
             $_SESSION['register'] = array(
                 'desLogin' => $register['desLogin'],
                 'desNome' => $register['desNome'],
                 'msg' => "As senhas não são identicas."
             );
-            $app->redirect('/scmm/register');
+            $app->redirect('/register');
         }
     });
 });
 
 /**
  * Cadastros
- * Url: http://scmm/registration
+ * Url: http:/local.scmm.com.br/registration
  */
 $app->group('/registration', function() use ($app) {
     /**
      * Comércio
-     * Url: http://scmm/registration/commerce
+     * Url: http:/local.scmm.com.br/registration/commerce
      */
     $app->group('/commerce', function() use ($app) {
         $app->get('/', function() use ($app) {
@@ -192,7 +192,7 @@ $app->group('/registration', function() use ($app) {
             $commerce->setData($_POST);
             $commerce->addComercio();
             
-            $app->redirect('/scmm/registration/commerce');
+            $app->redirect('/registration/commerce');
         });
 
         $app->get('/update/:id', function($id) use ($app) {
@@ -224,7 +224,7 @@ $app->group('/registration', function() use ($app) {
             $commerce->setData($_POST);
             $commerce->updateComercio((int)$id);
             
-            $app->redirect('/scmm/registration/commerce');
+            $app->redirect('/registration/commerce');
         });
 
         $app->get('/delete/:id', function($id) use ($app) {
@@ -233,7 +233,7 @@ $app->group('/registration', function() use ($app) {
             $commerce = new Commerce();
             $commerce->deleteComercio((int)$id);
             
-            $app->redirect('/scmm/registration/commerce');
+            $app->redirect('/registration/commerce');
         });
         
         $app->get('/report', function() use ($app) {
@@ -249,7 +249,7 @@ $app->group('/registration', function() use ($app) {
 
     /**
      * Produto
-     * Url: http://scmm/registration/product
+     * Url: http:/local.scmm.com.br/registration/product
      */
     $app->group('/product', function() use ($app) {
         $app->get('/', function() use ($app) {
@@ -304,7 +304,7 @@ $app->group('/registration', function() use ($app) {
             $product->setData($_POST);
             $product->addProduto();
             
-            $app->redirect('/scmm/registration/product');
+            $app->redirect('/registration/product');
         });
 
         $app->get('/update/:id', function($id) use ($app) {
@@ -332,7 +332,7 @@ $app->group('/registration', function() use ($app) {
             $product->setData($_POST);
             $product->updateProduto((int)$id);
             
-            $app->redirect('/scmm/registration/product');
+            $app->redirect('/registration/product');
         });
 
         $app->get('/delete/:id', function($id) use ($app) {
@@ -341,7 +341,7 @@ $app->group('/registration', function() use ($app) {
             $product = new Product();
             $product->deleteProduto((int)$id);
             
-            $app->redirect('/scmm/registration/product');
+            $app->redirect('/registration/product');
         });
         
         $app->get('/report', function() use ($app) {
@@ -357,7 +357,7 @@ $app->group('/registration', function() use ($app) {
 
     /**
      * Produtos por Comércio
-     * Url: http://scmm/registration/prodsByCommerce
+     * Url: http:/local.scmm.com.br/registration/prodsByCommerce
      */   
     $app->group('/prodsByCommerce', function() use ($app) {
         $app->get('/', function() use ($app) {
@@ -419,12 +419,12 @@ $app->group('/registration', function() use ($app) {
 
 /**
  * Usuários
- * Url: http://scmm/users
+ * Url: http://users
  */
 $app->group('/users', function() use ($app) {
     /**
     * Administrador
-    * Url: http://scmm/users/admin
+    * Url: http:/local.scmm.com.br/users/admin
     */
     $app->group('/admin', function() use ($app) {
         $app->get('/', function() use ($app) {
@@ -454,7 +454,7 @@ $app->group('/users', function() use ($app) {
     
     /**
     * Cliente
-    * Url: http://scmm/users/client
+    * Url: http:/local.scmm.com.br/users/client
     */
     $app->group('/client', function() use ($app) {
         $app->get('/', function() use ($app) {
@@ -465,7 +465,7 @@ $app->group('/users', function() use ($app) {
 
 /**
  * Cep
- * Url: http://scmm/getcep
+ * Url: http:/local.scmm.com.br/getcep
  */
 $app->group('/getcep', function () use ($app) {
     $app->get('/:cep', function ($cep) {
@@ -479,7 +479,7 @@ $app->group('/getcep', function () use ($app) {
 
 /**
  * Cliente
- * Url: http://scmm/client
+ * Url: http:/local.scmm.com.br/client
  */
 $app->group('/client', function() use ($app) {
     $app->get('/', function() use ($app) {

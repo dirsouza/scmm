@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <?php endif; ?>
-                <form action="/scmm/register" method="POST">
+                <form action="/register" method="POST">
                     <div class="form-group has-feedback">
                         <input type="text" name="desNome" class="form-control" placeholder="Nome e Sobrenome" autofocus required tabindex="1"
                         <?php
@@ -58,7 +58,7 @@
                             <button type="submit" class="btn btn-success btn-block" tabindex="6">Registrar</button>
                         </div>
                         <div class="col-xs-12 pull-right" style="padding-top: 5px;">
-                            <a href="/scmm/login" class="btn btn-block text-register" tabindex="7">Já tenho registro</a>
+                            <a href="/login" class="btn btn-block text-register" tabindex="7">Já tenho registro</a>
                         </div>
                     </div>
                 </form>

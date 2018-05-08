@@ -60,7 +60,7 @@
                                         </div>
                                         <div class="text-right col-md-12">
                                             <button type="button" id="btn-prodsByCommerce" class="btn btn-success">Cadastrar</button>
-                                            <button type="button" class="btn btn-warning" onclick="javascript: location.href='/scmm/registration/prodsByCommerce'">Cancelar</button>
+                                            <button type="button" class="btn btn-warning" onclick="javascript: location.href='/registration/prodsByCommerce'">Cancelar</button>
                                         </div>
                                     </div>
                                 </div>

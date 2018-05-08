@@ -7,8 +7,8 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row-border">
-                                    <a href="/scmm/registration/commerce/create" class="btn btn-success">Cadastrar</a>
-                                    <a href="/scmm/registration/commerce/report" target="_blank" class="btn btn-primary">Relatório</a>
+                                    <a href="/registration/commerce/create" class="btn btn-success">Cadastrar</a>
+                                    <a href="/registration/commerce/report" target="_blank" class="btn btn-primary">Relatório</a>
                                 </div>
                                 <div class="row-border" style="margin-top: 20px;">
                                     <table id="table" class="table table-striped table-bordered nowrap" width="100%">
@@ -28,8 +28,8 @@
                                                 <td><?=$value['desnome']?></td>
                                                 <td><?=$value['desrua'] . " - " . $value['desbairro']?></td>
                                                 <td class="text-center">
-                                                    <a href="/scmm/registration/commerce/update/<?=$value['idcomercio']?>" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
-                                                    <a href="/scmm/registration/commerce/delete/<?=$value['idcomercio']?>" onclick="return confirm('Deseja excluir este registro?')" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
+                                                    <a href="/registration/commerce/update/<?=$value['idcomercio']?>" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
+                                                    <a href="/registration/commerce/delete/<?=$value['idcomercio']?>" onclick="return confirm('Deseja excluir este registro?')" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

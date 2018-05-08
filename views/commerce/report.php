@@ -9,6 +9,7 @@ ob_start();
     <head>
         <meta charset="UTF-8">
         <title>SCMM - Comércios</title>
+        <link rel="shortcut icon" href="C:/xampp/htdocs/scmm/src/img/logo-mini.png">
         <style>
             @page { margin: 100px 25px; }
 

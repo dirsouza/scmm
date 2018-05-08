@@ -5,15 +5,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SCMM</title>
-        <link href="/scmm/lib/api/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/scmm/lib/api/metismenu/metisMenu.min.css" rel="stylesheet">
-        <link href="/scmm/lib/api/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet">
-        <link href="/scmm/lib/api/datatables/extensions/responsive/css/responsive.bootstrap.min.css" rel="stylesheet">
-        <link href="/scmm/lib/api/datatables/extensions/selected/css/select.bootstrap.min.css" rel="stylesheet">
-        <link href="/scmm/lib/api/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="/scmm/lib/api/select2/css/select2.min.css" rel="stylesheet">
-        <link href="/scmm/lib/api/select2/css/select2-bootstrap.min.css" rel="stylesheet">
-        <link href="/scmm/lib/style/css/scmm.css" rel="stylesheet">
+        <link rel="shortcut icon" href="/src/img/logo-mini.png">
+        <link href="/lib/api/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/lib/api/metismenu/metisMenu.min.css" rel="stylesheet">
+        <link href="/lib/api/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="/lib/api/datatables/extensions/responsive/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="/lib/api/datatables/extensions/selected/css/select.bootstrap.min.css" rel="stylesheet">
+        <link href="/lib/api/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/lib/api/select2/css/select2.min.css" rel="stylesheet">
+        <link href="/lib/api/select2/css/select2-bootstrap.min.css" rel="stylesheet">
+        <link href="/lib/style/css/scmm.css" rel="stylesheet">
     </head>
     <body class="clearfix">
 
@@ -22,7 +23,7 @@
             <!-- Navigation -->
             <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/scmm/">
+                    <a class="navbar-brand" href="/">
                         <i class="glyphicon glyphicon-shopping-cart"></i>
                         SCMM
                     </a>
@@ -42,7 +43,7 @@
                                 <i class="fa fa-user-circle-o fa-fw"></i> <?= $_SESSION['userName'] ?> <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="/scmm/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a></li>
+                                <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a></li>
                             </ul>
                         </li>
                     </li>
@@ -53,7 +54,7 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a href="/scmm/">
+                                <a href="/">
                                     <i class="fa fa-dashboard fa-fw"></i> Painel Principal
                                 </a>
                             </li>
@@ -61,13 +62,13 @@
                                 <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Cadastros<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="/scmm/registration/commerce">Comércios</a>
+                                        <a href="/registration/commerce">Comércios</a>
                                     </li>
                                     <li>
-                                        <a href="/scmm/registration/product">Produtos</a>
+                                        <a href="/registration/product">Produtos</a>
                                     </li>
                                     <li>
-                                        <a href="/scmm/registration/prodsByCommerce">Produtos por Comércio</a>
+                                        <a href="/registration/prodsByCommerce">Produtos por Comércio</a>
                                     </li>
                                 </ul>
                             </li>
@@ -75,10 +76,10 @@
                                 <a href="#"><i class="fa fa-users fa-fw"></i> Usuários<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="/scmm/users/admin">Administrador</a>
+                                        <a href="/users/admin">Administrador</a>
                                     </li>
                                     <li>
-                                        <a href="/scmm/users/client">Cliente</a>
+                                        <a href="/users/client">Cliente</a>
                                     </li>
                                 </ul>
                             </li>

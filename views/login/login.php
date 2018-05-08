@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <?php endif; ?>
-                <form action="/scmm/login" method="POST">
+                <form action="/login" method="POST">
                     <div class="form-group has-feedback">
                         <input type="text" name="desLogin" class="form-control" placeholder="Usuário" required autofocus tabindex="1">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-8 pull-left">
-                            <a href="/scmm/register" class="btn text-register" tabindex="4">Registrar-me</a>
+                            <a href="/register" class="btn text-register" tabindex="4">Registrar-me</a>
                         </div>
                         <div class="col-xs-4 pull-right">
                             <button type="submit" class="btn btn-primary btn-block" tabindex="3">Entrar</button>

@@ -14,7 +14,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form action="/scmm/registration/product/update/<?=$product['idproduto']?>" method="POST">
+                                        <form action="/registration/product/update/<?=$product['idproduto']?>" method="POST">
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label>Nome:</label>
@@ -35,7 +35,7 @@
                                             </div>
                                             <div class="text-right col-md-12">
                                                 <button type="submit" class="btn btn-primary">Atualizar</button>
-                                                <button type="button" class="btn btn-warning" onclick="javascript: location.href='/scmm/registration/product'">Cancelar</button>
+                                                <button type="button" class="btn btn-warning" onclick="javascript: location.href='/registration/product'">Cancelar</button>
                                             </div>
                                         </form>
                                     </div>

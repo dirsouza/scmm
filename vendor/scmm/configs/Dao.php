@@ -11,10 +11,10 @@ use SCMM\Configs\Model;
  */
 class Dao extends Model {
     //Dados do Servidor
-    const HOSTNAME = "localhost";
-    const USERNAME = "root";
-    const PASSWORD = "root";
-    const DBNAME = "db_scmm";
+    const HOSTNAME  = "localhost";
+    const USERNAME  = "root";
+    const PASSWORD  = "root";
+    const DBNAME    = "db_scmm";
     
     //Constante que recebe o último ID em sessão
     const SESSION = "lastID";
