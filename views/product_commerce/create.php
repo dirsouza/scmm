@@ -7,6 +7,51 @@
                             <?=$_SESSION['error']; unset($_SESSION['error'])?>
                         </div>
                         <?php endif; ?>
+                        <div id="modalProduct" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="gridSystemModalLabel">Adicionar Produto</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Código:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="idProductModal" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Produto:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="productModal" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Marca:</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="brandModal" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Preço:</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">R$</span>
+                                                    <input type="text" id="priceModel" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="addProductModal" class="btn btn-primary">Adicionar</button>
+                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Fechar</button>
+                                </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 Dados
@@ -14,47 +59,44 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="col-md-12">
+                                        <div class="col-md-7">
                                             <div class="form-group">
                                                 <label>Comércio:</label>
                                                 <select name="idComercio" class="form-control select2" autofocus>
                                                     <option></option>
+                                                <?php if (is_array($commerces)) : ?>
                                                 <?php foreach ($commerces as $key): ?>
                                                     <option value="<?= $key['idcomercio'] ?>"><?= $key['desnome'] ?></option>
                                                 <?php endforeach; ?>
+                                                <?php endif; ?>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="panel panel-danger">
+                                        <div class="col-md-5">
+                                            <label>Produtos:</label>
+                                            <div class="input-group">
+                                                <select id="product" class="form-control select2">
+                                                    <option></option>
+                                                <?php if (is_array($products)) : ?>
+                                                <?php foreach ($products as $key) : ?>
+                                                    <option value="<?= $key['idproduto'] ?>"><?= $key['desnome'] . " - " . $key['desmarca'] ?></option>
+                                                <?php endforeach; ?>
+                                                <?php endif; ?>
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button id="addProduct" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Adicionar">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div id="listProducts" class="col-md-12 hidden">
+                                            <div class="chat-panel panel panel-danger">
                                                 <div class="panel-heading text-center">
                                                     Lista de Produtos
                                                 </div>
                                                 <div class="panel-body">
-                                                    <table id='table' class="table table-bordered table-responsive table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width="10%">Código</th>
-                                                                <th>Nome</th>
-                                                                <th width="30%">Marca</th>
-                                                                <th width="10%">Preço</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php foreach ($products as $key) : ?>
-                                                            <tr>
-                                                                <td style="margin: auto; padding: 3px;">
-                                                                    <input type="text" name="cod[]" class="form-control input-sm text-center" style="width: 100%" value="<?= str_pad($key['idproduto'], 5, 0, STR_PAD_LEFT)?>">                                                                    
-                                                                </td>
-                                                                <td><?= $key['desnome'] ?></td>
-                                                                <td><?= $key['desmarca'] ?></td>
-                                                                <td style="margin: auto; padding: 3px;">
-                                                                    <input type="text" name="preco[]" id="preco" class="form-control input-sm" style="width: 100%">
-                                                                </td>
-                                                            </tr>
-                                                            <?php endforeach; ?>
-                                                        </tbody>
-                                                    </table>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -65,6 +107,7 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -385,7 +385,7 @@ $app->group('/registration', function() use ($app) {
             $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
 
             $commerces = Commerce::listComercios();
-            
+
             $products = Product::listProdutos();
 
             $app->render('default/header.php', array(
@@ -399,10 +399,6 @@ $app->group('/registration', function() use ($app) {
             $app->render('default/footer.php');
         });
 
-        $app->post('/create', function() use ($app) {
-
-        });
-
         $app->get('/update/:id', function($id) use ($app) {
 
         });
@@ -413,6 +409,14 @@ $app->group('/registration', function() use ($app) {
 
         $app->get('/delete/:id', function($id) {
 
+        });
+
+        $app->get('/getproduct/:id', function ($id) {
+            Login::verifyLogin();
+
+            $setProduct = Product::listProdutoId($id);
+
+            echo json_encode($setProduct[0]);
         });
     });
 });
@@ -473,7 +477,7 @@ $app->group('/getcep', function () use ($app) {
 
         $setCep = Commerce::getCep($cep);
 
-        echo json_encode($setCep);
+        echo json_encode($setCep[0]);
     });
 });
 
