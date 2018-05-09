@@ -251,7 +251,7 @@ $app->group('/registration', function() use ($app) {
 
             $setCep = Commerce::getCep($cep);
 
-            echo json_encode($setCep[0]);
+            echo json_encode($setCep);
         });
     });
 
