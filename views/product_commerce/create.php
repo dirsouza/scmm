@@ -96,7 +96,13 @@
                                                     Lista de Produtos
                                                 </div>
                                                 <div class="panel-body">
-                                                    
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <input type="text" name="idProduct" class="form-control" value="00001">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
