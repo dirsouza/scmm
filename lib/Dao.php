@@ -2,7 +2,7 @@
 
 namespace Lib;
 
-use Lib\Model;
+use Core\Model;
 
 /**
  * Classe de conexão com o Banco de Dados
