@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use Lib\Model;
+use Core\Model;
 use Lib\Dao;
 use App\Model\Login;
 

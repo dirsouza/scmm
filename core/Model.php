@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib;
+namespace Core;
 
 /**
  * Classe que prepara os dados tanto para consulta quanto para inserção
