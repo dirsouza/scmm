@@ -10,18 +10,18 @@ $_SESSION['system'] = array(
     'version' => '1.0.0'
 );
 
+define("PATH_DIR", dirname(__FILE__));
+
 use Slim\Slim;
-use SCMM\Models\Login;
-use SCMM\Models\User;
-use SCMM\Models\Commerce;
-use SCMM\Models\Product;
-use SCMM\Models\ProductCommerce;
-use SCMM\Models\ProductFilter;
+use App\Controller\homeController;
+use App\Controller\clientController;
+use App\Controller\loginController;
+use App\Controller\registerController;
+use App\Controller\commerceController;
 
 $app = new Slim();
 $app->config(array(
     'debug' => true,
-    'templates.path' => 'views',
     'mode' => 'development'
 ));
 
@@ -29,53 +29,21 @@ $app->config(array(
  * Index
  * Url: http:/local.scmm.com.br/index
  */
-$app->get('/', function() use ($app) {
-    Login::verifyLogin();
-    
-    $user = new Login();
-    $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
-    $data = $user->getValues();
-    
-    if ($data['Destipo'] === '1') {
-        $mainPanel = array(
-            'commerces' => (is_array(Commerce::listComercios()) && count(Commerce::listComercios()) > 0) ? count(Commerce::listComercios()) : 0,
-            'products' => (is_array(Product::listProdutos()) && count(Product::listProdutos()) > 0) ? count(Product::listProdutos()) : 0,
-            'admins' => (is_array(User::listAdministradores()) && count(User::listAdministradores()) > 0) ? count(User::listAdministradores()) : 0,
-            'clients' => (is_array(User::listClientes()) && count(User::listClientes()) > 0) ? count(User::listClientes()) : 0
-        );
-
-        $userName = User::listAdministradorId((int)$data['Idusuario']);
-        $userName = explode(" ", $userName[0]['desnome']);
-        $_SESSION['userName'] = $userName[0];
-        
-        $app->render('default/header.php', array(
-            'user' => $data,
-            'page' => 'Painel Principal'
-        ));
-        $app->render('default/index.php', array(
-            'mainPanel' => $mainPanel
-        ));
-        $app->render('default/footer.php');
-    } else {
-        $app->redirect('/client');
-    }
+$app->get('/', function() {
+    homeController::actionIndex();
 });
 
 /**
  * Login
  * Url: http:/local.scmm.com.br/login
  */
-
 $app->group('/login', function() use ($app) {
-    $app->get('/', function() use ($app) {
-        $app->render("/login/header.php");
-        $app->render("/login/login.php");
-        $app->render("/login/footer.php");
+    $app->get('/', function() {
+        loginController::actionIndex();
     });
     
     $app->post('/', function() use ($app) {
-        $login = new Login();
-        $login->login($_POST['desLogin'], $_POST['desSenha']);
+        loginController::actionLogin($_POST);
         $app->redirect('/');
     });
 });
@@ -86,7 +54,7 @@ $app->group('/login', function() use ($app) {
  */
 $app->group('/logout', function() use ($app) {
     $app->get('/', function() use ($app) {
-        Login::logout();
+        loginController::actionLogout();
         $app->redirect('/');
     });
 });
@@ -96,19 +64,15 @@ $app->group('/logout', function() use ($app) {
  * Url: http:/local.scmm.com.br/register
  */
 $app->group('/register', function() use ($app) {
-    $app->get('/', function() use ($app) {
-        $app->render("/login/header.php");
-        $app->render("/login/register.php");
-        $app->render("/login/footer.php");
+    $app->get('/', function() {
+        registerController::actionIndex();
     });
     
     $app->post('/', function() use ($app) {
         $register = $_POST;
     
         if ($register['desSenha'] === $register['desReSenha']) {
-            $user = new User();
-            $user->setData($register);
-            $user->addUsuario();
+            registerController::actionRegister($register);
 
             $_SESSION['register'] = array(
                 'msg' => "Usuário Cadastrado com Sucesso!"
@@ -118,6 +82,7 @@ $app->group('/register', function() use ($app) {
             $_SESSION['register'] = array(
                 'desLogin' => $register['desLogin'],
                 'desNome' => $register['desNome'],
+                'desEmail' => $register['desEmail'],
                 'msg' => "As senhas não são identicas."
             );
             $app->redirect('/register');
@@ -135,123 +100,36 @@ $app->group('/registration', function() use ($app) {
      * Url: http:/local.scmm.com.br/registration/commerce
      */
     $app->group('/commerce', function() use ($app) {
-        $app->get('/', function() use ($app) {
-            Login::verifyLogin();
-            
-            $user = new Login();
-            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
-            
-            $commerces = Commerce::listComercios();
-            
-            $app->render('default/header.php', array(
-                'user' => $user->getValues(),
-                'page' => "Lista de Comércios"
-            ));
-            $app->render('commerce/index.php', array(
-                'commerces' => $commerces
-            ));
-            $app->render('default/footer.php');
+        $app->get('/', function() {
+            commerceController::actionViewIndex();
         });
 
-        $app->get('/create', function() use ($app) {
-            Login::verifyLogin();
-            
-            $user = new Login();
-            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
-
-            if (isset($_SESSION['restoreData'])) {
-                $data = array(
-                    'desNome' => $_SESSION['restoreData']['desNome'],
-                    'desCEP' => $_SESSION['restoreData']['desCEP'],
-                    'desRua' => $_SESSION['restoreData']['desRua'],
-                    'desBairro' => $_SESSION['restoreData']['desBairro']
-                );
-                unset($_SESSION['restoreData']);
-            } else {
-                $data = null;
-            }
-            
-            $app->render('default/header.php', array(
-                'user' => $user->getValues(),
-                'page' => "Novo Comércio"
-            ));
-            $app->render('commerce/create.php', array(
-                'data' => $data
-            ));
-            $app->render('default/footer.php');
+        $app->get('/create', function() {
+            commerceController::actionViewCreate();
         });
 
-        $app->post('/create', function() use ($app) {
-            Login::verifyLogin();
-
-            if (array_key_exists('desCEP', $_POST) && $_POST['desCEP'] === "") {
-                unset($_POST['desCEP']);
-            }
-            
-            $commerce = new Commerce();
-            $commerce->setData($_POST);
-            $commerce->addComercio();
-            
-            $app->redirect('/registration/commerce');
+        $app->post('/create', function() {
+            commerceController::actionCreate($_POST);
         });
 
-        $app->get('/update/:id', function($id) use ($app) {
-            Login::verifyLogin();
-            
-            $user = new Login();
-            $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
-            
-            $commerce = Commerce::listComercioId((int)$id);
-            
-            $app->render('default/header.php', array(
-                'user' => $user->getValues(),
-                'page' => "Editar Comércio"
-            ));
-            $app->render('commerce/update.php', array(
-                'commerce' => $commerce[0]
-            ));
-            $app->render('default/footer.php');
+        $app->get('/update/:id', function($id) {
+            commerceController::actionViewUpdate($id);
         });
 
-        $app->post('/update/:id', function($id) use ($app) {
-            Login::verifyLogin();
-
-            if (array_key_exists('desCEP', $_POST) && $_POST['desCEP'] === "") {
-                unset($_POST['desCEP']);
-            }
-            
-            $commerce = new Commerce();
-            $commerce->setData($_POST);
-            $commerce->updateComercio((int)$id);
-            
-            $app->redirect('/registration/commerce');
+        $app->post('/update/:id', function($id) {
+            commerceController::actionUpdate($id, $_POST);
         });
 
-        $app->get('/delete/:id', function($id) use ($app) {
-            Login::verifyLogin();
-            
-            $commerce = new Commerce();
-            $commerce->deleteComercio((int)$id);
-            
-            $app->redirect('/registration/commerce');
+        $app->get('/delete/:id', function($id) {
+            commerceController::actionDelete($id);
         });
         
-        $app->get('/report', function() use ($app) {
-            Login::verifyLogin();
-
-            $commerces = Commerce::listComercios();
-            
-            $app->render('commerce/report.php', array(
-                'commerces' => $commerces
-            ));
+        $app->get('/report', function() {
+            commerceController::actionViewReport();
         });
         
         $app->get('/getcep/:cep', function ($cep) {
-            Login::verifyLogin();
-
-            $setCep = Commerce::getCep($cep);
-
-            echo json_encode($setCep);
+            commerceController::actionGetCep($cep);
         });
     });
 
@@ -470,7 +348,7 @@ $app->group('/users', function() use ($app) {
     */
     $app->group('/client', function() use ($app) {
         $app->get('/', function() use ($app) {
-        
+            
         });
     });
 });
@@ -481,22 +359,7 @@ $app->group('/users', function() use ($app) {
  */
 $app->group('/client', function() use ($app) {
     $app->get('/', function() use ($app) {
-        Login::verifyLogin();
-    
-        $user = new Login();
-        $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
-        $data = $user->getValues();
-
-        $userName = User::listClienteId((int)$data['Idusuario']);
-        $userName = explode(" ", $userName[0]['desnome']);
-        $_SESSION['userName'] = $userName[0];
-
-        $app->render('default/header.php', array(
-            'user' => $data,
-            'page' => 'Faça sua pesquisa'
-        ));
-        $app->render('clientSearch/index.php');
-        $app->render('default/footer.php');
+        clientController::actionIndex();
     });
 });
 

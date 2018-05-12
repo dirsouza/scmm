@@ -2,15 +2,20 @@
     "require": {
         "php": ">=5.5",
         "slim/slim": "2.6.3",
-	"dompdf/dompdf": "0.8.2",
+	    "dompdf/dompdf": "0.8.2",
         "ext-gd": "*",
         "ext-dom": "*",
         "ext-mbstring": "*",
-        "phenx/php-font-lib": "0.5.*"
+        "phenx/php-font-lib": "0.5.*",
+        "phpmailer/phpmailer": "6.0.5",
+        "ext-ctype": "*",
+        "ext-filter": "*"
     },
     "autoload": {
         "psr-4": {
-            "SCMM\\": "vendor\\scmm"
+            "App\\": "app",
+            "Core\\": "core",
+            "Lib\\": "lib"
         }
     }
 }
