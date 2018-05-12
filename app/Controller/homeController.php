@@ -11,8 +11,8 @@ use App\Model\Product;
 
 class homeController extends Controller {
     public static function actionIndex() {
-        login::verifyLogin();
-        
+        Login::verifyLogin();
+
         $user = new Login();
         $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
         $data = $user->getValues();

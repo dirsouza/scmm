@@ -7,11 +7,9 @@ use App\Model\Login;
 use App\Model\Commerce;
 
 class commerceController extends Controller {
-    public function __construct() {
-        Login::verifyLogin();
-    }
-
     public static function actionViewIndex() {
+        Login::verifyLogin();
+
         $user = new Login();
         $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
 
@@ -26,6 +24,8 @@ class commerceController extends Controller {
     }
 
     public static function actionViewCreate() {
+        Login::verifyLogin();
+
         $user = new Login();
         $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
 
@@ -50,6 +50,8 @@ class commerceController extends Controller {
     }
 
     public static function actionCreate($data) {
+        Login::verifyLogin();
+
         $commerce = new Commerce();
         $commerce->setData($data);
         $commerce->addComercio();
@@ -59,6 +61,8 @@ class commerceController extends Controller {
     }
 
     public static function actionViewUpdate($id) {
+        Login::verifyLogin();
+
         $user = new Login();
         $user->getUser((int)$_SESSION[Login::SESSION]['Idusuario']);
 
@@ -73,6 +77,8 @@ class commerceController extends Controller {
     }
 
     public static function actionUpdate($id, $data) {
+        Login::verifyLogin();
+
         $commerce = new Commerce();
         $commerce->setData($data);
         $commerce->updateComercio((int)$id);
@@ -82,6 +88,8 @@ class commerceController extends Controller {
     }
 
     public static function actionDelete($id) {
+        Login::verifyLogin();
+
         $commerce = new Commerce();
         $commerce->deleteComercio((int)$id);
 
@@ -90,12 +98,16 @@ class commerceController extends Controller {
     }
 
     public static function actionViewReport() {
+        Login::verifyLogin();
+        
         $commerces = Commerce::listComercios();
 
         parent::loadView("commerce", "report", $commerces);
     }
 
     public static function actionGetCep($cep) {
+        Login::verifyLogin();
+        
         $setCep = Commerce::getCep($cep);
         echo json_encode($setCep);
     }
