@@ -14,7 +14,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form action="/registration/commerce/update/<?=$data['idcomercio']?>" method="POST">
+                                        <form action="/admin/commerce/update/<?=$data['idcomercio']?>" method="POST">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Nome:</label>
@@ -41,7 +41,7 @@
                                             </div>
                                             <div class="text-right col-md-12">
                                                 <button type="submit" class="btn btn-primary">Atualizar</button>
-                                                <button type="button" class="btn btn-warning" onclick="javascript: location.href='/registration/commerce'">Cancelar</button>
+                                                <button type="button" class="btn btn-warning" onclick="javascript: location.href='/admin/commerce'">Cancelar</button>
                                             </div>
                                         </form>
                                     </div>

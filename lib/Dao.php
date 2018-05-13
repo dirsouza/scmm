@@ -7,7 +7,7 @@ use Core\Model;
 /**
  * Classe de conexão com o Banco de Dados
  *
- * @author --diogo--
+ 
  */
 class Dao extends Model {
     //Dados do Servidor

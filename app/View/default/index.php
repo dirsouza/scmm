@@ -14,7 +14,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="/scmm/registration/commerce">
+                            <a href="/admin/commerce">
                                 <div class="panel-footer">
                                     <span class="pull-left">Ver detalhes</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

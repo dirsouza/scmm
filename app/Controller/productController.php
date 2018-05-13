@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use Core\Controller;
 use App\Model\Login;
-use App\Model\Commerce;
+use App\Model\Product;
 
-class commerceController extends Controller
+class productController extends Controller
 {
     private function loginVerify()
     {
@@ -22,13 +22,13 @@ class commerceController extends Controller
     {
         $user = self::loginVerify();
 
-        $commerces = Commerce::listComercios();
+        $products = Product::listProdutos();
 
         parent::loadView('default', 'header', array(
             'user' => $user,
-            'page' => "Lista de Comércios"
+            'page' => "Lista de Produtos"
         ));
-        parent::loadView('commerce', 'index', $commerces);
+        parent::loadView('product', 'index', $products);
         parent::loadView('default', 'footer');
     }
 
@@ -39,9 +39,8 @@ class commerceController extends Controller
         if (isset($_SESSION['restoreData'])) {
             $data = array(
                 'desNome' => $_SESSION['restoreData']['desNome'],
-                'desCEP' => $_SESSION['restoreData']['desCEP'],
-                'desRua' => $_SESSION['restoreData']['desRua'],
-                'desBairro' => $_SESSION['restoreData']['desBairro']
+                'desMarca' => $_SESSION['restoreData']['desMarca'],
+                'desDescricao' => $_SESSION['restoreData']['desDescricao']
             );
             unset($_SESSION['restoreData']);
         } else {
@@ -50,9 +49,9 @@ class commerceController extends Controller
 
         parent::loadView('default', 'header', array(
             'user' => $user,
-            'page' => "Novo Comércio"
+            'page' => "Novo Produto"
         ));
-        parent::loadView('commerce', 'create', $data);
+        parent::loadView('product', 'create', $data);
         parent::loadView('default', 'footer');
     }
 
@@ -60,11 +59,11 @@ class commerceController extends Controller
     {
         $user = self::loginVerify();
 
-        $commerce = new Commerce();
-        $commerce->setData($data);
-        $commerce->addComercio();
+        $product = new Product();
+        $product->setData($data);
+        $product->addProduto();
 
-        header("location: /admin/commerce");
+        header("location: /admin/product");
         exit;
     }
 
@@ -72,13 +71,13 @@ class commerceController extends Controller
     {
         $user = self::loginVerify();
 
-        $commerce = Commerce::listComercioId((int)$id);
+        $product = Product::listProdutoId((int)$id);
 
         parent::loadView('default', 'header', array(
             'user' => $user,
-            'page' => "Editar Comércio"
+            'page' => "Editar Produto"
         ));
-        parent::loadView('commerce', 'update', $commerce[0]);
+        parent::loadView('product', 'update', $product[0]);
         parent::loadView('default', 'footer');
     }
 
@@ -86,11 +85,11 @@ class commerceController extends Controller
     {
         $user = self::loginVerify();
 
-        $commerce = new Commerce();
-        $commerce->setData($data);
-        $commerce->updateComercio((int)$id);
+        $product = new Product();
+        $product->setData($data);
+        $product->updateProduto((int)$id);
 
-        header("location: /admin/commerce");
+        header("location: /admin/product");
         exit;
     }
 
@@ -98,10 +97,10 @@ class commerceController extends Controller
     {
         $user = self::loginVerify();
 
-        $commerce = new Commerce();
-        $commerce->deleteComercio((int)$id);
+        $product = new Product();
+        $product->deleteProduto((int)$id);
 
-        header("location: /admin/commerce");
+        header("location: /admin/product");
         exit;
     }
 
@@ -109,16 +108,8 @@ class commerceController extends Controller
     {
         $user = self::loginVerify();
 
-        $commerces = Commerce::listComercios();
+        $products = Product::listProdutos();
 
-        parent::loadView("commerce", "report", $commerces);
-    }
-
-    public static function actionGetCep($cep)
-    {
-        $user = self::loginVerify();
-
-        $setCep = Commerce::getCep($cep);
-        echo json_encode($setCep);
+        parent::loadView("product", "report", $products);
     }
 }

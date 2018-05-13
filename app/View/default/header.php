@@ -62,13 +62,13 @@
                                 <a href="#"><i class="fa fa-shopping-cart fa-fw"></i> Cadastros<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="/registration/commerce">Comércios</a>
+                                        <a href="/admin/commerce">Comércios</a>
                                     </li>
                                     <li>
-                                        <a href="/registration/product">Produtos</a>
+                                        <a href="/admin/product">Produtos</a>
                                     </li>
                                     <li>
-                                        <a href="/registration/prodsByCommerce">Produtos por Comércio</a>
+                                        <a href="/admin/prodsByCommerce">Produtos por Comércio</a>
                                     </li>
                                 </ul>
                             </li>
@@ -76,10 +76,10 @@
                                 <a href="#"><i class="fa fa-users fa-fw"></i> Usuários<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="/users/admin">Administrador</a>
+                                        <a href="/admin/users/admin">Administrador</a>
                                     </li>
                                     <li>
-                                        <a href="/users/client">Cliente</a>
+                                        <a href="/admin/users/client">Cliente</a>
                                     </li>
                                 </ul>
                             </li>

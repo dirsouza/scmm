@@ -9,7 +9,7 @@ ob_start();
     <head>
         <meta charset="UTF-8">
         <title>SCMM - Comércios</title>
-        <link rel="shortcut icon" href="C:/xampp/htdocs/scmm/src/img/logo-mini.png">
+        <link rel="shortcut icon" href="<?= PATH_DIR ?>/public/img/logo-mini.png">
         <style>
             @page { margin: 100px 25px; }
 
@@ -100,7 +100,7 @@ ob_start();
     </head>
     <body>
         <header class="content">
-            <img class="logo-left" src="C:/xampp/htdocs/scmm/src/img/logo-pdf.jpg">
+            <img class="logo-left" src="<?= PATH_DIR ?>/public/img/logo-pdf.jpg">
             Relatório de Comércios
             <div class="logo-right">Página</div>
         </header>

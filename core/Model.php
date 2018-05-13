@@ -6,7 +6,7 @@ namespace Core;
  * Classe que prepara os dados tanto para consulta quanto para inserção
  * no Banco de Dados
  *
- * @author --diogo--
+ 
  */
 class Model {
     //Array privada que irá receber os nomes dos campos e valores

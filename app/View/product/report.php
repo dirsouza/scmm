@@ -9,7 +9,7 @@ ob_start();
     <head>
         <meta charset="UTF-8">
         <title>SCMM - Produtos</title>
-        <link rel="shortcut icon" href="C:/xampp/htdocs/scmm/src/img/logo-mini.png">
+        <link rel="shortcut icon" href="<?= PATH_DIR ?>/public/img/logo-mini.png">
         <style>
             @page { margin: 100px 25px; }
 
@@ -101,7 +101,7 @@ ob_start();
     </head>
     <body>
         <header class="content">
-            <img class="logo-left" src="C:/xampp/htdocs/scmm/src/img/logo-pdf.jpg">
+            <img class="logo-left" src="<?= PATH_DIR ?>/public/img/logo-pdf.jpg">
             Relatório de Produtos
             <div class="logo-right">Página</div>
         </header>
@@ -119,8 +119,8 @@ ob_start();
                     </tr>
                 </thead>
                 <tbody>
-                <?php if (is_array($products) && count($products) > 0): ?>
-                    <?php foreach ($products as $value): ?>
+                <?php if (is_array($data) && count($data) > 0): ?>
+                    <?php foreach ($data as $value): ?>
                     <tr>
                         <td class="text-center"><?= str_pad($value['idproduto'], 5, 0, STR_PAD_LEFT)?></td>
                         <td><?=$value['desnome']?></td>

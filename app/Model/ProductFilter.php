@@ -7,9 +7,8 @@ use Lib\Dao;
 
 /**
  * Classe para cadastrar e controlar os filtros dos Clientes
- *
- * @author --diogo--
  */
-class ProductFilter extends Model {
+class ProductFilter extends Model
+{
 
 }

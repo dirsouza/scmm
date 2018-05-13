@@ -7,75 +7,78 @@ use Lib\Dao;
 
 /**
  * Classe para cadastrar e controlar os Comércios
- *
- * @author Aluno
  */
-class Commerce extends Model {
+class Commerce extends Model
+{
     /**
      * Adiciona um novo comércio
      */
-    public function addComercio() {
+    public function addComercio()
+    {
         try {
             if ($this->verifyComercio()) {
                 $sql = new Dao();
                 $sql->allQuery("CALL sp_add_comercio (:DESNOME,:DESCEP,:DESRUA,:DESBAIRRO)", array(
-                                    ':DESNOME' => $this->getDesNome(),
-                                    ':DESCEP' => $this->getDesCEP(),
-                                    ':DESRUA' => $this->getDesRua(),
-                                    ':DESBAIRRO' => $this->getDesBairro()
-                                ));
+                    ':DESNOME' => $this->getDesNome(),
+                    ':DESCEP' => $this->getDesCEP(),
+                    ':DESRUA' => $this->getDesRua(),
+                    ':DESBAIRRO' => $this->getDesBairro()
+                ));
             } else {
                 $this->restoreData();
                 Model::returnError("O Comércio informado já encontra-se cadastrado ou estão faltando dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Cadastrar o Comércio.<br>".$e->getMessage(), $_SERVER["REQUEST_URI"]);
+            Model::returnError("Não foi possível Cadastrar o Comércio.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
         }
     }
-    
+
     /**
      * Atualiza os dados de um comércio
      * @param type $idComercio
      */
-    public function updateComercio($idComercio) {
+    public function updateComercio($idComercio)
+    {
         try {
             if ($this->verifyDados()) {
                 $sql = new Dao();
                 $sql->allQuery("CALL sp_update_comercio (:IDCOMERCIO,:DESCEP,:DESRUA,:DESBAIRRO)", array(
-                                    ':IDCOMERCIO' => $idComercio,
-                                    ':DESCEP' => $this->getDesCEP(),
-                                    ':DESRUA' => $this->getDesRua(),
-                                    ':DESBAIRRO' => $this->getDesBairro()
-                                ));
+                    ':IDCOMERCIO' => $idComercio,
+                    ':DESCEP' => $this->getDesCEP(),
+                    ':DESRUA' => $this->getDesRua(),
+                    ':DESBAIRRO' => $this->getDesBairro()
+                ));
             } else {
                 Model::returnError("Algum campo não foi informado.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar o Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível Atualizar o Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
-    
+
     /**
      * Exclui um comércio
      * @param type $idComercio
      */
-    public function deleteComercio($idComercio) {
+    public function deleteComercio($idComercio)
+    {
         try {
             $sql = new Dao();
             $sql->allQuery("DELETE FROM tbcomercio
                             WHERE idcomercio = :IDCOMERCIO", array(
-                                ':IDCOMERCIO' => $idComercio
-                            ));
+                ':IDCOMERCIO' => $idComercio
+            ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Excluir o Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível Excluir o Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
-    
+
     /**
      * Lista todos os Comércios e retorna uma Array
      * @return type Array
      */
-    public static function listComercios() {
+    public static function listComercios()
+    {
         try {
             $sql = new Dao();
             $results = $sql->allSelect("SELECT * FROM vw_comercios");
@@ -84,28 +87,29 @@ class Commerce extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados de Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível recuperar os dados de Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
-    
+
     /**
      * Lista um comercio e retorna uma Array
      * @param type $idComercio
      * @return type Array
      */
-    public static function listComercioId($idComercio) {
+    public static function listComercioId($idComercio)
+    {
         try {
             $sql = new Dao();
             $result = $sql->allSelect("SELECT * FROM vw_comercios
                                         WHERE idcomercio = :IDCOMERCIO", array(
-                                            ':IDCOMERCIO' => $idComercio
-                                        ));
+                ':IDCOMERCIO' => $idComercio
+            ));
 
             if (is_array($result) && count($result) > 0) {
                 return $result;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados do Comércio.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível recuperar os dados do Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
@@ -113,7 +117,8 @@ class Commerce extends Model {
      * Busca o Endereço com base no CEP passado por parâmetro
      * @param type $cep
      */
-    public static function getCep($cep) {
+    public static function getCep($cep)
+    {
         try {
             $sql = new Dao();
             $result = $sql->allSelect("SELECT * FROM tbbairro WHERE descep = :DESCEP", array(
@@ -131,7 +136,8 @@ class Commerce extends Model {
     /**
      * Verifica se o nome do comércio informado já consta no banco de dados
      */
-    private function verifyComercio() {
+    private function verifyComercio()
+    {
         if ($this->verifyDados()) {
             $sql = new Dao();
             $result = $sql->allSelect('SELECT * FROM tbcomercio WHERE desnome = :DESNOME', array(
@@ -153,7 +159,8 @@ class Commerce extends Model {
      * -- trim() = remove espaços antes e depois da string
      * -- empty() = verifica se valor é vazio
      */
-    private function verifyDados() {
+    private function verifyDados()
+    {
         if (empty($this->getDesNome())) {
             return false;
         }
@@ -173,7 +180,8 @@ class Commerce extends Model {
         return true;
     }
 
-    private function restoreData() {
+    private function restoreData()
+    {
         $_SESSION['restoreData'] = array(
             'desNome' => $this->getDesNome(),
             'desCEP' => $this->getDesCEP(),

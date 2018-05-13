@@ -7,37 +7,38 @@ use Lib\Dao;
 
 /**
  * Classe para cadastrar e controlar produtos
- *
- * @author Aluno
  */
-class Product extends Model {
+class Product extends Model
+{
     /**
      * Adiciona um novo Produto
      */
-    public function addProduto() {
+    public function addProduto()
+    {
         try {
             if ($this->verifyProduto()) {
                 $sql = new Dao();
                 $sql->allQuery("INSERT INTO tbproduto (desnome,desmarca,desdescricao)
                                 VALUE (:DESNOME,:DESMARCA,:DESDESCRICAO)", array(
-                                    ':DESNOME' => $this->getDesNome(),
-                                    ':DESMARCA' => $this->getDesMarca(),
-                                    ':DESDESCRICAO' => $this->getDesDescricao()
-                                ));
+                    ':DESNOME' => $this->getDesNome(),
+                    ':DESMARCA' => $this->getDesMarca(),
+                    ':DESDESCRICAO' => $this->getDesDescricao()
+                ));
             } else {
                 $this->restoreData();
                 Model::returnError("O produto informado já está cadastrado ou estão faltando dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Cadastrar o Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível Cadastrar o Produto.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
-    
+
     /**
      * Atualiza os dados de um produto
      * @param type $idProduto
      */
-    public function updateProduto($idProduto) {
+    public function updateProduto($idProduto)
+    {
         try {
             if ($this->verifyDados()) {
                 $sql = new Dao();
@@ -45,40 +46,42 @@ class Product extends Model {
                                                     desmarca = :DESMARCA,
                                                     desdescricao = :DESDESCRICAO
                                 WHERE idproduto = :IDPRODUTO", array(
-                                    ':IDPRODUTO' => $idProduto,
-                                    ':DESNOME' => $this->getDesNome(),
-                                    ':DESMARCA' => $this->getDesMarca(),
-                                    ':DESDESCRICAO' => $this->getDesDescricao()
-                                ));
+                    ':IDPRODUTO' => $idProduto,
+                    ':DESNOME' => $this->getDesNome(),
+                    ':DESMARCA' => $this->getDesMarca(),
+                    ':DESDESCRICAO' => $this->getDesDescricao()
+                ));
             } else {
                 Model::returnError("Estão faltando dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar o Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível Atualizar o Produto.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
-    
+
     /**
      * Exclui um produto
      * @param type $idProduto
      */
-    public function deleteProduto($idProduto) {
+    public function deleteProduto($idProduto)
+    {
         try {
             $sql = new Dao();
             $sql->allQuery("DELETE FROM tbproduto
                             WHERE idproduto = :IDPRODUTO", array(
-                                ':IDPRODUTO' => $idProduto
-                            ));
+                ':IDPRODUTO' => $idProduto
+            ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Deletar o Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível Deletar o Produto.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
-    
+
     /**
      * Lista todos os Produtos e retorna uma Array
      * @return type Array
      */
-    public static function listProdutos() {
+    public static function listProdutos()
+    {
         try {
             $sql = new Dao();
             $results = $sql->allSelect("SELECT * FROM tbproduto");
@@ -87,35 +90,37 @@ class Product extends Model {
                 return $results;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados de Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível recuperar os dados de Produto.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
-    
+
     /**
      * Lista um produto e retorna uma Array
      * @param type $idProduto
      * @return type Array
      */
-    public static function listProdutoId($idProduto) {
+    public static function listProdutoId($idProduto)
+    {
         try {
             $sql = new Dao();
             $result = $sql->allSelect("SELECT * FROM tbproduto
                                         WHERE idproduto = :IDPRODUTO", array(
-                                            ':IDPRODUTO' => $idProduto
-                                        ));
+                ':IDPRODUTO' => $idProduto
+            ));
 
             if (is_array($result) && count($result) > 0) {
                 return $result;
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados do Produto.<br>".$e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível recuperar os dados do Produto.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
     /**
      * Verifica se o nome do produto informado já consta no banco de dados
      */
-    private function verifyProduto() {
+    private function verifyProduto()
+    {
         if ($this->verifyDados()) {
             $sql = new Dao();
             $result = $sql->allSelect('SELECT * FROM tbproduto WHERE desnome = :DESNOME AND desmarca = :DESMARCA', array(
@@ -138,7 +143,8 @@ class Product extends Model {
      * -- trim() = remove espaços antes e depois da string
      * -- empty() = verifica se valor é vazio
      */
-    private function verifyDados() {
+    private function verifyDados()
+    {
         if (empty($this->getDesNome())) {
             return false;
         }
@@ -154,7 +160,8 @@ class Product extends Model {
         return true;
     }
 
-    private function restoreData() {
+    private function restoreData()
+    {
         $_SESSION['restoreData'] = array(
             'desNome' => $this->getDesNome(),
             'desMarca' => $this->getDesMarca(),

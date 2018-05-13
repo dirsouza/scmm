@@ -64,8 +64,8 @@
                                                 <label>Comércio:</label>
                                                 <select name="idComercio" class="form-control select2" autofocus>
                                                     <option></option>
-                                                <?php if (is_array($commerces)) : ?>
-                                                <?php foreach ($commerces as $key): ?>
+                                                <?php if (is_array($data)) : ?>
+                                                <?php foreach ($data['commerces'] as $key): ?>
                                                     <option value="<?= $key['idcomercio'] ?>"><?= $key['desnome'] ?></option>
                                                 <?php endforeach; ?>
                                                 <?php endif; ?>
@@ -77,8 +77,8 @@
                                             <div class="input-group">
                                                 <select id="product" class="form-control select2">
                                                     <option></option>
-                                                <?php if (is_array($products)) : ?>
-                                                <?php foreach ($products as $key) : ?>
+                                                <?php if (is_array($data)) : ?>
+                                                <?php foreach ($data['products'] as $key) : ?>
                                                     <option value="<?= $key['idproduto'] ?>"><?= $key['desnome'] . " - " . $key['desmarca'] ?></option>
                                                 <?php endforeach; ?>
                                                 <?php endif; ?>
@@ -90,7 +90,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div id="listProducts" class="col-md-12 hidden">
+                                        <div id="listProducts" class="col-md-12">
                                             <div class="chat-panel panel panel-danger">
                                                 <div class="panel-heading text-center">
                                                     Lista de Produtos
@@ -98,8 +98,47 @@
                                                 <div class="panel-body">
                                                     <div class="row">
                                                         <div class="col-md-2">
+                                                            <label>Código:</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Produto:</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>Marca:</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Preço:</label>
+                                                        </div>
+                                                        <div class="col-md-1" style="padding: 0;">
+                                                            <label>Opções:</label>
+                                                        </div>
+                                                    </div>
+                                                    <div id="l1" class="row">
+                                                        <div class="col-md-2">
                                                             <div class="form-group">
-                                                                <input type="text" name="idProduct" class="form-control" value="00001">
+                                                                <input type="text" name="idProduct[]" class="form-control" value="00001" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" value="Produto" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" value="Marca" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon">R$</span>
+                                                                <input type="text" id="priceModel[]" class="form-control" value="2,00" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1" style="transform: translate(0, 5%); padding: 0;">
+                                                            <div class="btn-group" role="group">
+                                                                <button class="btn btn-sm btn-danger" id="btnRemoveL1" style="width: 35px;" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button>
+                                                                <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -108,7 +147,7 @@
                                         </div>
                                         <div class="text-right col-md-12">
                                             <button type="button" id="btn-prodsByCommerce" class="btn btn-success">Cadastrar</button>
-                                            <button type="button" class="btn btn-warning" onclick="javascript: location.href='/registration/prodsByCommerce'">Cancelar</button>
+                                            <button type="button" class="btn btn-warning" onclick="javascript: location.href='/admin/prodsByCommerce'">Cancelar</button>
                                         </div>
                                     </div>
                                 </div>

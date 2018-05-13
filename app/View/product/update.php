@@ -9,33 +9,33 @@
                         <?php endif; ?>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Código: <?= str_pad($product['idproduto'], 5, 0, STR_PAD_LEFT) ?>
+                                Código: <?= str_pad($data['idproduto'], 5, 0, STR_PAD_LEFT) ?>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form action="/registration/product/update/<?=$product['idproduto']?>" method="POST">
+                                        <form action="/admin/product/update/<?=$data['idproduto']?>" method="POST">
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label>Nome:</label>
-                                                    <input type="text" name="desNome" class="form-control" value="<?=$product['desnome']?>" required autofocus>
+                                                    <input type="text" name="desNome" class="form-control" value="<?=$data['desnome']?>" required autofocus>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>Marca:</label>
-                                                    <input type="text" name="desMarca" class="form-control" value="<?=$product['desmarca']?>" required>
+                                                    <input type="text" name="desMarca" class="form-control" value="<?=$data['desmarca']?>" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Descrição:</label>
-                                                    <textarea name="desDescricao" class="form-control" rows="3" required><?=$product['desdescricao']?></textarea>
+                                                    <textarea name="desDescricao" class="form-control" rows="3" required><?=$data['desdescricao']?></textarea>
                                                 </div>
                                             </div>
                                             <div class="text-right col-md-12">
                                                 <button type="submit" class="btn btn-primary">Atualizar</button>
-                                                <button type="button" class="btn btn-warning" onclick="javascript: location.href='/registration/product'">Cancelar</button>
+                                                <button type="button" class="btn btn-warning" onclick="javascript: location.href='/admin/product'">Cancelar</button>
                                             </div>
                                         </form>
                                     </div>

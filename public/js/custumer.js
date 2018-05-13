@@ -96,7 +96,7 @@ $(function() {
     function getProduct($product) {
         $.ajax({
             type: "GET",
-            url: "/registration/prodsByCommerce/getproduct/" + $product,
+            url: "/admin/prodsByCommerce/getproduct/" + $product,
             dataType: "json",
             success: function($result) {
                 $('#idProductModal').val(('00000'+$result.idproduto).slice(-5));
@@ -113,5 +113,9 @@ $(function() {
 
     $('#addProductModal').on('click', function() {
         $('.panel-body').append('<div class="row"><div class="col-md-2"></div></div>');
+    });
+
+    $('#btnRemoveL1').on('click', function(e) {
+        $('#l1').remove();
     });
 });
