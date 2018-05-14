@@ -3,6 +3,13 @@ Configuração Virtual Host
 C:\xampp\apache\conf\extra\httpd-vhosts.conf
 
 <VirtualHost *:80>
+    ServerAdmin webmaster@localhost.com
+    DocumentRoot "C:/xampp/htdocs"
+    ServerName localhost
+    ServerAlias localhost
+</VirtualHost>
+
+<VirtualHost *:80>
     ServerAdmin administrador@scmm.com.br
     DocumentRoot "C:/xampp/htdocs/scmm"
     ServerName scmm.com.br

@@ -76,17 +76,21 @@ $(function() {
      * e reinicia a API select2
      */
     function taskSelect2() {
-        $('#product option:selected').prop('selected', false);
-        startSelect2();
-    }     
+        $('#product').val(null).trigger('change');
+    }
+    
+    function desabledItemSelect() {
+        $('#product option:selected').prop('disabled', true);
+    }
 
     /**
      * Pega o Value do select id="product"
      */
     $('#addProduct').on('click', function() {
         var $product = $('#product').val();
-        taskSelect2();
+        //taskSelect2();
         if ($product != "") {
+            clearModal();
             getProduct($product);
         }
         $('#listProducts').removeClass('hidden');
@@ -145,9 +149,15 @@ $(function() {
                                     '</div>' +
                                 '</div>');
         $('#modalProduct').modal('hide');
+        desabledItemSelect();
+        taskSelect2();
     });
  
     $('#productsInsert').on('click', '.btnRemove', function (e) {
         $(this).closest('.row').remove();
     });
+
+    function clearModal() {
+        $('#priceModel').val("");
+    }
 });

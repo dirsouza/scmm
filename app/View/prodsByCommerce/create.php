@@ -64,7 +64,7 @@
                                                 <label>Comércio:</label>
                                                 <select name="idComercio" class="form-control select2" autofocus>
                                                     <option></option>
-                                                <?php if (is_array($data)) : ?>
+                                                <?php if (is_array($data['commerces'])) : ?>
                                                 <?php foreach ($data['commerces'] as $key): ?>
                                                     <option value="<?= $key['idcomercio'] ?>"><?= $key['desnome'] ?></option>
                                                 <?php endforeach; ?>
@@ -77,7 +77,7 @@
                                             <div class="input-group">
                                                 <select id="product" class="form-control select2">
                                                     <option></option>
-                                                <?php if (is_array($data)) : ?>
+                                                <?php if (is_array($data['products'])) : ?>
                                                 <?php foreach ($data['products'] as $key) : ?>
                                                     <option value="<?= $key['idproduto'] ?>"><?= $key['desnome'] . " - " . $key['desmarca'] ?></option>
                                                 <?php endforeach; ?>
