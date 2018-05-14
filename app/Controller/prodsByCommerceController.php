@@ -39,15 +39,13 @@ class prodsByCommerceController extends Controller
         $user = self::loginVerify();
 
         $commerces = Commerce::listComercios();
-        $products = Product::listProdutos();
 
         parent::loadView('default', 'header', array(
             'user' => $user,
             'page' => "Novo Produto"
         ));
         parent::loadView('prodsByCommerce', 'create', array(
-            'commerces' => $commerces,
-            'products' => $products
+            'commerces' => $commerces
         ));
         parent::loadView('default', 'footer');
     }
@@ -56,7 +54,20 @@ class prodsByCommerceController extends Controller
     {
         $user = self::loginVerify();
 
-        
+        $idComercio = $data['idComercio'];
+        array_shift($data);
+        $data = array_combine($data['idProduto'], $data['desPreco']);
+
+        $prodsByCommerces = new ProdsByCommerce();
+        $prodsByCommerces->setData(['idComercio' => $idComercio]);
+        foreach ($data as $key => $value) {
+            $prodsByCommerces->setData(['idProduto' => (int)$key]);
+            $prodsByCommerces->setData(['desPreco' => str_replace(",", ".", str_replace(".", "", $value))]);
+            $prodsByCommerces->addProdutoComercio();
+        }
+
+        header("location: /admin/prodsByCommerce");
+        exit;
     }
 
     public static function actionViewUpdate($id)
@@ -94,5 +105,28 @@ class prodsByCommerceController extends Controller
         $setProduct = Product::listProdutoId($id);
 
         echo json_encode($setProduct[0]);
+    }
+
+    public static function getProductDiff($id) {
+        $products = Product::listProdutos();
+        $prodsByCommerces = ProdsByCommerce::listProdComeIdComercio($id);
+        
+        if (is_array($prodsByCommerces) && count($prodsByCommerces) > 0) {
+            for($i = 0; $i < count($products); $i++){
+                if (array_key_exists($i, $prodsByCommerces)) {
+                    if ($products[$i]['idproduto'] === $prodsByCommerces[$i]['idproduto']) {
+                        $diff[] = $products[$i];
+                    }
+                }
+            }
+
+            for($i = 0; $i < count($diff); $i++) {
+                if ($diff[$i]['idproduto'] === $products[$i]['idproduto']) {
+                    unset($products[$i]);
+                }
+            }
+        }
+
+        echo json_encode($products);
     }
 }

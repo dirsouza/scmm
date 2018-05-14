@@ -71,6 +71,31 @@ $(function() {
         });
     }
 
+    $('#idComercio').on('change', function() {
+        var $idComerce = $(this).val();
+        var $addOption = null;
+        $.ajax({
+            type: "GET",
+            url: "/admin/prodsByCommerce/getproductdiff/" + $idComerce,
+            dataType: "json",
+            success: function ($result) {
+                if ($result != null) {
+                    $.each($result, function (i, item) {
+                        if ($addOption === null) {
+                            $addOption = '<option value=' + item.idproduto + '>' + item.desnome + ' - ' + item.desmarca + '</option>';
+                        } else {
+                            $addOption += '<option value=' + item.idproduto + '>' + item.desnome + ' - ' + item.desmarca + '</option>';
+                        }
+                    });
+                    $('#product').append($addOption);
+                }
+            },
+            error: function ($error) {
+                console.log($error);
+            }
+        });
+    });
+
     /**
      * Limpa seleção do select id="product"
      * e reinicia a API select2
@@ -81,6 +106,8 @@ $(function() {
     
     function desabledItemSelect() {
         $('#product option:selected').prop('disabled', true);
+        taskSelect2();
+        startSelect2();
     }
 
     /**
@@ -88,7 +115,6 @@ $(function() {
      */
     $('#addProduct').on('click', function() {
         var $product = $('#product').val();
-        //taskSelect2();
         if ($product != "") {
             clearModal();
             getProduct($product);
@@ -121,36 +147,14 @@ $(function() {
 
     $('#addProductModal').on('click', function() {
         $('#productsInsert').append('<div class="row">' +
-                                    '<div class="col-md-2">' +
-                                       ' <div class="form-group">' +
-                                            '<input type="text" name="idProduct[]" class="form-control text-center" value="' + $('#idProductModal').val() + '" readonly>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="col-md-4">' +
-                                        '<div class="form-group">' +
-                                            '<input type="text" class="form-control" value="' + $('#productModal').val() + '" readonly>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="col-md-3">' +
-                                        '<div class="form-group">' +
-                                            '<input type="text" class="form-control" value="' + $('#brandModal').val() + '" readonly>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="col-md-2">' +
-                                        '<div class="input-group">' +
-                                            '<span class="input-group-addon">R$</span>' +
-                                            '<input type="text" id="priceModel[]" class="form-control" value="' + $('#priceModel').val() + '" readonly>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="col-md-1" style="transform: translate(0, 0);">' +
-                                        '<div class="btn-group" role="group">' +
-                                            '<button class="btn btn-danger btnRemove" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>');
+                                    '<div class="col-md-2"><div class="form-group"><input type="text" name="idProduto[]" class="form-control text-center" value="' + $('#idProductModal').val() + '" readonly></div></div>' +
+                                    '<div class="col-md-4"><div class="form-group"><input type="text" class="form-control" value="' + $('#productModal').val() + '" readonly></div></div>' +
+                                    '<div class="col-md-3"><div class="form-group"><input type="text" class="form-control" value="' + $('#brandModal').val() + '" readonly></div></div>' +
+                                    '<div class="col-md-2"><div class="input-group"><span class="input-group-addon">R$</span><input type="text" name="desPreco[]" class="form-control" value="' + $('#priceModel').val() + '" readonly required></div></div>' +
+                                    '<div class="col-md-1" style="transform: translate(0, 0);"><div class="btn-group" role="group"><button class="btn btn-danger btnRemove" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button></div></div>' +
+                                    '</div>');
         $('#modalProduct').modal('hide');
         desabledItemSelect();
-        taskSelect2();
     });
  
     $('#productsInsert').on('click', '.btnRemove', function (e) {

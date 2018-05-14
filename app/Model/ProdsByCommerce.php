@@ -106,4 +106,25 @@ class ProdsByCommerce extends Model
             Model::returnError("Não foi possível Listar o Produto e Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
+
+    /**
+     * Lista todos os produtos vinculados ao idComercio e retorna um Array
+     * @return type Array
+     */
+    public static function listProdComeIdComercio($idComercio)
+    {
+        try {
+            $sql = new Dao();
+            $results = $sql->allSelect("SELECT * FROM vw_produtocomercio
+                                        WHERE idcomercio = :IDCOMERCIO", array(
+                ':IDCOMERCIO' => $idComercio
+            ));
+
+            if (is_array($results) && count($results) > 0) {
+                return $results;
+            }
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível Listar o Produto e Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
+    }
 }

@@ -59,66 +59,63 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="col-md-7">
-                                            <div class="form-group">
-                                                <label>Comércio:</label>
-                                                <select name="idComercio" class="form-control select2" autofocus>
-                                                    <option></option>
-                                                <?php if (is_array($data['commerces'])) : ?>
-                                                <?php foreach ($data['commerces'] as $key): ?>
-                                                    <option value="<?= $key['idcomercio'] ?>"><?= $key['desnome'] ?></option>
-                                                <?php endforeach; ?>
-                                                <?php endif; ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <label>Produtos:</label>
-                                            <div class="input-group">
-                                                <select id="product" class="form-control select2">
-                                                    <option></option>
-                                                <?php if (is_array($data['products'])) : ?>
-                                                <?php foreach ($data['products'] as $key) : ?>
-                                                    <option value="<?= $key['idproduto'] ?>"><?= $key['desnome'] . " - " . $key['desmarca'] ?></option>
-                                                <?php endforeach; ?>
-                                                <?php endif; ?>
-                                                </select>
-                                                <span class="input-group-btn">
-                                                    <button id="addProduct" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Adicionar">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div id="listProducts" class="col-md-12">
-                                            <div class="chat-panel panel panel-danger">
-                                                <div class="panel-heading text-center">
-                                                    Lista de Produtos
+                                        <form action="/admin/prodsByCommerce/create" method="POST">
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <label>Comércio:</label>
+                                                    <select id="idComercio" name="idComercio" class="form-control select2" autofocus required>
+                                                        <option></option>
+                                                    <?php if (is_array($data['commerces'])) : ?>
+                                                    <?php foreach ($data['commerces'] as $key): ?>
+                                                        <option value="<?= $key['idcomercio'] ?>"><?= $key['desnome'] ?></option>
+                                                    <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                    </select>
                                                 </div>
-                                                <div class="col-md-12 text-center bg-primary" style="padding: 5px 30px 0px 0;">
-                                                        <div class="col-md-2">
-                                                            <label>Código:</label>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label>Produto:</label>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label>Marca:</label>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <label>Preço:</label>
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            <label>Opções:</label>
-                                                        </div>
-                                                </div>
-                                                <div id="productsInsert" class="panel-body"></div>
                                             </div>
-                                        </div>
-                                        <div class="text-right col-md-12">
-                                            <button type="button" id="btn-prodsByCommerce" class="btn btn-success">Cadastrar</button>
-                                            <button type="button" class="btn btn-warning" onclick="javascript: location.href='/admin/prodsByCommerce'">Cancelar</button>
-                                        </div>
+                                            <div class="col-md-5">
+                                                <label>Produtos:</label>
+                                                <div class="input-group">
+                                                    <select id="product" class="form-control select2">
+                                                        <option></option>
+                                                    </select>
+                                                    <span class="input-group-btn">
+                                                        <button id="addProduct" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Adicionar">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div id="listProducts" class="col-md-12">
+                                                <div class="chat-panel panel panel-danger">
+                                                    <div class="panel-heading text-center">
+                                                        Lista de Produtos
+                                                    </div>
+                                                    <div class="col-md-12 text-center bg-primary" style="padding: 5px 30px 0px 0;">
+                                                            <div class="col-md-2">
+                                                                <label>Código:</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <label>Produto:</label>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>Marca:</label>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Preço:</label>
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <label>Opções:</label>
+                                                            </div>
+                                                    </div>
+                                                    <div id="productsInsert" class="panel-body"></div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right col-md-12">
+                                                <button type="submit" id="btn-prodsByCommerce" class="btn btn-success">Cadastrar</button>
+                                                <button type="button" class="btn btn-warning" onclick="javascript: location.href='/admin/prodsByCommerce'">Cancelar</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

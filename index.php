@@ -186,6 +186,10 @@ $app->group('/admin', function () use ($app) {
             prodsByCommerceController::actionViewCreate();
         });
 
+        $app->post('/create', function() {
+            prodsByCommerceController::actionCreate($_POST);
+        });
+
         $app->get('/update/:id', function ($id) {
             
         });
@@ -200,6 +204,10 @@ $app->group('/admin', function () use ($app) {
 
         $app->get('/getproduct/:id', function ($id) {
             prodsByCommerceController::getProduct($id);
+        });
+
+        $app->get('/getproductdiff/:id', function($id) {
+            prodsByCommerceController::getProductDiff($id);
         });
     });
     /**
