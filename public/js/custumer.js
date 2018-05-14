@@ -33,7 +33,10 @@ $(function() {
     /**
     * Tootip
     */
-    $('[data-toggle="tooltip"]').tooltip();
+   tooltip();
+    function tooltip() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
 
     /**
      * Input Mask
@@ -49,6 +52,7 @@ $(function() {
     $('#priceModel').mask(
         '#.##0,00',
         {
+            placeholder: "0,00",
             reverse: true
         }
     );
@@ -103,7 +107,7 @@ $(function() {
                 $('#productModal').val($result.desnome);
                 $('#brandModal').val($result.desmarca);
                 
-                $('#modalProduct').modal();
+                $('#modalProduct').modal('show');
             },
             error: function($error) {
                 console.log($error);
@@ -112,10 +116,38 @@ $(function() {
     }
 
     $('#addProductModal').on('click', function() {
-        $('.panel-body').append('<div class="row"><div class="col-md-2"></div></div>');
+        $('#productsInsert').append('<div class="row">' +
+                                    '<div class="col-md-2">' +
+                                       ' <div class="form-group">' +
+                                            '<input type="text" name="idProduct[]" class="form-control text-center" value="' + $('#idProductModal').val() + '" readonly>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="col-md-4">' +
+                                        '<div class="form-group">' +
+                                            '<input type="text" class="form-control" value="' + $('#productModal').val() + '" readonly>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="col-md-3">' +
+                                        '<div class="form-group">' +
+                                            '<input type="text" class="form-control" value="' + $('#brandModal').val() + '" readonly>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="col-md-2">' +
+                                        '<div class="input-group">' +
+                                            '<span class="input-group-addon">R$</span>' +
+                                            '<input type="text" id="priceModel[]" class="form-control" value="' + $('#priceModel').val() + '" readonly>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="col-md-1" style="transform: translate(0, 0);">' +
+                                        '<div class="btn-group" role="group">' +
+                                            '<button class="btn btn-danger btnRemove" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>');
+        $('#modalProduct').modal('hide');
     });
-
-    $('#btnRemoveL1').on('click', function(e) {
-        $('#l1').remove();
+ 
+    $('#productsInsert').on('click', '.btnRemove', function (e) {
+        $(this).closest('.row').remove();
     });
 });

@@ -1,6 +1,5 @@
 $(function() {
     var $onLine = navigator.onLine ? "online" : "offline";
-    console.log($onLine);
 
     function limpa_endereco() {
         // Limpa valores do formulário de cep.

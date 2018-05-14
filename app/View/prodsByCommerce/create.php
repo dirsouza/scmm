@@ -95,8 +95,7 @@
                                                 <div class="panel-heading text-center">
                                                     Lista de Produtos
                                                 </div>
-                                                <div class="panel-body">
-                                                    <div class="row">
+                                                <div class="col-md-12 text-center bg-primary" style="padding: 5px 30px 0px 0;">
                                                         <div class="col-md-2">
                                                             <label>Código:</label>
                                                         </div>
@@ -109,40 +108,11 @@
                                                         <div class="col-md-2">
                                                             <label>Preço:</label>
                                                         </div>
-                                                        <div class="col-md-1" style="padding: 0;">
+                                                        <div class="col-md-1">
                                                             <label>Opções:</label>
                                                         </div>
-                                                    </div>
-                                                    <div id="l1" class="row">
-                                                        <div class="col-md-2">
-                                                            <div class="form-group">
-                                                                <input type="text" name="idProduct[]" class="form-control" value="00001" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control" value="Produto" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control" value="Marca" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon">R$</span>
-                                                                <input type="text" id="priceModel[]" class="form-control" value="2,00" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-1" style="transform: translate(0, 5%); padding: 0;">
-                                                            <div class="btn-group" role="group">
-                                                                <button class="btn btn-sm btn-danger" id="btnRemoveL1" style="width: 35px;" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button>
-                                                                <button class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
+                                                <div id="productsInsert" class="panel-body"></div>
                                             </div>
                                         </div>
                                         <div class="text-right col-md-12">
