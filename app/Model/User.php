@@ -18,7 +18,7 @@ class User extends Model
     public function addUsuario()
     {
         try {
-            if ($this->verifyUsuario()) {
+            if ($this->verifyUsuario() && $this->verifyData()) {
                 $sql = new Dao();
                 $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,destipo)
                                 VALUES (:DESLOGIN,:DESSENHA,:DESTIPO)", array(
@@ -34,7 +34,7 @@ class User extends Model
                 $this->setUser($idUser);
             } else {
                 $this->recoveryData();
-                Model::returnError("Nome de usuário informado já existe no banco de dados.", $_SERVER["REQUEST_URI"]);
+                Model::returnError("Nome de usuário informado já existe no banco de dados ou estão faltando dados.", $_SERVER["REQUEST_URI"]);
             }
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível Cadastrar o Usuário.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
@@ -221,6 +221,27 @@ class User extends Model
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível recuperar os dados do Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
+    }
+    
+    private function verifyData()
+    {
+        if (empty($this->getDesNome())) {
+            return false;
+        }
+        
+        if (empty($this->getDesEmail())) {
+            return false;
+        }
+        
+        if (empty($this->getDesLogin())) {
+            return false;
+        }
+        
+        if (empty($this->getDesSenha())) {
+            return false;
+        }
+        
+        return true;
     }
 
     private function verifyUsuario()

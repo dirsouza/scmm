@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Core\Controller;
 use App\Model\Login;
-use App\Controller\homeController;
 
 class loginController extends Controller
 {

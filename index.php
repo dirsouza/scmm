@@ -1,12 +1,12 @@
 <?php
 setlocale(LC_ALL, "pt_BR", "pt_BR-utf-8", "portuguese");
 
-require_once "vendor/autoload.php";
+require_once("vendor/autoload.php");
 
 session_start();
 
 $_SESSION['system'] = array(
-    'name' => 'SCMM - Sistema de Controle de Mercadorias de Comércios',
+    'name' => 'SCMM - Sistema de Controle de Mercadorias de ComÃ©rcios',
     'version' => '1.0.0'
 );
 
@@ -78,7 +78,7 @@ $app->group('/register', function () use ($app) {
             registerController::actionRegister($register);
 
             $_SESSION['register'] = array(
-                'msg' => "Usuário Cadastrado com Sucesso!"
+                'msg' => "UsuÃ¡rio Cadastrado com Sucesso!"
             );
             $app->redirect('/login');
         } else {
@@ -86,7 +86,7 @@ $app->group('/register', function () use ($app) {
                 'desLogin' => $register['desLogin'],
                 'desNome' => $register['desNome'],
                 'desEmail' => $register['desEmail'],
-                'msg' => "As senhas não são identicas."
+                'msg' => "As senhas nÃ£o sÃ£o identicas."
             );
             $app->redirect('/register');
         }
@@ -102,7 +102,7 @@ $app->group('/admin', function () use ($app) {
         homeController::actionIndex();
     });
     /**
-     * Comércio
+     * ComÃ©rcio
      * Url: http:/local.scmm.com.br/admin/commerce
      */
     $app->group('/commerce', function () use ($app) {
@@ -174,7 +174,7 @@ $app->group('/admin', function () use ($app) {
     });
 
     /**
-     * Produtos por Comércio
+     * Produtos por ComÃ©rcio
      * Url: http:/local.scmm.com.br/admin/prodsByCommerce
      */
     $app->group('/prodsByCommerce', function () use ($app) {
@@ -211,7 +211,7 @@ $app->group('/admin', function () use ($app) {
         });
     });
     /**
-     * Usuários
+     * UsuÃ¡rios
      * Url: http://local.scmm.com.br/admin/users
      */
     $app->group('/users', function () use ($app) {
