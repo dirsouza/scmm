@@ -103,11 +103,27 @@ $(function() {
     function taskSelect2() {
         $('#product').val(null).trigger('change');
     }
+
+    function enableItemSelect($id) {
+        $('#product option[value="' + $id + '"]').prop('disabled', false);
+        taskSelect2();
+        startSelect2();
+    }
     
     function desabledItemSelect() {
         $('#product option:selected').prop('disabled', true);
         taskSelect2();
         startSelect2();
+    }
+
+    function enableListProds() {
+        $('#listProducts').removeClass('hidden');
+    }
+
+    function disabledListProds() {
+        if ($('#productsInsert input').length == 0) {
+            $('#listProducts').addClass('hidden');
+        }
     }
 
     /**
@@ -151,14 +167,17 @@ $(function() {
                                     '<div class="col-md-4"><div class="form-group"><input type="text" class="form-control" value="' + $('#productModal').val() + '" readonly></div></div>' +
                                     '<div class="col-md-3"><div class="form-group"><input type="text" class="form-control" value="' + $('#brandModal').val() + '" readonly></div></div>' +
                                     '<div class="col-md-2"><div class="input-group"><span class="input-group-addon">R$</span><input type="text" name="desPreco[]" class="form-control" value="' + $('#priceModel').val() + '" readonly required></div></div>' +
-                                    '<div class="col-md-1" style="transform: translate(0, 0);"><div class="btn-group" role="group"><button class="btn btn-danger btnRemove" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button></div></div>' +
+            '<div class="col-md-1" style="transform: translate(0, 0);"><div class="btn-group" role="group"><button class="btn btn-danger btnRemove" data-select-id="' + parseInt($('#idProductModal').val()) + '" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button></div></div>' +
                                     '</div>');
         $('#modalProduct').modal('hide');
         desabledItemSelect();
+        enableListProds();
     });
  
     $('#productsInsert').on('click', '.btnRemove', function (e) {
         $(this).closest('.row').remove();
+        disabledListProds();
+        enableItemSelect($(this).attr('data-select-id'));
     });
 
     function clearModal() {

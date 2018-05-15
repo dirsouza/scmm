@@ -86,7 +86,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div id="listProducts" class="col-md-12">
+                                            <div id="listProducts" class="col-md-12 hidden">
                                                 <div class="chat-panel panel panel-danger">
                                                     <div class="panel-heading text-center">
                                                         Lista de Produtos
