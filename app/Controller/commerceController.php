@@ -21,20 +21,22 @@ class commerceController extends Controller
     public static function actionViewIndex()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $commerces = Commerce::listComercios();
 
-        parent::loadView('default', 'header', array(
+        parent::loadView('template/header', array(
             'user' => $user,
             'page' => "Lista de Comércios"
         ));
-        parent::loadView('commerce', 'index', $commerces);
-        parent::loadView('default', 'footer');
+        parent::loadView('commerce/index', $commerces);
+        parent::loadView('template/footer');
     }
 
     public static function actionViewCreate()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         if (isset($_SESSION['restoreData'])) {
             $data = array(
@@ -48,21 +50,24 @@ class commerceController extends Controller
             $data = null;
         }
 
-        parent::loadView('default', 'header', array(
+        parent::loadView('template/header', array(
             'user' => $user,
             'page' => "Novo Comércio"
         ));
-        parent::loadView('commerce', 'create', $data);
-        parent::loadView('default', 'footer');
+        parent::loadView('commerce/create', $data);
+        parent::loadView('template/footer');
     }
 
     public static function actionCreate($data)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $commerce = new Commerce();
         $commerce->setData($data);
         $commerce->addComercio();
+
+        parent::notify("success", "Comércio cadastrado com sucesso!");
 
         header("location: /admin/commerce");
         exit;
@@ -71,24 +76,28 @@ class commerceController extends Controller
     public static function actionViewUpdate($id)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $commerce = Commerce::listComercioId((int)$id);
 
-        parent::loadView('default', 'header', array(
+        parent::loadView('template/header', array(
             'user' => $user,
             'page' => "Editar Comércio"
         ));
-        parent::loadView('commerce', 'update', $commerce[0]);
-        parent::loadView('default', 'footer');
+        parent::loadView('commerce/update', $commerce[0]);
+        parent::loadView('template/footer');
     }
 
     public static function actionUpdate($id, $data)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $commerce = new Commerce();
         $commerce->setData($data);
         $commerce->updateComercio((int)$id);
+
+        parent::notify("success", "Comércio atualizado com sucesso!");
 
         header("location: /admin/commerce");
         exit;
@@ -97,9 +106,12 @@ class commerceController extends Controller
     public static function actionDelete($id)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $commerce = new Commerce();
         $commerce->deleteComercio((int)$id);
+
+        parent::notify("success", "Comércio excluído com sucesso!");
 
         header("location: /admin/commerce");
         exit;
@@ -108,15 +120,17 @@ class commerceController extends Controller
     public static function actionViewReport()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $commerces = Commerce::listComercios();
 
-        parent::loadView("commerce", "report", $commerces);
+        parent::loadView('commerce/report', $commerces);
     }
 
     public static function actionGetCep($cep)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $setCep = Commerce::getCep($cep);
         echo json_encode($setCep);

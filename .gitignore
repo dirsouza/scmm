@@ -67,6 +67,7 @@ fabric.properties
 .idea/sonarlint
 
 ### NetBeans ###
+nbproject/
 nbproject/private/
 build/
 nbbuild/

@@ -37,13 +37,9 @@ class ProdsByCommerce extends Model
     {
         try {
             $sql = new Dao();
-            $sql->allQuery("UPDATE tbprodutocomercio SET idcomercio = :IDCOMERCIO,
-                                                         idproduto = :IDPRODUTO,
-                                                         despreco = :DESPRECO
+            $sql->allQuery("UPDATE tbprodutocomercio SET despreco = :DESPRECO
                             WHERE idProdutoComercio = :IDPRODUTOCOMERCIO", array(
                 ':IDPRODUTOCOMERCIO' => $idProdutoComercio,
-                ':IDCOMERCIO' => $this->getIdComercio(),
-                ':IDPRODUTO' => $this->getIdProduto(),
                 ':DESPRECO' => $this->getDesPreco()
             ));
         } catch (\PDOException $e) {

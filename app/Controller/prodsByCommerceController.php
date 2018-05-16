@@ -23,36 +23,39 @@ class prodsByCommerceController extends Controller
     public static function actionViewIndex()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $prodsByCommerces = ProdsByCommerce::listProdutosComercios();
 
-        parent::loadView('default', 'header', array(
+        parent::loadView('template/header', array(
             'user' => $user,
             'page' => "Lista de Produtos por Comércio"
         ));
-        parent::loadView('prodsByCommerce', 'index', $prodsByCommerces);
-        parent::loadView('default', 'footer');
+        parent::loadView('prodsByCommerce/index', $prodsByCommerces);
+        parent::loadView('template/footer');
     }
 
     public static function actionViewCreate()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $commerces = Commerce::listComercios();
 
-        parent::loadView('default', 'header', array(
+        parent::loadView('template/header', array(
             'user' => $user,
-            'page' => "Novo Produto"
+            'page' => "Nova Associação de Produtos por Comércio"
         ));
-        parent::loadView('prodsByCommerce', 'create', array(
+        parent::loadView('prodsByCommerce/create', array(
             'commerces' => $commerces
         ));
-        parent::loadView('default', 'footer');
+        parent::loadView('template/footer');
     }
 
     public static function actionCreate($data)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $idComercio = $data['idComercio'];
         array_shift($data);
@@ -65,28 +68,33 @@ class prodsByCommerceController extends Controller
             $prodsByCommerces->setData(['desPreco' => str_replace(",", ".", str_replace(".", "", $value))]);
             $prodsByCommerces->addProdutoComercio();
         }
+        
+        parent::notify("success", "Associação de Produtos por Comércio cadastrada com sucesso!");
 
         header("location: /admin/prodsByCommerce");
         exit;
     }
 
-    public static function actionViewUpdate($id)
-    {
-        $user = self::loginVerify();
-
-        
-    }
-
     public static function actionUpdate($id, $data)
     {
+        print_r($data); exit;
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
-        
+        $product = new ProdsByCommerce();
+        $product->setData($data);
+        $product->updateProdutoComercio((int)$id);
+
+        parent::notify("success", "Associação de Produtos por Comércio atualizado com sucesso!");
+
+        header("location: /admin/prodsByCommerce");
+        exit;
     }
 
     public static function actionDelete($id)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         
     }
@@ -94,6 +102,7 @@ class prodsByCommerceController extends Controller
     public static function actionViewReport()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         
     }
@@ -101,13 +110,18 @@ class prodsByCommerceController extends Controller
     public static function getProduct($id)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $setProduct = Product::listProdutoId($id);
 
         echo json_encode($setProduct[0]);
     }
 
-    public static function getProductDiff($id) {
+    public static function getProductDiff($id)
+    {
+        $user = self::loginVerify();
+        parent::verifyAdmin($user);
+
         $products = Product::listProdutos();
         $prodsByCommerces = ProdsByCommerce::listProdComeIdComercio($id);
         

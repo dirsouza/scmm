@@ -1,6 +1,9 @@
 <?php
 setlocale(LC_ALL, "pt_BR", "pt_BR-utf-8", "portuguese");
 
+define("PATH_DIR", dirname(__FILE__));
+define("APP_PATH", PATH_DIR . "/app/View/");
+
 require_once("vendor/autoload.php");
 
 session_start();
@@ -9,8 +12,6 @@ $_SESSION['system'] = array(
     'name' => 'SCMM - Sistema de Controle de Mercadorias de ComÃ©rcios',
     'version' => '1.0.0'
 );
-
-define("PATH_DIR", dirname(__FILE__));
 
 use Slim\Slim;
 use Core\Controller;
@@ -190,12 +191,8 @@ $app->group('/admin', function () use ($app) {
             prodsByCommerceController::actionCreate($_POST);
         });
 
-        $app->get('/update/:id', function ($id) {
-            
-        });
-
         $app->post('/update/:id', function ($id) {
-
+            prodsByCommerceController::actionUpdate($id, $_POST);
         });
 
         $app->get('/delete/:id', function ($id) {

@@ -1,6 +1,14 @@
 
                 <div class="row">
                     <div class="col-md-12">
+                        <div id="modalIndexProduct" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content"></div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 Produtos por Comércio
@@ -30,8 +38,8 @@
                                                 <td><?=$value['desProduto'] ." - ". $value['desmarca']?></td>
                                                 <td><?=$value['desPreco']?></td>
                                                 <td class="text-center">
-                                                    <a href="/admin/prodsByCommerce/update/<?=$value['idProdutoComercio']?>" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
-                                                    <a href="/admin/prodsByCommerce/delete/<?=$value['idProdutoComercio']?>" onclick="return confirm('Deseja excluir este registro?')" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
+                                                    <button type="button" id="updateProduct" data-product-id="<?=$value['idProdutoComercio']?>" data-product-preco="<?=$value['desPreco']?>" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></button>
+                                                    <button type="button" id="deletProduct" data-product-id="<?=$value['idProdutoComercio']?>" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

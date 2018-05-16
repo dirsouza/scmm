@@ -21,20 +21,22 @@ class productController extends Controller
     public static function actionViewIndex()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $products = Product::listProdutos();
 
-        parent::loadView('default', 'header', array(
+        parent::loadView('template/header', array(
             'user' => $user,
             'page' => "Lista de Produtos"
         ));
-        parent::loadView('product', 'index', $products);
-        parent::loadView('default', 'footer');
+        parent::loadView('product/index', $products);
+        parent::loadView('template/footer');
     }
 
     public static function actionViewCreate()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         if (isset($_SESSION['restoreData'])) {
             $data = array(
@@ -47,21 +49,24 @@ class productController extends Controller
             $data = null;
         }
 
-        parent::loadView('default', 'header', array(
+        parent::loadView('template/header', array(
             'user' => $user,
             'page' => "Novo Produto"
         ));
-        parent::loadView('product', 'create', $data);
-        parent::loadView('default', 'footer');
+        parent::loadView('product/create', $data);
+        parent::loadView('template/footer');
     }
 
     public static function actionCreate($data)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $product = new Product();
         $product->setData($data);
         $product->addProduto();
+
+        parent::notify("success", "Produto cadastrado com sucesso!");
 
         header("location: /admin/product");
         exit;
@@ -70,24 +75,28 @@ class productController extends Controller
     public static function actionViewUpdate($id)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $product = Product::listProdutoId((int)$id);
 
-        parent::loadView('default', 'header', array(
+        parent::loadView('template/header', array(
             'user' => $user,
             'page' => "Editar Produto"
         ));
-        parent::loadView('product', 'update', $product[0]);
-        parent::loadView('default', 'footer');
+        parent::loadView('product/update', $product[0]);
+        parent::loadView('template/footer');
     }
 
     public static function actionUpdate($id, $data)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $product = new Product();
         $product->setData($data);
         $product->updateProduto((int)$id);
+
+        parent::notify("success", "Produto atualizado com sucesso!");
 
         header("location: /admin/product");
         exit;
@@ -96,9 +105,12 @@ class productController extends Controller
     public static function actionDelete($id)
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $product = new Product();
         $product->deleteProduto((int)$id);
+
+        parent::notify("success", "Produto excluído com sucesso!");
 
         header("location: /admin/product");
         exit;
@@ -107,9 +119,10 @@ class productController extends Controller
     public static function actionViewReport()
     {
         $user = self::loginVerify();
+        parent::verifyAdmin($user);
 
         $products = Product::listProdutos();
 
-        parent::loadView("product", "report", $products);
+        parent::loadView('product/report', $products);
     }
 }

@@ -9,9 +9,9 @@ class loginController extends Controller
 {
     public static function actionIndex()
     {
-        parent::loadView('login', 'header');
-        parent::loadView('login', 'index');
-        parent::loadView('login', 'footer');
+        parent::loadView('login/header');
+        parent::loadView('login/index');
+        parent::loadView('login/footer');
     }
 
     public static function actionLogin($data)

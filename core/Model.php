@@ -18,7 +18,8 @@ class Model {
      * @param type $arguments
      * @return type
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments) 
+    {
         $method = substr($name, 0, 3); //Atribui os três primeiros caracteres a variável
         $fieldName = substr($name, 3, strlen($name)); //Atribui os caracteres restantes após os três primeiros
         
@@ -40,7 +41,8 @@ class Model {
      *       a função trim() remove os espaços em branco antes e depois do valor.
      * @param type $param
      */
-    public function setData($param = array()) {
+    public function setData($param = array()) 
+    {
         foreach ($param as $key => $value) {
             $this->{"set". ucfirst($key)}(trim($value));
         }
@@ -50,7 +52,8 @@ class Model {
      * Retorna os valores contidos na Array
      * @return type
      */
-    public function getValues() {
+    public function getValues() 
+    {
         return $this->values;
     }
     
@@ -60,9 +63,10 @@ class Model {
      * @param type $msg
      * @param type $location
      */
-    public static function returnError($msg, $location) {
+    public static function returnError($msg, $location) 
+    {
         $_SESSION['error'] = $msg;
-        header("location: ".$location);
+        header("location: " . $location);
         exit;
     }
 }
