@@ -35,11 +35,7 @@ $(function() {
                         } else {
                             //CEP pesquisado não foi encontrado.
                             limpa_endereco();
-                            bootbox.alert({
-                                size: 'small',
-                                title: '<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM',
-                                message: "CEP não encontrado."
-                            });
+                            loadModal("CEP não encontrado.");
                         }
                     });
                 } else {
@@ -49,11 +45,7 @@ $(function() {
             } else {
                 //cep é inválido.
                 limpa_endereco();
-                bootbox.alert({
-                    size: 'small',
-                    title: '<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM',
-                    message: "Formato de CEP inválido."
-                });
+                loadModal("Formato de CEP inválido.");
             }
         } else {
             //cep sem valor, limpa formulário.
@@ -77,16 +69,26 @@ $(function() {
                     return true;
                 } else {
                     limpa_endereco();
-                    bootbox.alert({
-                        size: 'small',
-                        title: '<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM',
-                        message: "Sem Conexão com a Internet e o CEP não foi encontrado no Banco."
-                    });
+                    loadModal("Sem Conexão com a Internet e o CEP não foi encontrado no Banco.");
                 }
             },
             error: function($error) {
                 console.log($error);
             }
+        });
+    }
+
+    function loadModal($msg) {
+        var dialog = bootbox.dialog({
+            size: 'small',
+            title: '<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM',
+            message: '<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>'
+        });
+
+        dialog.init(function () {
+            setTimeout(function () {
+                dialog.find('.bootbox-body').html($msg);
+            }, 3000);
         });
     }
 });
