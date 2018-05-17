@@ -90,10 +90,10 @@
                 <?php endif; ?>
             </nav>
 
-            <div id="page-wrapper" class="<?= ($data['user']['Destipo'] === "1") ? "page-wrapper-admin" : "page-wrapper-client" ?>">
+            <div id="page-wrapper" class="<?= ($user['Destipo'] === "1") ? "page-wrapper-admin" : "page-wrapper-client" ?>">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header"><?= $data['page'] ?></h1>
+                        <h1 class="page-header"><?= $page ?></h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>

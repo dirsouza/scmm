@@ -21,8 +21,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (is_array($data) && count($data) > 0): ?>
-                                            <?php foreach ($data as $value): ?>
+                                            <?php if (is_array($products) && count($products) > 0): ?>
+                                            <?php foreach ($products as $value): ?>
                                             <tr>
                                                 <td class="text-center"><?= str_pad($value['idproduto'], 5, 0, STR_PAD_LEFT)?></td>
                                                 <td><?=$value['desnome']?></td>

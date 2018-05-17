@@ -9,34 +9,34 @@
                         <?php endif; ?>
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Código: <?= str_pad($data['idcomercio'], 5, 0, STR_PAD_LEFT) ?>
+                                Código: <?= str_pad($commerce['idcomercio'], 5, 0, STR_PAD_LEFT) ?>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form action="/admin/commerce/update/<?=$data['idcomercio']?>" method="POST">
+                                        <form action="/admin/commerce/update/<?=$commerce['idcomercio']?>" method="POST">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Nome:</label>
-                                                    <input type="text" name="desNome" class="form-control" value="<?=$data['desnome']?>" readonly autofocus>
+                                                    <input type="text" name="desNome" class="form-control" value="<?=$commerce['desnome']?>" readonly autofocus>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>CEP:</label>
-                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?= (array_key_exists('descep', $data)) ? $data['descep'] : null ?>" required>
+                                                    <input type="text" name="desCEP" id="cep" class="form-control" value="<?= (array_key_exists('descep', $commerce)) ? $commerce['descep'] : null ?>" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-5">
                                                 <div class="form-group">
                                                     <label>Rua:</label>
-                                                    <input type="text" name="desRua" id="desRua" class="form-control" value="<?=$data['desrua']?>" required>
+                                                    <input type="text" name="desRua" id="desRua" class="form-control" value="<?=$commerce['desrua']?>" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-5">
                                                 <div class="form-group">
                                                     <label>Bairro:</label>
-                                                    <input type="text" name="desBairro" id="desBairro" class="form-control" value="<?= $data['desbairro'] ?>" required>
+                                                    <input type="text" name="desBairro" id="desBairro" class="form-control" value="<?= $commerce['desbairro'] ?>" required>
                                                 </div>
                                             </div>
                                             <div class="text-right col-md-12">

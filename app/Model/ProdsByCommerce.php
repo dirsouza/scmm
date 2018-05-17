@@ -40,10 +40,10 @@ class ProdsByCommerce extends Model
             $sql->allQuery("UPDATE tbprodutocomercio SET despreco = :DESPRECO
                             WHERE idProdutoComercio = :IDPRODUTOCOMERCIO", array(
                 ':IDPRODUTOCOMERCIO' => $idProdutoComercio,
-                ':DESPRECO' => $this->getDesPreco()
+                ':DESPRECO' => str_replace(",", ".", str_replace(".", "", $this->getDesPreco()))
             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Atualizar o vinculo de Produto e Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível Atualizar o vinculo de Produto e Comércio.<br>" . $e->getMessage(), '/admin/prodsByCommerce');
         }
     }
 
@@ -61,6 +61,18 @@ class ProdsByCommerce extends Model
             ));
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível Deletar o vinculo de Produto e Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
+    }
+
+    public function deleteProdutoComercioAll($idProdutoComercio)
+    {
+        try {
+            $sql = new Dao();
+            $sql->allQuery('CALL sp_delete_produtoComercio (:IDPRODUTOCOMERCIO)', array(
+                ':IDPRODUTOCOMERCIO' => $idProdutoComercio
+            ));
+        } catch(\PDOException $e) {
+            Model::returnError("Não foi possível Deletar os vinculos de Produtos e Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 

@@ -267,7 +267,8 @@ class View
      */
     protected function render($template, $data = null)
     {
-        $templatePathname = $this->getTemplatePathname($template);
+        $templatePathname = APP_PATH . $template;
+        //$templatePathname = $this->getTemplatePathname($template);
         if (!is_file($templatePathname)) {
             throw new \RuntimeException("View cannot render `$template` because the template does not exist");
         }

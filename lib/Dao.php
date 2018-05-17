@@ -25,10 +25,12 @@ class Dao extends Model {
     /**
      * Construtor da conexão
      */
-    public function __construct() {
+    public function __construct()
+    {
         try {
             $this->conn = new \PDO("mysql:dbname=" . Dao::DBNAME . ";host=" . Dao::HOSTNAME, Dao::USERNAME, Dao::PASSWORD, array(
-                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
             ));
         } catch (\PDOException $e) {
             Model::returnError($e->getMessage(), $_SERVER['REQUEST_URI']);
@@ -40,7 +42,8 @@ class Dao extends Model {
      * @param type $statement
      * @param type $parameters
      */
-    private function setParameters($statement, $parameters = array()) {
+    private function setParameters($statement, $parameters = array())
+    {
         foreach ($parameters as $key => $value) {
             $this->bindParameter($statement, $key, $value);
         }
@@ -52,7 +55,8 @@ class Dao extends Model {
      * @param type $key
      * @param type $value
      */
-    private function bindParameter($statement, $key, $value) {
+    private function bindParameter($statement, $key, $value)
+    {
         $statement->bindParam($key, $value);
     }
     
@@ -62,7 +66,8 @@ class Dao extends Model {
      * @param type $parameters
      * @throws \PDOException
      */
-    public function allQuery($rawQuery, $parameters = array()) {
+    public function allQuery($rawQuery, $parameters = array())
+    {
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare($rawQuery);
@@ -83,7 +88,8 @@ class Dao extends Model {
      * @param type $parameters
      * @throws \PDOException
      */
-    public function allSelect($rawQuery, $parameters = array()) {
+    public function allSelect($rawQuery, $parameters = array())
+    {
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare($rawQuery);

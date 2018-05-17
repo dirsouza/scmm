@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Slim\Slim;
 use Core\Controller;
 use App\Model\Login;
 use App\Model\Product;
@@ -25,12 +26,15 @@ class productController extends Controller
 
         $products = Product::listProdutos();
 
-        parent::loadView('template/header', array(
+        $app = new Slim();
+        $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Lista de Produtos"
         ));
-        parent::loadView('product/index', $products);
-        parent::loadView('template/footer');
+        $app->render('/product/index.php', array(
+            'products' => $products
+        ));
+        $app->render('/template/footer.php');
     }
 
     public static function actionViewCreate()
@@ -49,12 +53,15 @@ class productController extends Controller
             $data = null;
         }
 
-        parent::loadView('template/header', array(
+        $app = new Slim();
+        $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Novo Produto"
         ));
-        parent::loadView('product/create', $data);
-        parent::loadView('template/footer');
+        $app->render('/product/create.php', array(
+            'data' => $data
+        ));
+        $app->render('/template/footer.php');
     }
 
     public static function actionCreate($data)
@@ -79,12 +86,15 @@ class productController extends Controller
 
         $product = Product::listProdutoId((int)$id);
 
-        parent::loadView('template/header', array(
+        $app = new Slim();
+        $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Editar Produto"
         ));
-        parent::loadView('product/update', $product[0]);
-        parent::loadView('template/footer');
+        $app->render('/product/update.php', array(
+            'product' => $product[0]
+        ));
+        $app->render('/template/footer.php');
     }
 
     public static function actionUpdate($id, $data)
@@ -123,6 +133,19 @@ class productController extends Controller
 
         $products = Product::listProdutos();
 
-        parent::loadView('product/report', $products);
+        $app = new Slim();
+        $app->render('/product/report.php', array(
+            'products' => $products
+        ));
+    }
+
+    public static function getProduct($id)
+    {
+        $user = self::loginVerify();
+        parent::verifyAdmin($user);
+
+        $setProduct = Product::listProdutoId((int)$id);
+
+        echo json_encode($setProduct);
     }
 }

@@ -65,8 +65,8 @@
                                                     <label>Comércio:</label>
                                                     <select id="idComercio" name="idComercio" class="form-control select2" autofocus required>
                                                         <option></option>
-                                                    <?php if (is_array($data['commerces'])) : ?>
-                                                    <?php foreach ($data['commerces'] as $key): ?>
+                                                    <?php if (is_array($commerces)) : ?>
+                                                    <?php foreach ($commerces as $key): ?>
                                                         <option value="<?= $key['idcomercio'] ?>"><?= $key['desnome'] ?></option>
                                                     <?php endforeach; ?>
                                                     <?php endif; ?>

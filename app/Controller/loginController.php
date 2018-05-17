@@ -2,27 +2,33 @@
 
 namespace App\Controller;
 
+use Slim\Slim;
 use Core\Controller;
 use App\Model\Login;
 
-class loginController extends Controller
+class loginController
 {
     public static function actionIndex()
     {
-        parent::loadView('login/header');
-        parent::loadView('login/index');
-        parent::loadView('login/footer');
+        $app = new Slim();
+        $app->render('/login/header.php');
+        $app->render('/login/index.php');
+        $app->render('/login/footer.php');
     }
 
     public static function actionLogin($data)
     {
         $login = new Login();
         $login->login($data['desLogin'], $data['desSenha']);
+
+        Controller::verifyLogin();
     }
 
     public static function actionLogout()
     {
         $login = new Login();
         $login->logout();
+
+        Controller::verifyLogin();
     }
 }

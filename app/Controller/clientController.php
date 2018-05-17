@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Slim\Slim;
 use Core\Controller;
 use App\Model\Login;
 use App\Model\User;
@@ -27,19 +28,12 @@ class clientController extends Controller
         $userName = explode(" ", $userName[0]['desnome']);
         $_SESSION['userName'] = $userName[0];
 
-        parent::loadView('template/header', array(
+        $app = new Slim();
+        $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Faça sua pesquisa"
         ));
-        parent::loadView('clientSearch/index');
-        parent::loadView('template/footer');
+        $app->render('/clientSearch/index.php');
+        $app->render('/template/footer.php');
     }
-    
-    /*private function verifyClient($user)
-    {
-        if ($user['Destipo'] == 1) {
-            header("location: /admin");
-            exit;
-        }
-    }*/
 }

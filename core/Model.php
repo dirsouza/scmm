@@ -63,8 +63,15 @@ class Model {
      * @param type $msg
      * @param type $location
      */
-    public static function returnError($msg, $location) 
+    public static function returnError($msg, $location = '/admin') 
     {
+        if ($location === "/admin") {
+            $_SESSION['notify'] = array (
+                'type' => 'error',
+                'msg' => $msg
+            );
+        }
+
         $_SESSION['error'] = $msg;
         header("location: " . $location);
         exit;

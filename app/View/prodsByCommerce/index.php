@@ -1,7 +1,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="modalIndexProduct" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static">
+                        <div id="modalIndexProduct" class="modal fades" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content"></div>
                                 <!-- /.modal-content -->
@@ -16,7 +16,8 @@
                             <div class="panel-body">
                                 <div class="row-border">
                                     <a href="/admin/prodsByCommerce/create" class="btn btn-success">Cadastrar</a>
-                                    <a href="/admin/prodsByCommerce/report" target="_blank" class="btn btn-primary">Relatório</a>
+                                    <button type="button" id="report" class="btn btn-primary">Relatório</button>
+                                    <!--<a href="/admin/prodsByCommerce/report" target="_blank" class="btn btn-primary">Relatório</a>-->
                                 </div>
                                 <div class="row-border" style="margin-top: 20px;">
                                     <table id="table" class="table table-striped table-bordered nowrap" width="100%">
@@ -29,17 +30,17 @@
                                                 <th>Opções</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <?php if (is_array($data) && count($data) > 0): ?>
-                                            <?php foreach ($data as $value): ?>
+                                        <tbody id="listProdsByCommerce">
+                                            <?php if (is_array($prodsByCommerces) && count($prodsByCommerces) > 0): ?>
+                                            <?php foreach ($prodsByCommerces as $value): ?>
                                             <tr>
                                                 <td class="text-center"><?= str_pad($value['idProdutoComercio'], 5, 0, STR_PAD_LEFT)?></td>
                                                 <td><?=$value['desComercio']?></td>
                                                 <td><?=$value['desProduto'] ." - ". $value['desmarca']?></td>
                                                 <td><?=$value['desPreco']?></td>
                                                 <td class="text-center">
-                                                    <button type="button" id="updateProduct" data-product-id="<?=$value['idProdutoComercio']?>" data-product-preco="<?=$value['desPreco']?>" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></button>
-                                                    <button type="button" id="deletProduct" data-product-id="<?=$value['idProdutoComercio']?>" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button>
+                                                    <button type="button" data-product-id="<?=$value['idProdutoComercio']?>" data-product-preco="<?=$value['desPreco']?>" class="btn btn-xs btn-primary updateProduct" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></button>
+                                                    <button type="button" data-product-id="<?=$value['idProdutoComercio']?>" data-product-name="<?=$value['desProduto']?>" data-commerce-name="<?=$value['desComercio']?>" class="btn btn-xs btn-danger deleteProduct" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

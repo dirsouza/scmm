@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Slim\Slim;
 use Core\Controller;
 use App\Controller\clientController;
 use App\Model\Login;
@@ -36,12 +37,15 @@ class homeController extends Controller
         $userName = User::listAdministradorId((int)$user['Idusuario']);
         $userName = explode(" ", $userName[0]['desnome']);
         $_SESSION['userName'] = $userName[0];
-
-        parent::loadView('template/header', array(
+        
+        $app = new Slim();
+        $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Painel Principal"
         ));
-        parent::loadView('template/index', $mainPanel);
-        parent::loadView('template/footer');
+        $app->render('/template/index.php', array(
+            'mainPanel' => $mainPanel
+        ));
+        $app->render('/template/footer.php');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Slim\Slim;
 use Core\Controller;
 use App\Model\Login;
 use App\Model\Commerce;
@@ -25,12 +26,15 @@ class commerceController extends Controller
 
         $commerces = Commerce::listComercios();
 
-        parent::loadView('template/header', array(
+        $app = new Slim();
+        $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Lista de Comércios"
         ));
-        parent::loadView('commerce/index', $commerces);
-        parent::loadView('template/footer');
+        $app->render('/commerce/index.php', array(
+            'commerces' => $commerces
+        ));
+        $app->render('/template/footer.php');
     }
 
     public static function actionViewCreate()
@@ -50,12 +54,15 @@ class commerceController extends Controller
             $data = null;
         }
 
-        parent::loadView('template/header', array(
+        $app = new Slim();
+        $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Novo Comércio"
         ));
-        parent::loadView('commerce/create', $data);
-        parent::loadView('template/footer');
+        $app->render('/commerce/create.php', array(
+            'data' => $data
+        ));
+        $app->render('/template/footer.php');
     }
 
     public static function actionCreate($data)
@@ -80,12 +87,15 @@ class commerceController extends Controller
 
         $commerce = Commerce::listComercioId((int)$id);
 
-        parent::loadView('template/header', array(
+        $app = new Slim();
+        $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Editar Comércio"
         ));
-        parent::loadView('commerce/update', $commerce[0]);
-        parent::loadView('template/footer');
+        $app->render('/commerce/update.php', array(
+            'commerce' => $commerce[0]
+        ));
+        $app->render('/template/footer.php');
     }
 
     public static function actionUpdate($id, $data)
@@ -124,7 +134,10 @@ class commerceController extends Controller
 
         $commerces = Commerce::listComercios();
 
-        parent::loadView('commerce/report', $commerces);
+        $app = new Slim();
+        $app->render('/commerce/report.php', array(
+            'commerces' => $commerces
+        ));
     }
 
     public static function actionGetCep($cep)

@@ -2,14 +2,14 @@
 setlocale(LC_ALL, "pt_BR", "pt_BR-utf-8", "portuguese");
 
 define("PATH_DIR", dirname(__FILE__));
-define("APP_PATH", PATH_DIR . "/app/View/");
+define("APP_PATH", PATH_DIR . "/app/View");
 
 require_once("vendor/autoload.php");
 
 session_start();
 
 $_SESSION['system'] = array(
-    'name' => 'SCMM - Sistema de Controle de Mercadorias de ComÃ©rcios',
+    'name' => 'SCMM - Sistema de Controle de Mercadorias de Comércios',
     'version' => '1.0.0'
 );
 
@@ -48,7 +48,6 @@ $app->group('/login', function () use ($app) {
 
     $app->post('/', function () use ($app) {
         loginController::actionLogin($_POST);
-        $app->redirect('/');
     });
 });
 
@@ -59,7 +58,6 @@ $app->group('/login', function () use ($app) {
 $app->group('/logout', function () use ($app) {
     $app->get('/', function () use ($app) {
         loginController::actionLogout();
-        $app->redirect('/');
     });
 });
 
@@ -73,24 +71,7 @@ $app->group('/register', function () use ($app) {
     });
 
     $app->post('/', function () use ($app) {
-        $register = $_POST;
-
-        if ($register['desSenha'] === $register['desReSenha']) {
-            registerController::actionRegister($register);
-
-            $_SESSION['register'] = array(
-                'msg' => "UsuÃ¡rio Cadastrado com Sucesso!"
-            );
-            $app->redirect('/login');
-        } else {
-            $_SESSION['register'] = array(
-                'desLogin' => $register['desLogin'],
-                'desNome' => $register['desNome'],
-                'desEmail' => $register['desEmail'],
-                'msg' => "As senhas nÃ£o sÃ£o identicas."
-            );
-            $app->redirect('/register');
-        }
+        registerController::actionRegister($_POST);
     });
 });
 
@@ -172,6 +153,10 @@ $app->group('/admin', function () use ($app) {
         $app->get('/report', function () {
             productController::actionViewReport();
         });
+
+        $app->get('/getproduct/:id', function($id) {
+            productController::getProduct($id);
+        });
     });
 
     /**
@@ -195,12 +180,24 @@ $app->group('/admin', function () use ($app) {
             prodsByCommerceController::actionUpdate($id, $_POST);
         });
 
+        $app->get('/deleteAll/:id', function ($id) {
+            prodsByCommerceController::actionDeleteAll($id);
+        });
+
         $app->get('/delete/:id', function ($id) {
+            prodsByCommerceController::actionDelete($id);
+        });
+
+        $app->get('/reportAll', function() {
 
         });
 
-        $app->get('/getproduct/:id', function ($id) {
-            prodsByCommerceController::getProduct($id);
+        $app->get('/report/:id', function() {
+
+        });
+
+        $app->get('/getprodsbycommerce/:id', function ($id) {
+            prodsByCommerceController::getProdsByCommerce($id);
         });
 
         $app->get('/getproductdiff/:id', function($id) {
@@ -246,7 +243,7 @@ $app->group('/admin', function () use ($app) {
          * Url: http://local.scmm.com.br/admin/users/client
          */
         $app->group('/client', function () use ($app) {
-            $app->get('/', function () use ($app) {
+            $app->get('/', function () {
 
             });
         });
