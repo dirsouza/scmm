@@ -33,7 +33,7 @@ class ProdsByCommerce extends Model
      * Atualiza o vinculo Comercio, Produto e Preço
      * @param type $idProdutoComercio
      */
-    public function updateProdutoComercio($idProdutoComercio)
+    public function updateProdutoComercio(int $idProdutoComercio)
     {
         try {
             $sql = new Dao();
@@ -51,7 +51,7 @@ class ProdsByCommerce extends Model
      * Exclui um vinculo entre Comercio e Produto
      * @param type $idProdutoComercio
      */
-    public function deleteProdutoComercio($idProdutoComercio)
+    public function deleteProdutoComercio(int $idProdutoComercio)
     {
         try {
             $sql = new Dao();
@@ -64,7 +64,7 @@ class ProdsByCommerce extends Model
         }
     }
 
-    public function deleteProdutoComercioAll($idProdutoComercio)
+    public function deleteProdutoComercioAll(int $idProdutoComercio)
     {
         try {
             $sql = new Dao();
@@ -98,7 +98,7 @@ class ProdsByCommerce extends Model
      * Lista um Produto e Comercio vinculado e retorna um Array para atualização
      * @return type Array
      */
-    public static function listProdutosComerciosId($idProdutoComercio)
+    public static function listProdutosComerciosId(int $idProdutoComercio)
     {
         try {
             $sql = new Dao();
@@ -119,7 +119,7 @@ class ProdsByCommerce extends Model
      * Lista todos os produtos vinculados ao idComercio e retorna um Array
      * @return type Array
      */
-    public static function listProdComeIdComercio($idComercio)
+    public static function listProdComeIdComercio(int $idComercio)
     {
         try {
             $sql = new Dao();

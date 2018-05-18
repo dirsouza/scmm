@@ -43,9 +43,11 @@ $(function () {
         var $type = $(this).attr('data-url-type');
         var $id = $('#selectOption').val();
         if ($id != null && typeof $type != 'undefined' && $type == 'commerces') {
-            window.location.href = '/admin/prodsByCommerce/reportCommerces/' + $id;
+            window.open('/admin/prodsByCommerce/reportCommerces/' + $id, '_blank');
+            hiddenModal();
         } else if ($id != null && typeof $type != 'undefined') {
-            window.location.href = '/admin/prodsByCommerce/reportProducts/' + $id;
+            window.open('/admin/prodsByCommerce/reportProducts/' + $id, '_blank');
+            hiddenModal();
         }
     });
 
@@ -72,9 +74,13 @@ $(function () {
     });
 
     $('#modalIndexProduct').on('click', '.btnCancel', function () {
+        hiddenModal();
+    });
+
+    function hiddenModal() {
         $('#modalIndexProduct').modal('hide');
         $('#modalIndexProduct .modal-content').empty();
-    });
+    }
 
     $('#listProdsByCommerce').on('click', '.deleteProduct', function () {
         var $form = '<div class="modal-header"><h4 class="modal-title" id="gridSystemModalLabel"><i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Selecione uma opção</h4></div>' +

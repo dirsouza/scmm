@@ -200,8 +200,8 @@ $app->group('/admin', function () use ($app) {
 
         });
 
-        $app->get('/reportCommerces/:id', function() {
-            echo "reportCommerces";
+        $app->get('/reportCommerces/:id', function($id) {
+            prodsByCommerceController::actionViewReport($id, 'commerce');
         });
 
         $app->get('/reportProducts/:id', function () {

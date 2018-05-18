@@ -123,12 +123,28 @@ class prodsByCommerceController extends Controller
         exit;
     }
 
-    public static function actionViewReport()
+    public static function actionViewReport(int $id = null, $method = "all")
     {
         $user = self::loginVerify();
         parent::verifyAdmin($user);
 
-        
+        $app = new Slim();
+
+        switch ($method) {
+            case 'commerce':
+                $getCommerce = ProdsByCommerce::listProdComeIdComercio($id);
+                $getDataCommerce = Commerce::listComercioId($getCommerce[0]['idcomercio']);
+                
+                $app->render('/prodsByCommerce/reportCommerce.php', array(
+                    'commerce' => $getDataCommerce[0],
+                    'products' => $getCommerce
+                ));
+                break;
+            case 'products':
+                break;
+            default:
+                break;
+        }
     }
 
     public static function getProdsByCommerce($id)
