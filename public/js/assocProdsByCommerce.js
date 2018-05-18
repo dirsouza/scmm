@@ -1,7 +1,56 @@
 $(function () {
 
+    $('#report').on('click', function() {
+        var $form = '<div class="modal-header"><h4 class="modal-title"><i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Relatórios</h4></div>' +
+            '<div class="modal-body">' +
+            '<div id="rowButtons" class="row" style="padding-bottom: 15px">' +
+            '<div class="col-md-12 text-center">'+
+            '<div class="col-md-4"><button type="button" class="btn btn-block btn-primary btnReport">Por Comércio</button></div>' +
+            '<div class="col-md-4"><button type="button" class="btn btn-block btn-success btnReport">Por Produto</button></div>' +
+            '<div class="col-md-4"><a href="/admin/prodsByCommerce/reportAll" class="btn btn-block btn-info">Geral</a></div>' +
+            '</div>' +
+            '</div>' +
+            '<div id="rowSelect" class="row hidden">' +
+            '<div class="form-horizontal"><div class="form-group"><label class="col-md-3 control-label">Selecione:</label>' +
+            '<div class="col-md-8"><select id="selectOption" class="form-control select2"><option></option></select></div></div>' +
+            '</div>' +
+            '<div class="row">' +
+            '<div class="col-md-12" style="padding: 0 67px 0 172px"><button type="button" data-url-type="#" class="btn btn-block btn-primary btnViewReport">Geral Relatório</button></div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="modal-footer">' +
+            '<button type="button" class="btn btn-warning btnCancel">Cancelar</button>' +
+            '</div>';
+        
+        $('#modalIndexProduct .modal-content').append($form);
+        $('#modalIndexProduct').modal('show');
+    });
+
+    $('#modalIndexProduct').on('click', ".btnReport", function (e) {
+        $('#rowSelect').removeClass('hidden');
+        var $bntName = $(this).text();
+        if (typeof $bntName != 'undefined' && $bntName == 'Por Comércio') {
+            getCommerces();
+            startSelect2();
+        } else {
+            getProducts();
+            startSelect2();
+        }
+    });
+
+    $('#modalIndexProduct').on('click', ".btnViewReport", function (e) {
+        var $type = $(this).attr('data-url-type');
+        var $id = $('#selectOption').val();
+        if ($id != null && typeof $type != 'undefined' && $type == 'commerces') {
+            window.location.href = '/admin/prodsByCommerce/reportCommerces/' + $id;
+        } else if ($id != null && typeof $type != 'undefined') {
+            window.location.href = '/admin/prodsByCommerce/reportProducts/' + $id;
+        }
+    });
+
     $('#listProdsByCommerce').on('click', '.updateProduct', function () {
-        var $form = '<div class="modal-header"><h4 class="modal-title" id="gridSystemModalLabel">Atualizar Produto</h4></div>' +
+        var $form = '<div class="modal-header"><h4 class="modal-title" id="gridSystemModalLabel"><i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Atualizar Produto</h4></div>' +
             '<form action="/admin/prodsByCommerce/update/' + $(this).attr('data-product-id') + '" method="POST">' +
             '<div class="modal-body">' +
             '<div class="form-horizontal">' +
@@ -28,7 +77,7 @@ $(function () {
     });
 
     $('#listProdsByCommerce').on('click', '.deleteProduct', function () {
-        var $form = '<div class="modal-header"><h4 class="modal-title" id="gridSystemModalLabel">Selecione uma opção</h4></div>' +
+        var $form = '<div class="modal-header"><h4 class="modal-title" id="gridSystemModalLabel"><i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Selecione uma opção</h4></div>' +
             '<div class="modal-body"><div class="form-group text-center"><div class="row" style="margin-bottom: 5px"><div class="col-md-12">'+
             '<a href="/admin/prodsByCommerce/delete/' + $(this).attr('data-product-id') + '" class="btn btn-lg btn-block btn-info">Excluir o produto ' + ('00000' + $(this).attr('data-product-id')).slice(-5) + " - " + $(this).attr('data-product-name') + '</a></div></div><div class="row"><div class="col-md-12">'+
             '<a href="/admin/prodsByCommerce/deleteAll/' + $(this).attr('data-product-id') + '" class="btn btn-xs btn-block btn-danger">Excluir todos os produtos associados ao Comércio ' + $(this).attr('data-commerce-name') + '</a></div></div></div></div>' +
@@ -36,6 +85,10 @@ $(function () {
 
             $('#modalIndexProduct .modal-content').append($form);
             $('#modalIndexProduct').modal('show');
+    });
+
+    $('#modalIndexProduct').on('shown.bs.modal', function () {
+        $('#priceModel').focus();
     });
 
     function enabledMoney() {
@@ -95,8 +148,8 @@ $(function () {
      * Pega o Value do select id="product"
      */
     $('#addProduct').on('click', function () {
-        var $product = (typeof $('#product').val() == 'object') ? "" : $('#product').val();
-        if ($product != "") {
+        var $product = $('#product').val();
+        if ($product != "" && typeof $product != 'object') {
             clearModal();
             getProduct($product);
             $('#modalProduct').modal('show');
@@ -126,6 +179,10 @@ $(function () {
         $(this).closest('.row').remove();
         disabledListProds();
         enableItemSelect($(this).attr('data-select-id'));
+    });
+
+    $('#modalProduct').on('shown.bs.modal', function () {
+        $('#priceModel').focus();
     });
 
     function clearModal() {
@@ -191,6 +248,58 @@ $(function () {
                 $('#brandModal').val($result[0].desmarca);
             },
             error: function ($error) {
+                console.log($error);
+            }
+        });
+    }
+
+    function getCommerces() {
+        $('#selectOption').empty();
+        var $addOption = null;
+        $.ajax({
+            type: "GET",
+            url: '/admin/commerce/getcommerces',
+            dataType: "json",
+            success: function ($result) {
+                if ($result != null) {
+                    $.each($result, function (i, item) {
+                        if ($addOption === null) {
+                            $addOption = '<option value=' + item.idcomercio + '>' + item.desnome + '</option>';
+                        } else {
+                            $addOption += '<option value=' + item.idcomercio + '>' + item.desnome + '</option>';
+                        }
+                    });
+                    $('#selectOption').append($addOption);
+                    $('.btnViewReport').attr('data-url-type', 'commerces');
+                }
+            },
+            error: function ($error) {
+                console.log($error);
+            }
+        });
+    }
+
+    function getProducts() {
+        $('#selectOption').empty();
+        var $addOption = null;
+        $.ajax({
+            type: "GET",
+            url: '/admin/product/getproducts',
+            dataType: "json",
+            success: function($result) {
+                if ($result != null) {
+                    $.each($result, function (i, item) {
+                        if ($addOption === null) {
+                            $addOption = '<option value=' + item.idproduto + '>' + item.desnome + ' - ' + item.desmarca + '</option>';
+                        } else {
+                            $addOption += '<option value=' + item.idproduto + '>' + item.desnome + ' - ' + item.desmarca + '</option>';
+                        }
+                    });
+                    $('#selectOption').append($addOption);
+                    $('.btnViewReport').attr('data-url-type', 'products');
+                }
+            },
+            error: function($error) {
                 console.log($error);
             }
         });

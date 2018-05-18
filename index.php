@@ -116,6 +116,10 @@ $app->group('/admin', function () use ($app) {
             commerceController::actionViewReport();
         });
 
+        $app->get('/getcommerces', function() {
+            commerceController::actionGetCommerces();
+        });
+
         $app->get('/getcep/:cep', function ($cep) {
             commerceController::actionGetCep($cep);
         });
@@ -154,8 +158,12 @@ $app->group('/admin', function () use ($app) {
             productController::actionViewReport();
         });
 
+        $app->get('/getproducts', function() {
+            productController::actionGetProducts();
+        });
+
         $app->get('/getproduct/:id', function($id) {
-            productController::getProduct($id);
+            productController::actionGetProduct($id);
         });
     });
 
@@ -192,8 +200,12 @@ $app->group('/admin', function () use ($app) {
 
         });
 
-        $app->get('/report/:id', function() {
+        $app->get('/reportCommerces/:id', function() {
+            echo "reportCommerces";
+        });
 
+        $app->get('/reportProducts/:id', function () {
+            echo "reportProducts";
         });
 
         $app->get('/getprodsbycommerce/:id', function ($id) {

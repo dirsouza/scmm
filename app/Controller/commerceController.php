@@ -140,12 +140,22 @@ class commerceController extends Controller
         ));
     }
 
+    public static function actionGetCommerces()
+    {
+        $user = self::loginVerify();
+        parent::verifyAdmin($user);
+
+        $getCommerces = Commerce::listComercios();
+
+        echo json_encode($getCommerces);
+    }
+
     public static function actionGetCep($cep)
     {
         $user = self::loginVerify();
         parent::verifyAdmin($user);
 
-        $setCep = Commerce::getCep($cep);
-        echo json_encode($setCep);
+        $getCep = Commerce::getCep($cep);
+        echo json_encode($getCep);
     }
 }

@@ -139,13 +139,23 @@ class productController extends Controller
         ));
     }
 
-    public static function getProduct($id)
+    public static function actionGetProducts()
     {
         $user = self::loginVerify();
         parent::verifyAdmin($user);
 
-        $setProduct = Product::listProdutoId((int)$id);
+        $getProducts = Product::listProdutos();
 
-        echo json_encode($setProduct);
+        echo json_encode($getProducts);
+    }
+
+    public static function actionGetProduct($id)
+    {
+        $user = self::loginVerify();
+        parent::verifyAdmin($user);
+
+        $getProduct = Product::listProdutoId((int)$id);
+
+        echo json_encode($getProduct);
     }
 }
