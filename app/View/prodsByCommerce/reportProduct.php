@@ -108,9 +108,24 @@ ob_start();
     <body>
         <header class="content">
             <img class="logo-left" src="<?= PATH_DIR ?>/public/img/logo-pdf.jpg">
-            Relatório Geral de Produtos por Comércio
+            Relatório de Comércios por Produto
             <div class="logo-right">Página</div>
         </header>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="10%">Produto:</th>
+                        <td><?=$products['desnome']?></td>
+                        <td>&nbsp;</td>
+                        <th width="10%">Marca:</th>
+                        <td><?=$products['desmarca']?></td>
+                    </tr>
+                    <tr>
+                        <th width="10%">Descrição:</th>
+                        <td colspan="4"><?=$products['desdescricao']?></td>
+                    </tr>
+                </thead>
+            </table>
         <footer>
             <div class="footer-left"><?= $_SESSION['system']['name'] ?></div>
             <div class="footer-right">Versão <?= $_SESSION['system']['version'] ?></div>
@@ -120,25 +135,18 @@ ob_start();
                 <thead>
                     <tr>
                         <th width="10%">Código</th>
-                        <th>Comércio/Produtos</th>
+                        <th>Comércio</th>
                         <th width="15%">Preço</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php if (is_array($prodsByCommerce) && count($prodsByCommerce) > 0): ?>
-                    <?php foreach ($prodsByCommerce as $value): ?>
-                    <?php if ($idCommerce != $value['idcomercio']): ?>
+                <?php if (is_array($commerces) && count($commerces) > 0): ?>
+                    <?php foreach ($commerces as $value): ?>
                     <tr>
-                        <td class="text-center" style="background-color: #bdc3c7; font-weight: bolder;"><?=str_pad($value['idcomercio'], 5, 0, STR_PAD_LEFT)?></td>
-                        <td colspan="2" style="background-color: #bdc3c7; font-weight: bolder;"><?=$value['desComercio']?></td>
+                        <td class="text-center"><?= str_pad($value['idcomercio'], 5, 0, STR_PAD_LEFT)?></td>
+                        <td><?=$value['desComercio']?></td>
+                        <td><?=$value['desPreco']?></td>
                     </tr>
-                    <?php endif; ?>
-                    <tr style="font-style: italic;">
-                        <td class="text-center"><?= str_pad($value['idproduto'], 5, 0, STR_PAD_LEFT) ?></td>
-                        <td><?= $value['desProduto'] . " - " . $value['desmarca'] ?></td>
-                        <td><?= $value['desPreco'] ?></td>
-                    </tr>
-                    <?php $idCommerce = $value['idcomercio'] ?>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 </tbody>

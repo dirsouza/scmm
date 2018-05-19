@@ -39,6 +39,15 @@ ob_start();
                 height: 50px;
                 padding: 0 3px 0 3px;
             }
+
+            table {
+                white-space: nowrap;
+                font-size: 15px;
+                margin-top: 10px;
+                border-collapse: collapse;
+                width: 100%;
+                height: 50px;
+            }
             
             .logo-left {
                 float: left;
@@ -67,9 +76,6 @@ ob_start();
             }
             
             .table {
-                font-size: 15px;
-                margin-top: 10px;
-                border-collapse: collapse;
                 border: 1px solid #000;
                 width: 100%;
                 color: #fff;
@@ -85,7 +91,7 @@ ob_start();
             }
             .table td {
                 overflow: hidden;
-                white-space: nowrap;
+                /*white-space: nowrap;*/
                 height: 15px;
                 border: 1px solid #000;
                 vertical-align: middle;
@@ -105,28 +111,30 @@ ob_start();
             Relatório de Produtos por Comércio
             <div class="logo-right">Página</div>
         </header>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="10%">Comércio:</th>
+                        <td>&nbsp;<?= $commerce['desnome'] ?></td>
+                    </tr>
+                    <tr>
+                        <th width="10%">Endereço:</th>
+                        <td>&nbsp;<?= $commerce['desrua'] . ", " . $commerce['desbairro'] ?></td>
+                    </tr>
+                </thead>
+            </table>
         <footer>
             <div class="footer-left"><?= $_SESSION['system']['name'] ?></div>
             <div class="footer-right">Versão <?= $_SESSION['system']['version'] ?></div>
         </footer>
         <main>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Comércio:</th>
-                        <td><?= $commerce['desnome'] ?></td>
-                        <td>&nbsp;</td>
-                        <th>Endereço:</th>
-                        <td><?= $commerce['desrua'] . ", " . $commerce['desbairro'] ?></td>
-                    </tr>
-                </thead>
-            </table>
             <table class="table">
                 <thead>
                     <tr>
                         <th width="10%">Código</th>
-                        <th width="50%">Nome</th>
-                        <th width="40%">Marca</th>
+                        <th width="45%">Produto</th>
+                        <th width="30%">Marca</th>
+                        <th width="15%">Preço</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -136,6 +144,7 @@ ob_start();
                         <td class="text-center"><?= str_pad($value['idproduto'], 5, 0, STR_PAD_LEFT)?></td>
                         <td><?=$value['desProduto']?></td>
                         <td><?=$value['desmarca']?></td>
+                        <td><?=$value['desPreco']?></td>
                     </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>

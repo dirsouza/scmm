@@ -135,14 +135,45 @@ class prodsByCommerceController extends Controller
                 $getCommerce = ProdsByCommerce::listProdComeIdComercio($id);
                 $getDataCommerce = Commerce::listComercioId($getCommerce[0]['idcomercio']);
                 
-                $app->render('/prodsByCommerce/reportCommerce.php', array(
-                    'commerce' => $getDataCommerce[0],
-                    'products' => $getCommerce
-                ));
+                if (is_array($getCommerce) && count($getCommerce) > 0) {
+                    $app->render('/prodsByCommerce/reportCommerce.php', array(
+                        'commerce' => $getDataCommerce[0],
+                        'products' => $getCommerce
+                    ));
+                } else {
+                    echo '<script>window.close()</script>';
+                    parent::notify("warning", "Nenhum registro foi encontrado para essa consulta.");
+                    exit;
+                }
                 break;
-            case 'products':
+            case 'product':
+                $getProduct = ProdsByCommerce::listProdComeIdProduto($id);
+                $getDataProduct = Product::listProdutoId($getProduct[0]['idproduto']);
+
+                if (is_array($getProduct) && count($getProduct) > 0) {
+                    $app->render('/prodsByCommerce/reportProduct.php', array(
+                        'products' => $getDataProduct[0],
+                        'commerces' => $getProduct
+                    ));
+                } else {
+                    echo '<script>window.close()</script>';
+                    parent::notify("warning", "Nenhum registro foi encontrado para essa consulta.");
+                    exit;
+                }
                 break;
             default:
+                $getProdsByCommerce = ProdsByCommerce::listProdutosComercios();
+
+                if (is_array($getProdsByCommerce) && count($getProdsByCommerce) > 0) {
+                    $app->render('/prodsByCommerce/reportAll.php', array(
+                        'prodsByCommerce' => $getProdsByCommerce,
+                        'idCommerce' => 0
+                    ));
+                } else {
+                    echo '<script>window.close()</script>';
+                    parent::notify("warning", "Nenhum registro foi encontrado para essa consulta.");
+                    exit;
+                }
                 break;
         }
     }

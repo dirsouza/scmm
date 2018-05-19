@@ -197,15 +197,15 @@ $app->group('/admin', function () use ($app) {
         });
 
         $app->get('/reportAll', function() {
-
+            prodsByCommerceController::actionViewReport();
         });
 
         $app->get('/reportCommerces/:id', function($id) {
             prodsByCommerceController::actionViewReport($id, 'commerce');
         });
 
-        $app->get('/reportProducts/:id', function () {
-            echo "reportProducts";
+        $app->get('/reportProducts/:id', function ($id) {
+            prodsByCommerceController::actionViewReport($id, 'product');
         });
 
         $app->get('/getprodsbycommerce/:id', function ($id) {

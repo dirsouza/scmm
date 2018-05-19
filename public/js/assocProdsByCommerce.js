@@ -7,7 +7,7 @@ $(function () {
             '<div class="col-md-12 text-center">'+
             '<div class="col-md-4"><button type="button" class="btn btn-block btn-primary btnReport">Por Comércio</button></div>' +
             '<div class="col-md-4"><button type="button" class="btn btn-block btn-success btnReport">Por Produto</button></div>' +
-            '<div class="col-md-4"><a href="/admin/prodsByCommerce/reportAll" class="btn btn-block btn-info">Geral</a></div>' +
+            '<div class="col-md-4"><a href="/admin/prodsByCommerce/reportAll" id="btnHref" class="btn btn-block btn-info" target="_blank">Geral</a></div>' +
             '</div>' +
             '</div>' +
             '<div id="rowSelect" class="row hidden">' +
@@ -45,10 +45,17 @@ $(function () {
         if ($id != null && typeof $type != 'undefined' && $type == 'commerces') {
             window.open('/admin/prodsByCommerce/reportCommerces/' + $id, '_blank');
             hiddenModal();
+            window.location.reload();
         } else if ($id != null && typeof $type != 'undefined') {
             window.open('/admin/prodsByCommerce/reportProducts/' + $id, '_blank');
             hiddenModal();
+            window.location.reload();
         }
+    });
+
+    $('#modalIndexProduct').on('click', '#btnHref', function () {
+        hiddenModal();
+        window.location.reload();
     });
 
     $('#listProdsByCommerce').on('click', '.updateProduct', function () {
@@ -85,8 +92,8 @@ $(function () {
     $('#listProdsByCommerce').on('click', '.deleteProduct', function () {
         var $form = '<div class="modal-header"><h4 class="modal-title" id="gridSystemModalLabel"><i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Selecione uma opção</h4></div>' +
             '<div class="modal-body"><div class="form-group text-center"><div class="row" style="margin-bottom: 5px"><div class="col-md-12">'+
-            '<a href="/admin/prodsByCommerce/delete/' + $(this).attr('data-product-id') + '" class="btn btn-lg btn-block btn-info">Excluir o produto ' + ('00000' + $(this).attr('data-product-id')).slice(-5) + " - " + $(this).attr('data-product-name') + '</a></div></div><div class="row"><div class="col-md-12">'+
-            '<a href="/admin/prodsByCommerce/deleteAll/' + $(this).attr('data-product-id') + '" class="btn btn-xs btn-block btn-danger">Excluir todos os produtos associados ao Comércio ' + $(this).attr('data-commerce-name') + '</a></div></div></div></div>' +
+            '<a href="/admin/prodsByCommerce/delete/' + $(this).attr('data-product-id') + '" onclick="return confirm(' + '\'Deseja excluir esse Produto?\'' + ')"  class="btn btn-lg btn-block btn-info">Excluir o produto ' + ('00000' + $(this).attr('data-product-id')).slice(-5) + " - " + $(this).attr('data-product-name') + '</a></div></div><div class="row"><div class="col-md-12">' +
+            '<a href="/admin/prodsByCommerce/deleteAll/' + $(this).attr('data-product-id') + '" onclick="return confirm('+'\'Deseja excluir todos os Produtos vinculados ao Comércio?\''+')" class="btn btn-xs btn-block btn-danger">Excluir todos os produtos associados ao Comércio ' + $(this).attr('data-commerce-name') + '</a></div></div></div></div>' +
             '<div class="modal-footer"><button type="button" class="btn btn-warning btnCancel">Cancelar</button></div>';
 
             $('#modalIndexProduct .modal-content').append($form);
