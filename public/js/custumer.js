@@ -50,6 +50,10 @@ $(function() {
         }
     );
 
+    $('#btnHref').on('click', function() {
+        window.location.reload();
+    });
+
     notify($typeNotify, $msgNotify);
     function notify($type, $msg) {
         if ($type != null && $msg != null) {

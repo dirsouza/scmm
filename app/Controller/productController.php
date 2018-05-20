@@ -133,10 +133,16 @@ class productController extends Controller
 
         $products = Product::listProdutos();
 
-        $app = new Slim();
-        $app->render('/product/report.php', array(
-            'products' => $products
-        ));
+        if (is_array($products) && count($products) > 0) {
+            $app = new Slim();
+            $app->render('/product/report.php', array(
+                'products' => $products
+            ));
+        } else {
+            echo '<script>window.close()</script>';
+            parent::notify("warning", "Nenhum registro foi encontrado para essa consulta.");
+            exit;
+        }         
     }
 
     public static function actionGetProducts()

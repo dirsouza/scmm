@@ -134,10 +134,16 @@ class commerceController extends Controller
 
         $commerces = Commerce::listComercios();
 
-        $app = new Slim();
-        $app->render('/commerce/report.php', array(
-            'commerces' => $commerces
-        ));
+        if (is_array($commerces) && count($commerces) > 0) {
+            $app = new Slim();
+            $app->render('/commerce/report.php', array(
+                'commerces' => $commerces
+            ));
+        } else {
+            echo '<script>window.close()</script>';
+            parent::notify("warning", "Nenhum registro foi encontrado para essa consulta.");
+            exit;
+        }        
     }
 
     public static function actionGetCommerces()

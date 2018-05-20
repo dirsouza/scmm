@@ -6,7 +6,8 @@ use Slim\Slim;
 use Core\Controller;
 use App\Controller\clientController;
 use App\Model\Login;
-use App\Model\User;
+use App\Model\Administrator;
+use App\Model\Client;
 use App\Model\Commerce;
 use App\Model\Product;
 
@@ -30,11 +31,11 @@ class homeController extends Controller
         $mainPanel = array(
             'commerces' => (is_array(Commerce::listComercios()) && count(Commerce::listComercios()) > 0) ? count(Commerce::listComercios()) : 0,
             'products' => (is_array(Product::listProdutos()) && count(Product::listProdutos()) > 0) ? count(Product::listProdutos()) : 0,
-            'admins' => (is_array(User::listAdministradores()) && count(User::listAdministradores()) > 0) ? count(User::listAdministradores()) : 0,
-            'clients' => (is_array(User::listClientes()) && count(User::listClientes()) > 0) ? count(User::listClientes()) : 0
+            'admins' => (is_array(Administrator::listAdministradores()) && count(Administrator::listAdministradores()) > 0) ? count(Administrator::listAdministradores()) : 0,
+            'clients' => (is_array(Client::listClientes()) && count(Client::listClientes()) > 0) ? count(Client::listClientes()) : 0
         );
 
-        $userName = User::listAdministradorId((int)$user['Idusuario']);
+        $userName = Administrator::listAdministradorId((int)$user['Idusuario']);
         $userName = explode(" ", $userName[0]['desnome']);
         $_SESSION['userName'] = $userName[0];
         

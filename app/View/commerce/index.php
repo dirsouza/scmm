@@ -8,7 +8,7 @@
                             <div class="panel-body">
                                 <div class="row-border">
                                     <a href="/admin/commerce/create" class="btn btn-success">Cadastrar</a>
-                                    <a href="/admin/commerce/report" target="_blank" class="btn btn-primary">Relatório</a>
+                                    <a href="/admin/commerce/report" id="btnHref" target="_blank" class="btn btn-primary">Relatório</a>
                                 </div>
                                 <div class="row-border" style="margin-top: 20px;">
                                     <table id="table" class="table table-striped table-bordered nowrap" width="100%">

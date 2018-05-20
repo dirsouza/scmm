@@ -5,7 +5,7 @@ namespace App\Controller;
 use Slim\Slim;
 use Core\Controller;
 use App\Model\Login;
-use App\Model\User;
+use App\Model\Client;
 
 class clientController extends Controller
 {
@@ -24,7 +24,7 @@ class clientController extends Controller
         $user = self::loginVerify();
         parent::verifyClient($user);
 
-        $userName = User::listClienteId((int)$user['Idusuario']);
+        $userName = Client::listClienteId((int)$user['Idusuario']);
         $userName = explode(" ", $userName[0]['desnome']);
         $_SESSION['userName'] = $userName[0];
 
