@@ -89,7 +89,7 @@ class Login extends Model
      * Seta os dados do Usuário
      * @param type $idUser
      */
-    public function getUser($idUser)
+    public function getUser(int $idUser)
     {
         try {
             $sql = new Dao();

@@ -30,6 +30,7 @@
                     <div class="row">
                         <div class="col-xs-8 pull-left">
                             <a href="/register" class="btn text-register" tabindex="4">Registrar-me</a>
+                            <a href="/forgot" class="btn text-register" tabindex="5">Esqueci minha senha</a>
                         </div>
                         <div class="col-xs-4 pull-right">
                             <button type="submit" class="btn btn-primary btn-block" tabindex="3">Entrar</button>

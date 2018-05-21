@@ -1,7 +1,7 @@
 <?php
 setlocale(LC_ALL, "pt_BR", "pt_BR-utf-8", "portuguese");
 
-define("PATH_DIR", dirname(__FILE__));
+define("PATH_DIR", $_SERVER['DOCUMENT_ROOT']);
 define("APP_PATH", PATH_DIR . "/app/View");
 
 require_once("vendor/autoload.php");
@@ -19,6 +19,7 @@ use App\Controller\homeController;
 use App\Controller\clientController;
 use App\Controller\loginController;
 use App\Controller\registerController;
+use App\Controller\forgotController;
 use App\Controller\commerceController;
 use App\Controller\productController;
 use App\Controller\prodsByCommerceController;
@@ -46,7 +47,7 @@ $app->group('/login', function () use ($app) {
         loginController::actionIndex();
     });
 
-    $app->post('/', function () use ($app) {
+    $app->post('/', function () {
         loginController::actionLogin($_POST);
     });
 });
@@ -56,7 +57,7 @@ $app->group('/login', function () use ($app) {
  * Url: http:/local.scmm.com.br/logout
  */
 $app->group('/logout', function () use ($app) {
-    $app->get('/', function () use ($app) {
+    $app->get('/', function () {
         loginController::actionLogout();
     });
 });
@@ -70,8 +71,30 @@ $app->group('/register', function () use ($app) {
         registerController::actionIndex();
     });
 
-    $app->post('/', function () use ($app) {
+    $app->post('/', function () {
         registerController::actionRegister($_POST);
+    });
+});
+
+/**
+ * Recuperar senha
+ * Url: http://local.scmm.com.br/forgot
+ */
+$app->group('/forgot', function () use ($app) {
+    $app->get('/', function () {
+        forgotController::actionIndex();
+    });
+
+    $app->post('/', function () {
+        forgotController::actionForgot($_POST);
+    });
+
+    $app->get('/reset', function () {
+        forgotController::actionViewReset($_GET['code']);
+    });
+
+    $app->post('/reset', function () {
+        forgotController::actionReset($_POST);
     });
 });
 

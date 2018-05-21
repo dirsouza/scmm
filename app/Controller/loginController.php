@@ -6,7 +6,7 @@ use Slim\Slim;
 use Core\Controller;
 use App\Model\Login;
 
-class loginController
+class loginController extends Controller
 {
     public static function actionIndex()
     {
@@ -21,7 +21,7 @@ class loginController
         $login = new Login();
         $login->login($data['desLogin'], $data['desSenha']);
 
-        Controller::verifyLogin();
+        parent::verifyLogin();
     }
 
     public static function actionLogout()
@@ -29,6 +29,6 @@ class loginController
         $login = new Login();
         $login->logout();
 
-        Controller::verifyLogin();
+        parent::verifyLogin();
     }
 }
