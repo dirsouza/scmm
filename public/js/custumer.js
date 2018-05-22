@@ -1,5 +1,15 @@
 $(function() {
     /**
+     * Evita multiplos click
+     */
+    $('form').submit(function() {
+        $(this).submit(function() {
+            return false;
+        });
+        return true;
+    });
+
+    /**
     * DataTables
     */
     if (document.getElementById('selectCheckbox') !== null) {
