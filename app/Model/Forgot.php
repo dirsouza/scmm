@@ -24,10 +24,8 @@ class Forgot extends Model
                              ));
             
             if (is_array($results) && count($results) > 0) {
-                $recovery = $sql->allSelect("CALL sp_clienteRecovery (:IDUSUARIO, :DESIP)", array(
-                    ':IDUSUARIO' => $results[0]['idusuario'],
-                    ':DESIP' => $_SERVER['REMOTE_ADDR']
-                ));
+                $idRecovery = self::insertRecovery($results[0]['idusuario']);
+                $recovery = self::getRecovery($idRecovery);
                 
                 if (count($recovery) > 0) {
                     $code_encrypted = self::forgotEncrypt($recovery[0]['idrecovery'], Forgot::STRING_SECURITY);
@@ -51,23 +49,46 @@ class Forgot extends Model
         }
     }
 
-   private function forgotEncrypt($data, $key)
-    {
-        $encryption_key = base64_decode($key);
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length(Forgot::METHOD_ENCRYPT));
-        $encrypted = openssl_encrypt($data, Forgot::METHOD_ENCRYPT, $encryption_key, 0, $iv);
-
-        return base64_encode($encrypted . "::" . $iv);
-    }
-
-    public static function validForgotDecrypt($code)
+    private function insertRecovery(int $idUser)
     {
         try {
             $sql = new Dao();
+            $sql->allQuery("INSERT INTO tbclienterecovery (idusuario, desip)
+                            VALUES (:IDUSUARIO, :DESIP)", array(
+                ':IDUSUARIO' => $idUser,
+                ':DESIP' => $_SERVER['REMOTE_ADDR']
+            ));
 
+            return $_SESSION[Dao::SESSION];
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível inserir os dados.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
+    }
+
+    private function getRecovery(int $idRecovery)
+    {
+        try {
+            $sql = new Dao();
+            $recovery = $sql->allSelect("SELECT * FROM tbclienterecovery a
+                                         INNER JOIN tbcliente b
+                                         USING (idusuario)
+                                         WHERE idrecovery = :IDRECOVERY", array(
+                ':IDRECOVERY' => $idRecovery
+            ));
+            
+            return $recovery;
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível recuperar os dados.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
+    }
+
+    public static function validForgotDecrypt($code, $password = null)
+    {
+        try {
+            $sql = new Dao();
             $results = $sql->allSelect("SELECT idrecovery FROM tbclienterecovery");
 
-            $code_decrypted = self::forgotDecrypt($code, Forgot::STRING_SECURITY);
+            $code_decrypted = self::forgotDecrypt($code);
 
             if (is_array($results) && count($results) > 0) {
                 foreach ($results as $result) {
@@ -83,7 +104,11 @@ class Forgot extends Model
 
                             if (is_array($user) && count($user) > 0) {
                                 self::setForgotUser($value);
-                                return $user[0];
+                                if ($password != null) {
+                                    self::setPassword($user[0]['idusuario'], $password);
+                                } else {
+                                    return $user[0];
+                                }
                             } else {
                                 Model::returnError("Código inválido ou inesistente.", $_SERVER['REQUEST_URI']);
                             }
@@ -96,19 +121,25 @@ class Forgot extends Model
         }
     }
 
-    private function forgotDecrypt($data, $key)
+    private function forgotEncrypt($idRecovery, $key)
     {
+        $encryption_id = base64_encode($idRecovery);
         $encryption_key = base64_decode($key);
-        list($encrypted_data, $iv) = explode("::", base64_decode($data), 2);
 
-        return openssl_decrypt($encrypted_data, Forgot::METHOD_ENCRYPT, $encryption_key, 0, $iv);
+        return base64_encode($encryption_id . "::" . $encryption_key);
+    }
+
+    private function forgotDecrypt($code)
+    {
+        $decryption = explode("::", base64_decode($code));
+        
+        return base64_decode($decryption[0]);
     }
 
     private function setForgotUser($idrecovery)
     {
         try {
             $sql = new Dao();
-
             $sql->allQuery("UPDATE tbclienterecovery SET dtrecovery = NOW() WHERE idrecovery = :IDRECOVERY", array(
                 ':IDRECOVERY' => $idrecovery
             ));
@@ -117,14 +148,14 @@ class Forgot extends Model
         }
     }
 
-    public function setPassword($password)
+    private function setPassword($idUser, $password)
     {
         try {
             $sql = new DAO();
 
             $sql->allQuery("UPDATE tbusuario SET dessenha = :DESSENHA WHERE idusuario = :IDUSUARIO", array(
                 ':DESSENHA' => $password,
-                ':IDUSUARIO' => $this->getIdUsuario()
+                ':IDUSUARIO' => $idUser
             ));
         } catch (\PDOException $e) {
             Model::returnError("Erro ao redefinir a senha.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);

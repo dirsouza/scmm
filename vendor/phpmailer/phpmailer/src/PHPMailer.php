@@ -20,6 +20,8 @@
 
 namespace PHPMailer\PHPMailer;
 
+use Core\Model;
+
 /**
  * PHPMailer - PHP email creation and transport class.
  *
@@ -1723,7 +1725,8 @@ class PHPMailer
     {
         $bad_rcpt = [];
         if (!$this->smtpConnect($this->SMTPOptions)) {
-            throw new Exception($this->lang('smtp_connect_failed'), self::STOP_CRITICAL);
+            Model::returnError("Erro no envio do E-mail, aparentemente você está sem conexão com Internet.", $_SERVER['REQUEST_URI']);
+            //throw new Exception($this->lang('smtp_connect_failed'), self::STOP_CRITICAL);
         }
         //Sender already validated in preSend()
         if ('' == $this->Sender) {

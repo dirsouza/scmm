@@ -90,7 +90,7 @@ $app->group('/forgot', function () use ($app) {
     });
 
     $app->get('/reset', function () {
-        forgotController::actionViewReset($_GET['code']);
+        forgotController::actionViewReset($_GET);
     });
 
     $app->post('/reset', function () {

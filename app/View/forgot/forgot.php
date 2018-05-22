@@ -423,9 +423,7 @@
                             <tr>
                               <td class="body-signature-cell">
                                 <p>Obrigado!</p>
-                                <p class="body-signature">
-                                  <?= $_SESSION['system']['name'] ?>
-                                </p>
+                                <p><b><?= $_SESSION['system']['name'] ?></b></p>
                               </td>
                             </tr>
                           </table>

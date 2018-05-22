@@ -44,15 +44,8 @@ class forgotController extends Controller
 
     public static function actionReset($data)
     {
-        $user = Forgot::validForgotDecrypt($data['code']);
-
-        $login = new Login();
-        $login->getUser($user['idusuario']);
-
-        $newPassword = password_hash($data['dessenha'], PASSWORD_DEFAULT);
-
-        $forgot = new Forgot();
-        $forgot->setPassword($newPassword);
+        $newPassword = password_hash($data['desSenha'], PASSWORD_DEFAULT);
+        $user = Forgot::validForgotDecrypt($data['desCode'], $newPassword);
 
         $_SESSION['register'] = array(
             'msg' => "Senha redefinida com sucesso!"
