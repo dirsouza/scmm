@@ -63,9 +63,9 @@ class Model {
      * @param type $msg
      * @param type $location
      */
-    public static function returnError($msg, $location = '/admin') 
+    public static function returnError($msg, $location = '/') 
     {
-        if ($location === "/admin") {
+        if ($location === "/") {
             $_SESSION['notify'] = array (
                 'type' => 'error',
                 'msg' => $msg

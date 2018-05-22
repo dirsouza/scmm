@@ -10,7 +10,6 @@ use App\Model\User;
 class Forgot extends Model
 {
     const STRING_SECURITY = "c2NtbS5jb20uYnI="; //base64 = scmm.com.br
-    const METHOD_ENCRYPT = "AES-128-CBC";
 
     public static function getForgot($email)
     {
@@ -39,13 +38,13 @@ class Forgot extends Model
 
                     $mailer->send();
                 } else {
-                    Model::returnError("Não foi possível recuperar a senha.", $_SERVER['REQUEST_URI']);
+                    Model::returnError("Não foi possível recuperar a senha.");
                 }
             } else {
-                Model::returnError("Endereço de E-mail não encontrado.", $_SERVER['REQUEST_URI']);
+                Model::returnError("Endereço de E-mail não encontrado.");
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível recuperar os dados.<br>" . $e->getMessage());
         }
     }
 
@@ -61,7 +60,7 @@ class Forgot extends Model
 
             return $_SESSION[Dao::SESSION];
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível inserir os dados.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível inserir os dados.<br>" . $e->getMessage());
         }
     }
 
@@ -78,7 +77,7 @@ class Forgot extends Model
             
             return $recovery;
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível recuperar os dados.<br>" . $e->getMessage());
         }
     }
 
@@ -97,27 +96,27 @@ class Forgot extends Model
                             $user = $sql->allSelect("SELECT * FROM tbclienterecovery a
                                                      INNER JOIN tbcliente b
                                                      USING (idusuario) 
-                                                     WHERE a.idrecovery = :IDRECOVERY 
-                                                     AND a.dtrecovery IS NULL", array(
+                                                     WHERE a.idrecovery = :IDRECOVERY", array(
                                 ':IDRECOVERY' => $value
                             ));
 
                             if (is_array($user) && count($user) > 0) {
-                                self::setForgotUser($value);
-                                if ($password != null) {
+                                if (empty($user[0]['idusuario'])) {
+                                    self::setForgotUser($value);
+                                } elseif ($password !== null) {
                                     self::setPassword($user[0]['idusuario'], $password);
-                                } else {
-                                    return $user[0];
                                 }
+
+                                return $user[0];
                             } else {
-                                Model::returnError("Código inválido ou inesistente.", $_SERVER['REQUEST_URI']);
+                                Model::returnError("Código inválido ou inesistente.");
                             }
                         }
                     }
                 }
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível recuperar os dados.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível recuperar os dados.<br>" . $e->getMessage());
         }
     }
 
@@ -144,7 +143,7 @@ class Forgot extends Model
                 ':IDRECOVERY' => $idrecovery
             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível atualizar o registro de recovery.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível atualizar o registro de recovery.<br>" . $e->getMessage());
         }
     }
 
@@ -158,7 +157,7 @@ class Forgot extends Model
                 ':IDUSUARIO' => $idUser
             ));
         } catch (\PDOException $e) {
-            Model::returnError("Erro ao redefinir a senha.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Erro ao redefinir a senha.<br>" . $e->getMessage());
         }
     }
 }

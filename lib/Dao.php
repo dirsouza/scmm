@@ -77,7 +77,7 @@ class Dao extends Model {
             $this->conn->commit();
         } catch (\PDOException $e) {
             $this->conn->rollBack();
-            Model::returnError($e->getMessage(), "/");
+            Model::returnError($e->getMessage());
         }
     }
     
@@ -98,7 +98,7 @@ class Dao extends Model {
             $this->conn->commit();
         } catch (\PDOException $e) {
             $this->conn->rollBack();
-            Model::returnError($e->getMessage(), "/");
+            Model::returnError($e->getMessage());
         }
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
