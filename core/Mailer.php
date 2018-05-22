@@ -74,7 +74,7 @@ class Mailer
         $this->mail->msgHTML($html);
 
         // Substitua o corpo do texto simples por um criado manualmente
-        $this->mail->AltBody = 'Teste de envio de E-mail SCMM';
+        $this->mail->AltBody = 'E-mail de Recuperação de Senha no SCMM';
     }
 
     // envia a mensagem

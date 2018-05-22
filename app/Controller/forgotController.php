@@ -31,21 +31,21 @@ class forgotController extends Controller
 
     public static function actionViewReset($data)
     {
-        $user = Forgot::validForgotDecrypt($data['code']);
+        $codeDecrypted = Forgot::forgotCodeDecrypt($data['code']);
+        $user = Forgot::validForgotDecrypt($codeDecrypted);
 
         $app = new Slim();
         $app->render('/forgot/header.php');
         $app->render('/forgot/reset.php', array(
             'name' => $user['desnome'],
-            'code' => $data['code']
+            'idusuario' => $user['idusuario']
         ));
         $app->render('/forgot/footer.php');
     }
 
     public static function actionReset($data)
     {
-        $newPassword = password_hash($data['desSenha'], PASSWORD_DEFAULT);
-        $user = Forgot::validForgotDecrypt($data['desCode'], $newPassword);
+        Forgot::setPassword($data['desIdUsuario'], $data['desSenha']);
 
         $_SESSION['register'] = array(
             'msg' => "Senha redefinida com sucesso!"

@@ -19,8 +19,8 @@
                 </div>
                 <?php endif; ?>
 
-                <form action="/reset" method="POST">
-                    <input type="hidden" name="desCode" value="<?= $code ?>">
+                <form action="/forgot/reset" method="POST">
+                    <input type="hidden" name="desIdUsuario" value="<?= $idusuario ?>">
                     <div class="input-group has-feedback">
                         <input type="password" name="desSenha" class="form-control" placeholder="Senha" required autofocus>
                         <span class="input-group-btn">

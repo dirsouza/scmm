@@ -85,35 +85,20 @@ class Forgot extends Model
     {
         try {
             $sql = new Dao();
-            $results = $sql->allSelect("SELECT idrecovery FROM tbclienterecovery");
-
-            $code_decrypted = self::forgotDecrypt($code);
-
+            $results = $sql->allSelect("SELECT * FROM tbclienterecovery a
+                                        INNER JOIN tbcliente b
+                                        USING (idusuario) 
+                                        WHERE a.idrecovery = :IDRECOVERY
+                                        AND a.dtrecovery IS NULL", array(
+                ':IDRECOVERY' => $code
+            ));
+            
             if (is_array($results) && count($results) > 0) {
-                foreach ($results as $result) {
-                    foreach ($result as $key => $value) {
-                        if ($value === $code_decrypted) {
-                            $user = $sql->allSelect("SELECT * FROM tbclienterecovery a
-                                                     INNER JOIN tbcliente b
-                                                     USING (idusuario) 
-                                                     WHERE a.idrecovery = :IDRECOVERY", array(
-                                ':IDRECOVERY' => $value
-                            ));
+                self::setForgotUser($results[0]['idrecovery']);
 
-                            if (is_array($user) && count($user) > 0) {
-                                if (empty($user[0]['idusuario'])) {
-                                    self::setForgotUser($value);
-                                } elseif ($password !== null) {
-                                    self::setPassword($user[0]['idusuario'], $password);
-                                }
-
-                                return $user[0];
-                            } else {
-                                Model::returnError("Código inválido ou inesistente.");
-                            }
-                        }
-                    }
-                }
+                return $results[0];
+            } else {
+                Model::returnError("O código não é mais válido.");
             }
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível recuperar os dados.<br>" . $e->getMessage());
@@ -128,14 +113,14 @@ class Forgot extends Model
         return base64_encode($encryption_id . "::" . $encryption_key);
     }
 
-    private function forgotDecrypt($code)
+    public static function forgotCodeDecrypt($code)
     {
         $decryption = explode("::", base64_decode($code));
         
         return base64_decode($decryption[0]);
     }
 
-    private function setForgotUser($idrecovery)
+    private function setForgotUser(int $idrecovery)
     {
         try {
             $sql = new Dao();
@@ -147,17 +132,29 @@ class Forgot extends Model
         }
     }
 
-    private function setPassword($idUser, $password)
+    public static function setPassword(int $idUser, $password)
     {
-        try {
-            $sql = new DAO();
-
-            $sql->allQuery("UPDATE tbusuario SET dessenha = :DESSENHA WHERE idusuario = :IDUSUARIO", array(
-                ':DESSENHA' => $password,
-                ':IDUSUARIO' => $idUser
-            ));
-        } catch (\PDOException $e) {
-            Model::returnError("Erro ao redefinir a senha.<br>" . $e->getMessage());
+        if (self::validatePassword($password)) {
+            try {
+                $sql = new DAO();
+                $sql->allQuery("UPDATE tbusuario SET dessenha = :DESSENHA WHERE idusuario = :IDUSUARIO", array(
+                    ':DESSENHA' => password_hash($password, PASSWORD_DEFAULT),
+                    ':IDUSUARIO' => $idUser
+                ));
+            } catch (\PDOException $e) {
+                Model::returnError("Erro ao redefinir a senha.<br>" . $e->getMessage());
+            }
+        } else {
+            Model::returnError("A senha não é válida<br>Solicite nova redefinição.");
         }
+    }
+
+    private function validatePassword($password)
+    {
+        if (empty(trim($password))) {
+            return false;
+        }
+
+        return true;
     }
 }
