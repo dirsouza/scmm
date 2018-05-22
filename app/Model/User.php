@@ -96,8 +96,18 @@ class User extends Model
     private function verifyUsuario()
     {
         $sql = new Dao();
+        // Obtém os dados da tabela Usuario
         $result = $sql->allSelect("SELECT * FROM tbusuario WHERE deslogin = :DESLOGIN", array(
             ':DESLOGIN' => $this->getDesLogin()
+        ));
+
+        if (is_array($result) && count($result) > 0) {
+            return false;
+        }
+
+        // Obtém os dados da tabela Cliente
+        $result = $sql->allSelect("SELECT * FROM tbcliente WHERE desemail = :DESEMAIL", array(
+            ':DESEMAIL' => $this->getDesEmail()
         ));
 
         if (is_array($result) && count($result) > 0) {
