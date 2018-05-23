@@ -12,16 +12,16 @@ class Client extends Model
      * Adicionar usuário Cliente
      * @param type $idUser
      */
-    public function addCliente(int $idUser, array $data)
+    public function addCliente(int $idUser)
     {
-        if ($this->verifyData($data)) {
+        if ($this->verifyData()) {
             try {
                 $sql = new Dao();
                 $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome,desemail)
                             VALUES (:IDUSUARIO,:DESNOME,:DESEMAIL)", array(
                     ':IDUSUARIO' => $idUser,
-                    ':DESNOME' => $data['desNome'],
-                    ':DESEMAIL' => $data['desEmail']
+                    ':DESNOME' => $this->getDesNome(),
+                    ':DESEMAIL' => $this->getDesEmail()
                 ));
             } catch (\PDOException $e) {
                 User::deleteUsuario($idUser);
@@ -29,7 +29,7 @@ class Client extends Model
             }
         } else {
             User::deleteUsuario($idUser);
-            $this->recoveryData($data);
+            $this->recoveryData();
             Model::returnError("Não foi possível Cadastrar o Cliente por estarem faltando dados.", $_SERVER['REQUEST_URI']);
         }
     }
@@ -75,9 +75,9 @@ class Client extends Model
         }
     }
 
-    private function verifyData(array $data)
+    private function verifyData()
     {
-        foreach ($data as $key => $value) {
+        foreach ($this->getValues() as $key => $value) {
             if (empty($value)) {
                 return false;
             }
@@ -89,9 +89,9 @@ class Client extends Model
     public function recoveryData(array $data)
     {
         $_SESSION['register'] = array(
-            'desNome' => $data['desNome'],
-            'desEmail' => $data['desEmail'],
-            'desLogin' => $data['desLogin']
+            'desNome' => $this->getDesNome(),
+            'desEmail' => $this->getDesEmail(),
+            'desLogin' => $this->getDesLogin()
         );
     }
 }

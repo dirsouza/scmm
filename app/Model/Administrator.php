@@ -12,7 +12,7 @@ class Administrator extends Model
      * Adicionar usuário Administrador
      * @param type $idUser
      */
-    public function addAdministrador(int $idUser, array $data = array())
+    public function addAdministrador(int $idUser)
     {
         if ($this->verifyData($data)) {
             try {
@@ -20,20 +20,20 @@ class Administrator extends Model
                     $sql->allQuery("INSERT INTO tbadministrador (idusuario,desnome,descpf,desrg,desemail,destelefone)
                                 VALUES (:IDUSUARIO,:DESNOME,:DESCPF,:DESRG:DESEMAIL,:DESTELEFONE)", array(
                         ':IDUSUARIO' => $idUser,
-                        ':DESNOME' => $data['desNome'],
-                        ':DESCPF' => $data['desCPF'],
-                        ':DESRG' => $data['desRG'],
-                        ':DESEMAIL' => $data['desEmail'],
-                        ':DESTELEFONE' => $data['desTelefone']
+                        ':DESNOME' => $this->getDesNome(),
+                        ':DESCPF' => $this->getDesCPF(),
+                        ':DESRG' => $this->getDesRG(),
+                        ':DESEMAIL' => $this->getDesEmail(),
+                        ':DESTELEFONE' => $this->getDesTelefone()
                     ));
             } catch (\PDOException $e) {
                 User::deleteUsuario($idUser);
-                $this->recoveryData($data);
+                $this->recoveryData();
                 Model::returnError("Não foi possível Cadastrar o Administrador.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
             }
         } else {
             User::deleteUsuario($idUser);
-            $this->recoveryData($data);
+            $this->recoveryData();
             Model::returnError("Não foi possível Cadastrar o Administrador por estarem faltando dados.", $_SERVER['REQUEST_URI']);
         }
     }
@@ -64,14 +64,14 @@ class Administrator extends Model
      * Atualiza a senha do Administrador
      * @param type $idUser
      */
-    public function updateSenhaAdministrador($idUser)
+    public function updateSenhaAdministrador(int $idUser, string $password)
     {
         try {
             $sql = new Dao();
             $sql->allQuery("UPDATE tbusuario SET dessenha = :DESSENHA
                             WHERE idusuario = :IDUSUARIO", array(
                 ':IDUSUARIO' => $idUser,
-                ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT)
+                ':DESSENHA' => password_hash($password, PASSWORD_DEFAULT)
             ));
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível Atualizar a Senha do Administrador.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
@@ -86,7 +86,9 @@ class Administrator extends Model
     {
         try {
             $sql = new Dao();
-            $results = $sql->allSelect("SELECT * FROM tbadministrador");
+            $results = $sql->allSelect("SELECT * FROM tbadministrador
+                                        INNER JOIN tbusuario
+                                        USING (idusuario)");
 
             if (is_array($results) && count($results) > 0) {
                 return $results;
@@ -106,7 +108,9 @@ class Administrator extends Model
         try {
             $sql = new Dao();
             $result = $sql->allSelect("SELECT * FROM tbadministrador
-                                        WHERE idusuario = :IDUSUARIO", array(
+                                       INNER JOIN tbusuario
+                                       USING (idusuario)
+                                       WHERE idusuario = :IDUSUARIO", array(
                 ':IDUSUARIO' => $idUser
             ));
 
@@ -118,9 +122,9 @@ class Administrator extends Model
         }
     }
 
-    private function verifyData(array $data = array())
+    private function verifyData()
     {
-        foreach ($data as $key => $value) {
+        foreach ($this->getValues() as $key => $value) {
             if (empty($value)) {
                 return false;
             }

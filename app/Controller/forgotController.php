@@ -9,7 +9,7 @@ use App\Model\Login;
 
 class forgotController extends Controller
 {
-    public static function actionIndex()
+    public static function actionViewIndex()
     {
         $app = new Slim();
         $app->render('/forgot/header.php');

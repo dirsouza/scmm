@@ -17,6 +17,7 @@ use Slim\Slim;
 use Core\Controller;
 use App\Controller\homeController;
 use App\Controller\clientController;
+use App\Controller\administratorController;
 use App\Controller\loginController;
 use App\Controller\registerController;
 use App\Controller\forgotController;
@@ -82,7 +83,7 @@ $app->group('/register', function () use ($app) {
  */
 $app->group('/forgot', function () use ($app) {
     $app->get('/', function () {
-        forgotController::actionIndex();
+        forgotController::actionViewIndex();
     });
 
     $app->post('/', function () {
@@ -250,18 +251,22 @@ $app->group('/admin', function () use ($app) {
          */
         $app->group('/admin', function () use ($app) {
             $app->get('/', function () use ($app) {
-
+                administratorController::actionViewIndex();
             });
 
-            $app->get('/create', function () use ($app) {
-
+            $app->get('/create', function () {
+                administratorController::actionViewCreate();
             });
 
-            $app->post('/create', function () use ($app) {
-
+            $app->post('/create', function () {
+                print_r($_POST); exit;
             });
 
-            $app->get('/update/:id', function ($id) use ($app) {
+            $app->post('/altPass/:id', function($id) {
+                administratorController::actionAltPass($id, $_POST);
+            });
+
+            $app->get('/update/:id', function ($id) {
 
             });
 

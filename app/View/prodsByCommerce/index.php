@@ -1,7 +1,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="modalIndexProduct" class="modal fades" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static">
+                        <div id="modalIndexProduct" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content"></div>
                                 <!-- /.modal-content -->

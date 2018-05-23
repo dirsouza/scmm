@@ -10,7 +10,7 @@
                         <div id="modalProduct" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" data-backdrop="static">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <div class="modal-header bg-title-modal">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title" id="gridSystemModalLabel"><i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Adicionar Produto</h4>
                                     </div>
@@ -45,7 +45,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
+                                    <div class="modal-footer bg-default">
                                         <button type="button" id="addProductModal" class="btn btn-primary">Adicionar</button>
                                         <button type="button" id="cancelProductModal" class="btn btn-warning" data-dismiss="modal">Cancelar</button>
                                     </div>

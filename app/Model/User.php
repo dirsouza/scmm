@@ -32,20 +32,12 @@ class User extends Model
 
                 if (array_key_exists("DesTipo", $this->getValues())) {
                     $admin = new Administrator();
-                    $admin->addAdministrador($idUser, array(
-                        'desNome' => $this->getDesNome(),
-                        'desCPF' => $this->getDesCPF(),
-                        'desRG' => $this->getDesRG(),
-                        'desEmail' => $this->getDesEmail(),
-                        'desTelefone' => $this->getDesTelefone()
-                    ));
+                    $admin->setData($this->getValues());
+                    $admin->addAdministrador($idUser);
                 } else {
                     $client = new Client();
-                    $client->addCliente($idUser, array(
-                        'desNome' => $this->getDesNome(),
-                        'desEmail' => $this->getDesEmail(),
-                        'desLogin' => $this->getDesLogin()
-                    ));
+                    $client->setData($this->getValues());
+                    $client->addCliente($idUser);
                 }
 
                 $this->setUser($idUser);
@@ -54,11 +46,7 @@ class User extends Model
             }
         } else {
             $client = new Client();
-            $client->recoveryData(array(
-                'desNome' => $this->getDesNome(),
-                'desEmail' => $this->getDesEmail(),
-                'desLogin' => $this->getDesLogin()
-            ));
+            $client->recoveryData($this->getValues());
             Model::returnError("Nome de usuário informado já existe no banco de dados ou estão faltando dados.<br><i>Obs.: O nome de usuário não pode conter caracteres especiais,<br>exceto: ponto, hifen e underline.</i>", $_SERVER["REQUEST_URI"]);
         }
     }
@@ -82,7 +70,7 @@ class User extends Model
     
     private function verifyData()
     {
-        if (empty($this->getDesLogin()) || preg_match('/[^a-z.\-_\d]/', $this->getDesLogin())) {
+        if (empty($this->getDesLogin()) || $this->verifyPassRule($this->getDesLogin())) {
             return false;
         }
         
@@ -93,6 +81,21 @@ class User extends Model
         return true;
     }
 
+    /**
+     * Verifica se a senha atende as regras
+     */
+    public function verifyPassRule(string $login)
+    {
+        if (preg_match('/[^a-z.\-_\d]/', $login)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Verifica se o Login existe
+     */
     private function verifyUsuario()
     {
         $sql = new Dao();
@@ -115,6 +118,30 @@ class User extends Model
         }
 
         return true;
+    }
+
+    /**
+     * Verifica se a senha é válida
+     */
+    public function verifyPass(int $id, string $password)
+    {
+        try {
+            $sql = new Dao();
+            $result = $sql->allSelect("SELECT * FROM tbusuario
+                                    WHERE idusuario = :IDUSUARIO", array(
+                ':IDUSUARIO' => $id
+            ));
+
+            if (is_array($result) && count($result) > 0) {
+                if (password_verify($password, $result[0]['dessenha'])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível retornar os dados.<br>" . $e->getMessage());
+        }
     }
 
     /**
