@@ -46,7 +46,8 @@ class User extends Model
             }
         } else {
             $client = new Client();
-            $client->recoveryData($this->getValues());
+            $client->setData($this->getValues());
+            $client->recoveryData();
             Model::returnError("Nome de usuário informado já existe no banco de dados ou estão faltando dados.<br><i>Obs.: O nome de usuário não pode conter caracteres especiais,<br>exceto: ponto, hifen e underline.</i>", $_SERVER["REQUEST_URI"]);
         }
     }
@@ -70,7 +71,7 @@ class User extends Model
     
     private function verifyData()
     {
-        if (empty($this->getDesLogin()) || $this->verifyPassRule($this->getDesLogin())) {
+        if (empty($this->getDesLogin()) || preg_match('/[^a-z.\-_\d]/', $this->getDesLogin())) {
             return false;
         }
         
@@ -78,18 +79,6 @@ class User extends Model
             return false;
         }
         
-        return true;
-    }
-
-    /**
-     * Verifica se a senha atende as regras
-     */
-    public function verifyPassRule(string $login)
-    {
-        if (preg_match('/[^a-z.\-_\d]/', $login)) {
-            return false;
-        }
-
         return true;
     }
 

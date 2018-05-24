@@ -86,7 +86,7 @@ class Client extends Model
         return true;
     }
 
-    public function recoveryData(array $data)
+    public function recoveryData()
     {
         $_SESSION['register'] = array(
             'desNome' => $this->getDesNome(),
