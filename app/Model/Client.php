@@ -18,7 +18,7 @@ class Client extends Model
             $user->setData($this->getValues());
             $result = $user->addUsuario();
 
-            if ($result > 0) {
+            if (is_numeric($result) && $result > 0) {
                 try {
                     $sql = new Dao();
                     $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome,desemail)
@@ -40,18 +40,15 @@ class Client extends Model
 
     /**
      * Invoca o método de tratamento de erros da Model
+     * @param type array
      */
-    private function errorUser($error)
+    private function errorUser(array $error)
     {
-        if ($error == $this->getDesLogin()) {
-            Model::returnError("Nome de Usuário já existe.", $_SERVER['REQUEST_URI']);
+        foreach($error as $key => $value) {
+            ($key == 0) ? $msg = $value : $msg .= "<br>" . $value;
         }
-
-        if ($error == $this->getDesEmail()) {
-            Model::returnError("Endereço de E-mail já existe.", $_SERVER['REQUEST_URI']);
-        }
-
-        Model::returnError("O nome de usuário informado não atende os padrões.", $_SERVER['REQUEST_URI']);
+        
+        Model::returnError($msg, $_SERVER['REQUEST_URI']);
     }
 
     /**

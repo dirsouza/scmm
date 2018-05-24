@@ -11,6 +11,8 @@ use App\Model\Login;
  */
 class User extends Model
 {
+    private $error = [];
+
     /**
      * Adiciona um novo Usuário e retorna o ID
      * @return type int
@@ -38,12 +40,10 @@ class User extends Model
                 } catch (\PDOException $e) {
                     Model::returnError("Não foi possível Cadastrar o Usuário.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
                 }
-            } else {
-                return false;
             }
-        } else {
-            return $result;
         }
+
+        return $this->error;
     }
 
     /**
@@ -64,13 +64,13 @@ class User extends Model
     }
     
     /**
-     * Verifica se os dados estão vazios e se o nome de usuário não contém caracteres especiais
+     * Verifica se os dados estão vazios
      * Caso SIM - Retorna false
      * Caso NAO - Retorna true
      */
     private function verifyData()
     {
-        if (empty($this->getDesLogin()) || preg_match('/[^a-z.\-_\d]/', $this->getDesLogin())) {
+        if (empty($this->getDesLogin())) {
             return false;
         }
         
@@ -95,7 +95,7 @@ class User extends Model
         ));
 
         if (is_array($result) && count($result) > 0) {
-            return $result[0]['deslogin'];
+            $this->error[] = "Nome de Usuário já existe.";
         }
 
         // Obtém os dados da tabela Cliente
@@ -104,7 +104,16 @@ class User extends Model
         ));
 
         if (is_array($result) && count($result) > 0) {
-            return $result[0]['desemail'];
+            $this->error[] = "Endereço de E-mail já existe.";
+        }
+
+        // Verifica se o nome de usuário não contém caracteres especiais
+        if (preg_match('/[^a-z.\-_\d]/', $this->getDesLogin())) {
+            $this->error[] = "O nome de usuário informado não atende os padrões.";
+        }
+
+        if (count($this->error) > 0) {
+            return $this->error;
         }
 
         return true;
