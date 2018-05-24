@@ -19,11 +19,17 @@ class forgotController extends Controller
 
     public static function actionForgot($data)
     {
-        Forgot::getForgot($data['desEmail']);
+        $result = Forgot::getForgot($data['desEmail']);
 
-        $_SESSION['register'] = array(
-            'msg' => "<b>E-mail enviado com Sucesso!</b><br>Verifique as instruções no seu e-mail."
-        );
+        if ($result) {
+            $_SESSION['register'] = array(
+                'msg' => "<b>E-mail enviado com Sucesso!</b><br>Verifique as instruções no seu e-mail."
+            );
+        } else {
+            $_SESSION['error'] = array(
+                'msg' => "<b>O e-mail não pode ser enviado.</b><br>$result"
+            );
+        }
 
         header('location: /login');
         exit;

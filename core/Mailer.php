@@ -3,6 +3,7 @@
 namespace Core;
 
 use Slim\Slim;
+use Core\Model;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -25,6 +26,9 @@ class Mailer
         
         // Cria uma nova instância do PHPMailer
         $this->mail = new PHPMailer(true);
+
+        // Carregar o idioma pt_br
+        $this->mail->setLanguage('br', PATH_DIR . '/vendor/phpmailer/phpmailer/language/');
 
         // Habilita o uso do SMTP
         $this->mail->isSMTP();
@@ -80,6 +84,12 @@ class Mailer
     // envia a mensagem
     public function send()
     {
-        return $this->mail->send();
+        try {
+            return $this->mail->send();
+        } catch (Exception $e) {
+            Model::returnError($e->errorMessage(), $_SERVER['REQUEST_URI']);
+        } catch (\Exception $e) {
+            Model::returnError($e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
     }
 }

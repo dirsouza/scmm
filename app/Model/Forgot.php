@@ -36,7 +36,11 @@ class Forgot extends Model
                         'link' => $link
                     ));
 
-                    $mailer->send();
+                    if ($mailer->send()) {
+                        return true;
+                    } else {
+                        return $mailer->ErrorInfo;
+                    }
                 } else {
                     Model::returnError("Não foi possível recuperar a senha.");
                 }
