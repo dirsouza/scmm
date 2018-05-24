@@ -10,33 +10,53 @@ class Client extends Model
 {
     /**
      * Adicionar usuário Cliente
-     * @param type $idUser
      */
-    public function addCliente(int $idUser)
+    public function addCliente()
     {
         if ($this->verifyData()) {
-            try {
-                $sql = new Dao();
-                $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome,desemail)
-                            VALUES (:IDUSUARIO,:DESNOME,:DESEMAIL)", array(
-                    ':IDUSUARIO' => $idUser,
-                    ':DESNOME' => $this->getDesNome(),
-                    ':DESEMAIL' => $this->getDesEmail()
-                ));
-            } catch (\PDOException $e) {
-                User::deleteUsuario($idUser);
-                Model::returnError("Não foi possível Cadastrar o Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            $user = new User();
+            $user->setData($this->getValues());
+            $result = $user->addUsuario();
+
+            if ($result > 0) {
+                try {
+                    $sql = new Dao();
+                    $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome,desemail)
+                                    VALUES (:IDUSUARIO,:DESNOME,:DESEMAIL)", array(
+                        ':IDUSUARIO' => $result,
+                        ':DESNOME' => $this->getDesNome(),
+                        ':DESEMAIL' => $this->getDesEmail()
+                    ));
+                } catch (\PDOException $e) {
+                    User::deleteUsuario($result);
+                    Model::returnError("Não foi possível Cadastrar o Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+                }
+            } else {
+                $this->recoveryData();
+                $this->errorUser($result);
             }
-        } else {
-            User::deleteUsuario($idUser);
-            $this->recoveryData();
-            Model::returnError("Não foi possível Cadastrar o Cliente por estarem faltando dados.", $_SERVER['REQUEST_URI']);
         }
     }
 
     /**
+     * Invoca o método de tratamento de erros da Model
+     */
+    private function errorUser($error)
+    {
+        if ($error == $this->getDesLogin()) {
+            Model::returnError("Nome de Usuário já existe.", $_SERVER['REQUEST_URI']);
+        }
+
+        if ($error == $this->getDesEmail()) {
+            Model::returnError("Endereço de E-mail já existe.", $_SERVER['REQUEST_URI']);
+        }
+
+        Model::returnError("O nome de usuário informado não atende os padrões.", $_SERVER['REQUEST_URI']);
+    }
+
+    /**
      * Retorna os dados dos Clientes
-     * @return type Array
+     * @return type array
      */
     public static function listClientes()
     {
@@ -56,15 +76,15 @@ class Client extends Model
 
     /**
      * Retorna os dados de um Cliente
-     * @param type $idUser
-     * @return type Array
+     * @param type int
+     * @return type array
      */
-    public static function listClienteId($idUser)
+    public static function listClienteId(int $idUser)
     {
         try {
             $sql = new Dao();
             $result = $sql->allSelect("SELECT * FROM tbcliente
-                                        WHERE idusuario = :IDUSUARIO", array(
+                                       WHERE idusuario = :IDUSUARIO", array(
                 ':IDUSUARIO' => $idUser
             ));
             if (is_array($result) && count($result) > 0) {
@@ -75,6 +95,12 @@ class Client extends Model
         }
     }
 
+    /**
+     * Verifica se os dados são vazios
+     * Caso SIM - Retorna False
+     * Caso NAO - Retorna true
+     * @return type boolean
+     */
     private function verifyData()
     {
         foreach ($this->getValues() as $key => $value) {
@@ -86,7 +112,10 @@ class Client extends Model
         return true;
     }
 
-    public function recoveryData()
+    /**
+     * Cria uma SESSÃO com os dados digitados pelo usuário
+     */
+    private function recoveryData()
     {
         $_SESSION['register'] = array(
             'desNome' => $this->getDesNome(),

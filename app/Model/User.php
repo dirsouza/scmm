@@ -5,8 +5,6 @@ namespace App\Model;
 use Core\Model;
 use Lib\Dao;
 use App\Model\Login;
-use App\Model\Administrator;
-use App\Model\Client;
 
 /**
  * Classe para cadastrar e controlar os Usuários
@@ -14,49 +12,45 @@ use App\Model\Client;
 class User extends Model
 {
     /**
-     * Adiciona um novo Usuário
+     * Adiciona um novo Usuário e retorna o ID
+     * @return type int
      */
     public function addUsuario()
     {
-        if ($this->verifyUsuario() && $this->verifyData()) {
-            try {
-                $sql = new Dao();
-                $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,destipo)
-                                VALUES (:DESLOGIN,:DESSENHA,:DESTIPO)", array(
-                    ':DESLOGIN' => $this->getDesLogin(),
-                    ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
-                    ':DESTIPO' => (array_key_exists("DesTipo", $this->getValues())) ? $this->getDesTipo() : 0
-                ));
+        $result = $this->verifyUsuario();
+        
+        if ($result === true) {
+            if ($this->verifyData()) {
+                try {
+                    $sql = new Dao();
+                    $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,destipo)
+                                    VALUES (:DESLOGIN,:DESSENHA,:DESTIPO)", array(
+                        ':DESLOGIN' => $this->getDesLogin(),
+                        ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
+                        ':DESTIPO' => (array_key_exists("DesTipo", $this->getValues())) ? $this->getDesTipo() : 0
+                    ));
 
-                $idUser = $_SESSION[Dao::SESSION];
+                    $idUser = $_SESSION[Dao::SESSION];
 
-                if (array_key_exists("DesTipo", $this->getValues())) {
-                    $admin = new Administrator();
-                    $admin->setData($this->getValues());
-                    $admin->addAdministrador($idUser);
-                } else {
-                    $client = new Client();
-                    $client->setData($this->getValues());
-                    $client->addCliente($idUser);
+                    $this->setUser($idUser);
+                    
+                    return (int)$idUser;
+                } catch (\PDOException $e) {
+                    Model::returnError("Não foi possível Cadastrar o Usuário.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
                 }
-
-                $this->setUser($idUser);
-            } catch (\PDOException $e) {
-                Model::returnError("Não foi possível Cadastrar o Usuário.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
+            } else {
+                return false;
             }
         } else {
-            $client = new Client();
-            $client->setData($this->getValues());
-            $client->recoveryData();
-            Model::returnError("Nome de usuário informado já existe no banco de dados ou estão faltando dados.<br><i>Obs.: O nome de usuário não pode conter caracteres especiais,<br>exceto: ponto, hifen e underline.</i>", $_SERVER["REQUEST_URI"]);
+            return $result;
         }
     }
 
     /**
      * Deleta o usuário Administrador ou Cliente
-     * @param type $idUser
+     * @param type int
      */
-    public static function deleteUsuario($idUser)
+    public static function deleteUsuario(int $idUser)
     {
         try {
             $sql = new Dao();
@@ -69,6 +63,11 @@ class User extends Model
         }
     }
     
+    /**
+     * Verifica se os dados estão vazios e se o nome de usuário não contém caracteres especiais
+     * Caso SIM - Retorna false
+     * Caso NAO - Retorna true
+     */
     private function verifyData()
     {
         if (empty($this->getDesLogin()) || preg_match('/[^a-z.\-_\d]/', $this->getDesLogin())) {
@@ -83,7 +82,9 @@ class User extends Model
     }
 
     /**
-     * Verifica se o Login existe
+     * Verifica se o nome de Usuário ou E-mail já existem
+     * Caso SIM - Retorna o resultado encontrado
+     * Caso NAO - Retorna true
      */
     private function verifyUsuario()
     {
@@ -94,7 +95,7 @@ class User extends Model
         ));
 
         if (is_array($result) && count($result) > 0) {
-            return false;
+            return $result[0]['deslogin'];
         }
 
         // Obtém os dados da tabela Cliente
@@ -103,7 +104,7 @@ class User extends Model
         ));
 
         if (is_array($result) && count($result) > 0) {
-            return false;
+            return $result[0]['desemail'];
         }
 
         return true;
@@ -111,6 +112,10 @@ class User extends Model
 
     /**
      * Verifica se a senha é válida
+     * Caso SIM - Retorna true
+     * Caso NAO - Retorna false
+     * @param type int
+     * @param type string
      */
     public function verifyPass(int $id, string $password)
     {
@@ -134,10 +139,11 @@ class User extends Model
     }
 
     /**
-     * Instacia a Classe Login e convoca a função getUser para alimentar o setData da Classe Model
-     * @param type $idUser
+     * Instacia a Classe Login e invoca a função getUser para alimentar o setData da Classe Model
+     * com os dados do usuário
+     * @param type int
      */
-    private function setUser($idUser)
+    private function setUser(int $idUser)
     {
         $user = new Login();
         $user->getUser($idUser);
