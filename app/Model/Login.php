@@ -97,8 +97,8 @@ class Login extends Model
                                         WHERE idusuario = :IDUSUARIO", array(
                 ':IDUSUARIO' => $idUser
             ));
-
-            if ($result[0]['destipo'] === 1) {
+            
+            if ($result[0]['destipo'] == 1) {
                 $this->getUserAdmin($idUser);
             } else {
                 $this->getUserClient($idUser);

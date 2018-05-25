@@ -65,7 +65,7 @@ class Dao extends Model {
      * @param type $parameters
      * @throws \PDOException
      */
-    public function allSelect(string $rawQuery, array $parameters)
+    public function allSelect(string $rawQuery, array $parameters = array())
     {
         try {
             $this->conn->beginTransaction();
