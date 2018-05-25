@@ -101,16 +101,16 @@ class Login extends Model
             if ($result[0]['destipo'] === 1) {
                 $this->getUserAdmin($idUser);
             } else {
-                $this->setData($result[0]);
+                $this->getUserClient($idUser);
             }
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível obter os dados do Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível obter os dados do usuário.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 
     /**
      * Seta os dados do Usuário Administrador
-     * @param type $idUser
+     * @param type int
      */
     private function getUserAdmin(int $idUser)
     {
@@ -126,6 +126,27 @@ class Login extends Model
             $this->setData($result[0]);
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível obter os dados do Administrador.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
+    }
+
+    /**
+     * Seta os dados do Usuário Cliente
+     * @param type int
+     */
+    private function getUserClient(int $idUser)
+    {
+        try {
+            $sql = new Dao();
+            $result = $sql->allSelect("SELECT * FROM tbusuario
+                                       INNER JOIN tbcliente
+                                       USING (idusuario)
+                                       WHERE idusuario = :IDUSUARIO", array(
+                ':IDUSUARIO' => $idUser
+            ));
+
+            $this->setData($result[0]);
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível obter os dados do Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
     }
 }
