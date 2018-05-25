@@ -33,8 +33,6 @@ class User extends Model
                     ));
                     
                     $idUser = $_SESSION[Dao::SESSION];
-
-                    $this->setUser($idUser);
                     
                     return (int)$idUser;
                 } catch (\PDOException $e) {
@@ -152,7 +150,7 @@ class User extends Model
      * com os dados do usuário
      * @param type int
      */
-    private function setUser(int $idUser)
+    public function setUser(int $idUser)
     {
         $user = new Login();
         $user->getUser($idUser);

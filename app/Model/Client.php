@@ -27,6 +27,8 @@ class Client extends Model
                         ':DESNOME' => $this->getDesNome(),
                         ':DESEMAIL' => $this->getDesEmail()
                     ));
+
+                    $user->setUser($result);
                 } catch (\PDOException $e) {
                     User::deleteUsuario($result);
                     Model::returnError("Não foi possível Cadastrar o Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);

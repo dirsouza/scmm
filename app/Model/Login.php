@@ -143,7 +143,7 @@ class Login extends Model
                                        WHERE idusuario = :IDUSUARIO", array(
                 ':IDUSUARIO' => $idUser
             ));
-
+            
             $this->setData($result[0]);
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível obter os dados do Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
