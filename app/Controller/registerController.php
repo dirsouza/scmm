@@ -15,7 +15,7 @@ class registerController
         $app->render('/login/footer.php');
     }
 
-    public static function actionRegister($data)
+    public static function actionRegister(array $data)
     {
         if ($data['desSenha'] === $data['desReSenha']) {
             $client = new Client();

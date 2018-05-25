@@ -31,7 +31,7 @@ class User extends Model
                         ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
                         ':DESTIPO' => (array_key_exists("DesTipo", $this->getValues())) ? $this->getDesTipo() : 0
                     ));
-
+                    
                     $idUser = $_SESSION[Dao::SESSION];
 
                     $this->setUser($idUser);
@@ -60,6 +60,34 @@ class User extends Model
             ));
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível Excluir o Administrador.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+        }
+    }
+
+    /**
+     * Verifica se a senha é válida
+     * Caso SIM - Retorna true
+     * Caso NAO - Retorna false
+     * @param type int
+     * @param type string
+     */
+    public function verifyPass(int $id, string $password)
+    {
+        try {
+            $sql = new Dao();
+            $result = $sql->allSelect("SELECT * FROM tbusuario
+                                    WHERE idusuario = :IDUSUARIO", array(
+                ':IDUSUARIO' => $id
+            ));
+
+            if (is_array($result) && count($result) > 0) {
+                if (password_verify($password, $result[0]['dessenha'])) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível retornar os dados.<br>" . $e->getMessage());
         }
     }
     
@@ -117,34 +145,6 @@ class User extends Model
         }
 
         return true;
-    }
-
-    /**
-     * Verifica se a senha é válida
-     * Caso SIM - Retorna true
-     * Caso NAO - Retorna false
-     * @param type int
-     * @param type string
-     */
-    public function verifyPass(int $id, string $password)
-    {
-        try {
-            $sql = new Dao();
-            $result = $sql->allSelect("SELECT * FROM tbusuario
-                                    WHERE idusuario = :IDUSUARIO", array(
-                ':IDUSUARIO' => $id
-            ));
-
-            if (is_array($result) && count($result) > 0) {
-                if (password_verify($password, $result[0]['dessenha'])) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        } catch (\PDOException $e) {
-            Model::returnError("Não foi possível retornar os dados.<br>" . $e->getMessage());
-        }
     }
 
     /**

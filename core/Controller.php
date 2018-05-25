@@ -19,7 +19,7 @@ class Controller
         }
     }
 
-    public static function verifyAdmin($user) 
+    public static function verifyAdmin(int $user) 
     {
         if ($user['Destipo'] == 0) {
             self::notify('error', "Usuário <b>" . $user['Deslogin'] . "</b> não tem pemissão para acessar a página:<br>". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . ".");
@@ -28,7 +28,7 @@ class Controller
         }
     }
 
-    public static function verifyClient($user) 
+    public static function verifyClient(int $user) 
     {
         if ($user['Destipo'] == 1) {
             self::notify("error", "Usuário <b>" . $user['Deslogin'] . "</b> não tem pemissão para acessar a página:<br>" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . ".");
@@ -37,7 +37,7 @@ class Controller
         }
     }
 
-    public static function notify($type, $msg)
+    public static function notify(string $type, string $msg)
     {
         $_SESSION['notify'] = array(
             'type' => $type,

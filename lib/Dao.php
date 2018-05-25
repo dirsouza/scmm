@@ -38,35 +38,12 @@ class Dao extends Model {
     }
     
     /**
-     * Seta os parametrôs do array {Campo e Valor}
-     * @param type $statement
-     * @param type $parameters
-     */
-    private function setParameters($statement, $parameters = array())
-    {
-        foreach ($parameters as $key => $value) {
-            $this->bindParameter($statement, $key, $value);
-        }
-    }
-    
-    /**
-     * Liga os Campos aos valores para inserção no banco de dados
-     * @param type $statement
-     * @param type $key
-     * @param type $value
-     */
-    private function bindParameter($statement, $key, $value)
-    {
-        $statement->bindParam($key, $value);
-    }
-    
-    /**
      * Insere os dados
      * @param type $rawQuery
      * @param type $parameters
      * @throws \PDOException
      */
-    public function allQuery($rawQuery, $parameters = array())
+    public function allQuery(string $rawQuery, array $parameters)
     {
         try {
             $this->conn->beginTransaction();
@@ -88,7 +65,7 @@ class Dao extends Model {
      * @param type $parameters
      * @throws \PDOException
      */
-    public function allSelect($rawQuery, $parameters = array())
+    public function allSelect(string $rawQuery, array $parameters)
     {
         try {
             $this->conn->beginTransaction();
@@ -101,5 +78,28 @@ class Dao extends Model {
             Model::returnError($e->getMessage());
         }
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Seta os parametrôs do array {Campo e Valor}
+     * @param type $statement
+     * @param type $parameters
+     */
+    private function setParameters(object $statement, array $parameters)
+    {
+        foreach ($parameters as $key => $value) {
+            $this->bindParameter($statement, $key, $value);
+        }
+    }
+
+    /**
+     * Liga os Campos aos valores para inserção no banco de dados
+     * @param type $statement
+     * @param type $key
+     * @param type $value
+     */
+    private function bindParameter(object $statement, string $key, string $value)
+    {
+        $statement->bindParam($key, $value);
     }
 }

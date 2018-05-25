@@ -19,7 +19,7 @@ class Login extends Model
      * @param type $password
      * @return \SCMM\Controllers\Login
      */
-    public static function login($login, $password)
+    public static function login(string $login, string $password)
     {
         try {
             //Faz a consulta se o usuáiro existe
@@ -112,7 +112,7 @@ class Login extends Model
      * Seta os dados do Usuário Administrador
      * @param type $idUser
      */
-    private function getUserAdmin($idUser)
+    private function getUserAdmin(int $idUser)
     {
         try {
             $sql = new Dao();

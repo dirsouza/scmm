@@ -39,19 +39,6 @@ class Client extends Model
     }
 
     /**
-     * Invoca o método de tratamento de erros da Model
-     * @param type array
-     */
-    private function errorUser(array $error)
-    {
-        foreach($error as $key => $value) {
-            ($key == 0) ? $msg = $value : $msg .= "<br>" . $value;
-        }
-        
-        Model::returnError($msg, $_SERVER['REQUEST_URI']);
-    }
-
-    /**
      * Retorna os dados dos Clientes
      * @return type array
      */
@@ -90,6 +77,19 @@ class Client extends Model
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível recuperar os dados do Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
         }
+    }
+
+    /**
+     * Invoca o método de tratamento de erros da Model
+     * @param type array
+     */
+    private function errorUser(array $error)
+    {
+        foreach ($error as $key => $value) {
+            ($key == 0) ? $msg = $value : $msg .= "<br>" . $value;
+        }
+
+        Model::returnError($msg, $_SERVER['REQUEST_URI']);
     }
 
     /**
