@@ -18,7 +18,7 @@ class Model {
      * @param type $arguments
      * @return type
      */
-    public function __call(string $name, string $arguments) 
+    public function __call(string $name, array $arguments) 
     {
         $method = substr($name, 0, 3); //Atribui os três primeiros caracteres a variável
         $fieldName = substr($name, 3, strlen($name)); //Atribui os caracteres restantes após os três primeiros
