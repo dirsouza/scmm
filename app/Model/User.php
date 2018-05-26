@@ -22,22 +22,20 @@ class User extends Model
         $result = $this->verifyUsuario();
         
         if ($result === true) {
-            if ($this->verifyData()) {
-                try {
-                    $sql = new Dao();
-                    $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,destipo)
-                                    VALUES (:DESLOGIN,:DESSENHA,:DESTIPO)", array(
-                        ':DESLOGIN' => $this->getDesLogin(),
-                        ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
-                        ':DESTIPO' => (array_key_exists("DesTipo", $this->getValues())) ? $this->getDesTipo() : 0
-                    ));
-                    
-                    $idUser = $_SESSION[Dao::SESSION];
-                    
-                    return (int)$idUser;
-                } catch (\PDOException $e) {
-                    Model::returnError("Não foi possível Cadastrar o Usuário.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
-                }
+            try {
+                $sql = new Dao();
+                $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,destipo)
+                                VALUES (:DESLOGIN,:DESSENHA,:DESTIPO)", array(
+                    ':DESLOGIN' => $this->getDesLogin(),
+                    ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
+                    ':DESTIPO' => (array_key_exists("DesTipo", $this->getValues())) ? $this->getDesTipo() : 0
+                ));
+                
+                $idUser = $_SESSION[Dao::SESSION];
+                
+                return (int)$idUser;
+            } catch (\PDOException $e) {
+                Model::returnError("Não foi possível Cadastrar o Usuário.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
             }
         }
 
@@ -87,24 +85,6 @@ class User extends Model
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível retornar os dados.<br>" . $e->getMessage());
         }
-    }
-    
-    /**
-     * Verifica se os dados estão vazios
-     * Caso SIM - Retorna false
-     * Caso NAO - Retorna true
-     */
-    private function verifyData()
-    {
-        if (empty($this->getDesLogin())) {
-            return false;
-        }
-        
-        if (empty($this->getDesSenha())) {
-            return false;
-        }
-        
-        return true;
     }
 
     /**
