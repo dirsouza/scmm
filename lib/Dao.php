@@ -85,7 +85,7 @@ class Dao extends Model {
      * @param type $statement
      * @param type $parameters
      */
-    private function setParameters(object $statement, array $parameters)
+    private function setParameters($statement, array $parameters)
     {
         foreach ($parameters as $key => $value) {
             $this->bindParameter($statement, $key, $value);
@@ -98,7 +98,7 @@ class Dao extends Model {
      * @param type $key
      * @param type $value
      */
-    private function bindParameter(object $statement, string $key, string $value)
+    private function bindParameter($statement, string $key, string $value)
     {
         $statement->bindParam($key, $value);
     }

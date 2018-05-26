@@ -117,9 +117,9 @@ class Login extends Model
         try {
             $sql = new Dao();
             $result = $sql->allSelect("SELECT * FROM tbusuario
-                                        INNER JOIN tbadministrador
-                                        USING (idusuario)
-                                        WHERE idusuario = :IDUSUARIO", array(
+                                       INNER JOIN tbadministrador
+                                       USING (idusuario)
+                                       WHERE idusuario = :IDUSUARIO", array(
                 ':IDUSUARIO' => $idUser
             ));
 
