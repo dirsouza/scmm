@@ -69,7 +69,7 @@ class Commerce extends Model
                 ':IDCOMERCIO' => $idComercio
             ));
         } catch (\PDOException $e) {
-            Model::returnError("Não foi possível Excluir o Comércio.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            Model::returnError("Não foi possível Excluir o Comércio.<br>" . $e->getMessage());
         }
     }
 

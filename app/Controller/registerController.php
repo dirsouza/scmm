@@ -29,7 +29,7 @@ class registerController
             header('location: /login');
             exit;
         } else {
-            $_SESSION['register'] = array(
+            $_SESSION['restoreData'] = array(
                 'desLogin' => $data['desLogin'],
                 'desNome' => $data['desNome'],
                 'desEmail' => $data['desEmail'],

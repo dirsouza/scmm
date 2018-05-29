@@ -10,8 +10,8 @@ $(function() {
     });
 
     /**
-    * DataTables
-    */
+     * DataTables
+     */
     if (document.getElementById('selectCheckbox') !== null) {
         $('#selectCheckbox').DataTable({
             autoWidth: true,
@@ -28,7 +28,9 @@ $(function() {
                 style: 'multi',
                 selector: 'td:first-child'
             },
-            order: [[1, 'asc']]
+            order: [
+                [1, 'asc']
+            ]
         });
     } else {
         $('#table').DataTable({
@@ -41,9 +43,10 @@ $(function() {
     }
 
     /**
-    * Tootip
-    */
-   tooltip();
+     * Tootip
+     */
+    tooltip();
+
     function tooltip() {
         $('[data-toggle="tooltip"]').tooltip();
     }
@@ -52,69 +55,43 @@ $(function() {
      * Input Mask
      */
     $('#cep').mask(
-        '00000-000', 
-        {
+        '00000-000', {
             placeholder: "_____-___",
             clearIfNotMatch: true,
             reverse: true
         }
     );
 
-    var SPMaskBehavior = function (val) {
-        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
-    },
-    spOptions = {
-        onKeyPress: function (val, e, field, options) {
-            field.mask(SPMaskBehavior.apply({}, arguments), options);
+    var SPMaskBehavior = function(val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+        },
+        spOptions = {
+            onKeyPress: function(val, e, field, options) {
+                field.mask(SPMaskBehavior.apply({}, arguments), options);
+            }
+        };
+    $('#telefone').mask(SPMaskBehavior, spOptions);
+
+    $('#cpf').mask(
+        '000.000.000-00', {
+            placeholder: "___.___.___-__",
+            clearIfNotMatch: true,
+            reverse: true
         }
-    };
-    $('#desTelefone').mask(SPMaskBehavior, spOptions);
+    );
 
     $('#btnHref').on('click', function() {
         window.location.reload();
     });
 
-    notify($typeNotify, $msgNotify);
-    function notify($type, $msg) {
-        if ($type != null && $msg != null) {
-            toastr.options = {
-                "closeButton": true,
-                "debug": false,
-                "newestOnTop": true,
-                "progressBar": true,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": true,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-            
-            switch ($type) {
-                case 'success':
-                    toastr.success($msg);
-                    break;
-                case 'warning':
-                    toastr.warning($msg);
-                    break;
-                case 'error':
-                    toastr.error($msg);
-                    break;
-            }
-        }
-    }
-
     $('.btnAltPass').on('click', function() {
-        $('#frmModal').attr("action", "/admin/users/admin/altPass/" + $(this).attr('data-user-id'));
+        $('#frmModal').attr("action", "/admin/users/admins/altPass/" + $(this).attr('data-user-id'));
+        $('.modal-title').empty();
+        $('.modal-title').append('<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Alterar Senha do Usuário: <b><u><i>' + $(this).attr('data-user-name') + '</i></u></b>');
         $('#modalPass').modal('show');
     });
 
-    $('#modalPass').on('shown.bs.modal', function () {
+    $('#modalPass').on('shown.bs.modal', function() {
         $('input[name="oldPass"]').focus();
     });
 });

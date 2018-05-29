@@ -8,9 +8,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <h4 class="modal-title">
-                                            <i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Alterar Senha
-                                        </h4>
+                                        <h4 class="modal-title"></h4>
                                     </div>
                                     <form id="frmModal" class="form-horizontal" action="#" method="POST">
                                         <div class="modal-body">
@@ -52,8 +50,8 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row-border">
-                                    <a href="/admin/users/admin/create" class="btn btn-success">Cadastrar</a>
-                                    <a href="/admin/users/admin/report" id="btnHref" target="_blank" class="btn btn-primary">Relatório</a>
+                                    <a href="/admin/users/admins/create" class="btn btn-success">Cadastrar</a>
+                                    <a href="/admin/users/admins/report" target="_blank" class="btn btn-primary">Relatório</a>
                                 </div>
                                 <div class="row-border" style="margin-top: 20px;">
                                     <table id="table" class="table table-striped table-bordered nowrap" width="100%">
@@ -77,9 +75,9 @@
                                                 <td><?= $value['desemail'] ?></td>
                                                 <td><?= $value['destelefone'] ?></td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-xs btn-info btnAltPass" style="width: 25px;" data-user-id="<?= $value['idusuario'] ?>" data-toggle="tooltip" data-placement="top" title="Alterar Senha"><i class="fa fa-lock"></i></button>
-                                                    <a href="/admin/users/admin/update/<?=$value['idusuario']?>" class="btn btn-xs btn-primary" style="width: 25px;" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
-                                                    <a href="/admin/users/admin/delete/<?=$value['idusuario']?>" onclick="return confirm('Deseja excluir este registro?')" class="btn btn-xs btn-danger" style="width: 25px;" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
+                                                    <button type="button" class="btn btn-xs btn-info btnAltPass" style="width: 25px;" data-user-id="<?= $value['idusuario'] ?>" data-user-name="<?= $value['deslogin'] ?>" data-toggle="tooltip" data-placement="top" title="Alterar Senha"><i class="fa fa-lock"></i></button>
+                                                    <a href="/admin/users/admins/update/<?=$value['idusuario']?>" class="btn btn-xs btn-primary" style="width: 25px;" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></a>
+                                                    <a href="/admin/users/admins/delete/<?=$value['idusuario']?>" onclick="return confirm('Deseja excluir este registro?')" class="btn btn-xs btn-danger" style="width: 25px;" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>

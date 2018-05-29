@@ -37,7 +37,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="/admin/product">
                                 <div class="panel-footer">
                                     <span class="pull-left">Ver detalhes</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="/admin/users/admins">
                                 <div class="panel-footer">
                                     <span class="pull-left">Ver detalhes</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href="/admin/users/clients">
                                 <div class="panel-footer">
                                     <span class="pull-left">Ver detalhes</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

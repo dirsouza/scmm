@@ -8,7 +8,7 @@ ob_start();
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
-        <title>SCMM - Usuários Administradores</title>
+        <title>SCMM - Usuários Clientes</title>
         <link rel="shortcut icon" href="<?= PATH_DIR ?>/public/img/logo-mini.png">
         <style>
             @page { margin: 100px 25px; }
@@ -101,7 +101,7 @@ ob_start();
     <body>
         <header class="content">
             <img class="logo-left" src="<?= PATH_DIR ?>/public/img/logo-pdf.jpg">
-            Relatório de Usuários Administradores
+            Relatório de Usuários Clientes
             <div class="logo-right">Página</div>
         </header>
         <footer>
@@ -115,19 +115,17 @@ ob_start();
                         <th width="8%">Código</th>
                         <th>Nome</th>
                         <th width="20%">Usuário</th>
-                        <th width="25%">E-mail</th>
-                        <th width="15%">Telefone</th>
+                        <th width="30%">E-mail</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php if (is_array($admins) && count($admins) > 0): ?>
-                    <?php foreach ($admins as $value): ?>
+                <?php if (is_array($clients) && count($clients) > 0): ?>
+                    <?php foreach ($clients as $value): ?>
                     <tr>
-                        <td class="text-center"><?= str_pad($value['idadministrador'], 5, 0, STR_PAD_LEFT)?></td>
+                        <td class="text-center"><?= str_pad($value['idcliente'], 5, 0, STR_PAD_LEFT)?></td>
                         <td><?=$value['desnome']?></td>
                         <td><?=$value['deslogin']?></td>
                         <td><?=$value['desemail']?></td>
-                        <td><?=$value['destelefone']?></td>
                     </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>

@@ -50,7 +50,7 @@
                     </li>
                 </ul>
                 <!-- /.navbar-top-links -->
-                <?php if ($data['user']['Destipo'] === "1"): ?>
+                <?php if ($user['Destipo'] === "1"): ?>
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
@@ -77,10 +77,10 @@
                                 <a href="#"><i class="fa fa-users fa-fw"></i> Usuários<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="/admin/users/admin">Administrador</a>
+                                        <a href="/admin/users/admins">Administrador</a>
                                     </li>
                                     <li>
-                                        <a href="/admin/users/client">Cliente</a>
+                                        <a href="/admin/users/clients">Cliente</a>
                                     </li>
                                 </ul>
                             </li>

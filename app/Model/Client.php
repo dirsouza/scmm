@@ -8,34 +8,46 @@ use App\Model\User;
 
 class Client extends Model
 {
+    private $error = [];
+    
     /**
      * Adicionar usuário Cliente
      */
     public function addCliente()
     {
-        if ($this->verifyData()) {
+        $vData  = $this->verifyData();
+        $vUser = $this->verifyUsuario();
+
+        if ($vData === true && $vUser === true) {
             $user = new User();
             $user->setData($this->getValues());
-            $result = $user->addUsuario();
+            $id = $user->addUsuario();
 
-            if (is_numeric($result) && $result > 0) {
-                try {
-                    $sql = new Dao();
-                    $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome,desemail)
-                                    VALUES (:IDUSUARIO,:DESNOME,:DESEMAIL)", array(
-                        ':IDUSUARIO' => $result,
-                        ':DESNOME' => $this->getDesNome(),
-                        ':DESEMAIL' => $this->getDesEmail()
-                    ));
+            try {
+                $sql = new Dao();
+                $sql->allQuery("INSERT INTO tbcliente (idusuario,desnome,desemail)
+                                VALUES (:IDUSUARIO,:DESNOME,:DESEMAIL)", array(
+                    ':IDUSUARIO' => $id,
+                    ':DESNOME' => $this->getDesNome(),
+                    ':DESEMAIL' => $this->getDesEmail()
+                ));
 
-                    $user->setUser($result);
-                } catch (\PDOException $e) {
-                    User::deleteUsuario($result);
-                    Model::returnError("Não foi possível Cadastrar o Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
-                }
-            } else {
+                $user->setUser($id);
+            } catch (\PDOException $e) {
                 $this->recoveryData();
-                $this->errorUser($result);
+                User::deleteUsuario($id);
+                Model::returnError("Não foi possível Cadastrar o Cliente.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);
+            }
+        } else {
+            $this->recoveryData();
+            if (is_array($vData) && is_array($vUser)) {
+                $this->errorUser(array_merge($vData, $vUser));
+            } else {
+                if (is_array($vData) && !is_array($vUser)) {
+                    $this->errorUser($vData);
+                } else {
+                    $this->errorUser($vUser);
+                }
             }
         }
     }
@@ -82,6 +94,44 @@ class Client extends Model
     }
 
     /**
+     * Verifica se o nome de Usuário ou E-mail já existem
+     * Caso SIM - Retorna o resultado encontrado
+     * Caso NAO - Retorna true
+     */
+    private function verifyUsuario()
+    {
+        $sql = new Dao();
+        // Obtém os dados da tabela Usuario
+        $result = $sql->allSelect("SELECT * FROM tbusuario WHERE deslogin = :DESLOGIN", array(
+            ':DESLOGIN' => $this->getDesLogin()
+        ));
+
+        if (is_array($result) && count($result) > 0) {
+            $this->error[] = "Nome de <b>Usuário</b> já existe.";
+        }
+
+        // Obtém os dados da tabela Cliente
+        $result = $sql->allSelect("SELECT * FROM tbcliente WHERE desemail = :DESEMAIL", array(
+            ':DESEMAIL' => $this->getDesEmail()
+        ));
+
+        if (is_array($result) && count($result) > 0) {
+            $this->error[] = "Endereço de <b>E-mail</b> já existe.";
+        }
+
+        // Verifica se o nome de usuário não contém caracteres especiais
+        if (preg_match('/[^a-z.\-_\d]/', $this->getDesLogin())) {
+            $this->error[] = "O nome de <b>Usuário</b> informado não atende os padrões.";
+        }
+
+        if (count($this->error) > 0) {
+            return $this->error;
+        }
+
+        return true;
+    }
+
+    /**
      * Invoca o método de tratamento de erros da Model
      * @param type array
      */
@@ -102,10 +152,16 @@ class Client extends Model
      */
     private function verifyData()
     {
+        $error = [];
+
         foreach ($this->getValues() as $key => $value) {
-            if (empty($value)) {
-                return false;
+            if (empty($value) && $key != "DesTipo" && $key != "DesReSenha") {
+                $error[] = "O campo <b>" . preg_replace('/Des/',"", $key) . "</b> não foi informado.";
             }
+        }
+
+        if (count($error) > 0) {
+            return $error;
         }
 
         return true;
@@ -116,7 +172,7 @@ class Client extends Model
      */
     private function recoveryData()
     {
-        $_SESSION['register'] = array(
+        $_SESSION['restoreData'] = array(
             'desNome' => $this->getDesNome(),
             'desEmail' => $this->getDesEmail(),
             'desLogin' => $this->getDesLogin()

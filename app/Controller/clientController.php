@@ -18,22 +18,35 @@ class clientController extends Controller
 
         return $user->getValues();
     }
-
+ 
     public static function actionViewIndex()
     {
         $user = self::loginVerify();
-        parent::verifyClient($user);
+        parent::verifyAdmin($user);
 
-        $userName = Client::listClienteId((int)$user['Idusuario']);
-        $userName = explode(" ", $userName[0]['desnome']);
-        $_SESSION['userName'] = $userName[0];
+        $clients = Client::listClientes();
 
         $app = new Slim();
         $app->render('/template/header.php', array(
             'user' => $user,
             'page' => "Faça sua pesquisa"
         ));
-        $app->render('/clientSearch/index.php');
+        $app->render('/client/index.php', array(
+            'clients' => $clients
+        ));
         $app->render('/template/footer.php');
+    }
+
+    public static function actionViewReport()
+    {
+        $user = self::loginVerify();
+        parent::verifyAdmin($user);
+
+        $clients = Client::listClientes();
+
+        $app = new Slim();
+        $app->render('/client/report.php', array(
+            'clients' => $clients
+        ));
     }
 }

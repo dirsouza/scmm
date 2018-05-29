@@ -13,17 +13,24 @@ $_SESSION['system'] = array(
     'version' => '1.0.0'
 );
 
+if (isset($_SESSION['error']) && !empty($_SESSION['error'])) {
+    unset($_SESSION['notify']);
+} else {
+    unset($_SESSION['error']);
+}
+
 use Slim\Slim;
 use Core\Controller;
-use App\Controller\homeController;
-use App\Controller\clientController;
-use App\Controller\administratorController;
 use App\Controller\loginController;
 use App\Controller\registerController;
 use App\Controller\forgotController;
+use App\Controller\homeController;
 use App\Controller\commerceController;
 use App\Controller\productController;
 use App\Controller\prodsByCommerceController;
+use App\Controller\administratorController;
+use App\Controller\clientController;
+use App\Controller\clientSearchController;
 
 $app = new Slim();
 $app->config(array(
@@ -73,6 +80,7 @@ $app->group('/register', function () use ($app) {
     });
 
     $app->post('/', function () {
+        $_POST = array_merge($_POST, ['desTipo' => 0]);
         registerController::actionRegister($_POST);
     });
 });
@@ -247,9 +255,9 @@ $app->group('/admin', function () use ($app) {
     $app->group('/users', function () use ($app) {
         /**
          * Administrador
-         * Url: http://local.scmm.com.br/admin/users/admin
+         * Url: http://local.scmm.com.br/admin/users/admins
          */
-        $app->group('/admin', function () use ($app) {
+        $app->group('/admins', function () use ($app) {
             $app->get('/', function () use ($app) {
                 administratorController::actionViewIndex();
             });
@@ -259,7 +267,8 @@ $app->group('/admin', function () use ($app) {
             });
 
             $app->post('/create', function () {
-                print_r($_POST); exit;
+                $_POST = array_merge($_POST, ['desTipo' => 1]);
+                administratorController::actionCreate($_POST);
             });
 
             $app->post('/altPass/:id', function($id) {
@@ -267,24 +276,32 @@ $app->group('/admin', function () use ($app) {
             });
 
             $app->get('/update/:id', function ($id) {
-
+                administratorController::actionViewUpdate($id);
             });
 
             $app->post('/update/:id', function ($id) {
-
+                administratorController::actionUpdate($_POST, $id);
             });
 
             $app->get('/delete/:id', function ($id) {
+                administratorController::actonDelete($id);
+            });
 
+            $app->get('/report', function() {
+                administratorController::actionViewReport();
             });
         });
         /**
          * Cliente
          * Url: http://local.scmm.com.br/admin/users/client
          */
-        $app->group('/client', function () use ($app) {
+        $app->group('/clients', function () use ($app) {
             $app->get('/', function () {
+                clientController::actionViewIndex();
+            });
 
+            $app->get('/report', function() {
+                clientController::actionViewReport();
             });
         });
     });
@@ -296,7 +313,7 @@ $app->group('/admin', function () use ($app) {
  */
 $app->group('/client', function () use ($app) {
     $app->get('/', function () use ($app) {
-        clientController::actionViewIndex();
+        clientSearchController::actionViewIndex();
     });
 });
 

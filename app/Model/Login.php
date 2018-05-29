@@ -98,10 +98,19 @@ class Login extends Model
                 ':IDUSUARIO' => $idUser
             ));
             
-            if ($result[0]['destipo'] == 1) {
-                $this->getUserAdmin($idUser);
+            if (is_array($result) && count($result) > 0) {
+                switch ($result[0]['destipo']) {
+                    case "0":
+                        $this->getUserClient($idUser);
+                        break;
+                    case "1":
+                        $this->getUserAdmin($idUser);
+                        break;
+                }
             } else {
-                $this->getUserClient($idUser);
+                self::logout();
+                header("location: /login");
+                exit;
             }
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível obter os dados do usuário.<br>" . $e->getMessage(), $_SERVER['REQUEST_URI']);

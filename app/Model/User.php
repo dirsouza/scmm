@@ -11,7 +11,6 @@ use App\Model\Login;
  */
 class User extends Model
 {
-    private $error = [];
 
     /**
      * Adiciona um novo Usuário e retorna o ID
@@ -19,27 +18,19 @@ class User extends Model
      */
     public function addUsuario()
     {
-        $result = $this->verifyUsuario();
-        
-        if ($result === true) {
-            try {
-                $sql = new Dao();
-                $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,destipo)
-                                VALUES (:DESLOGIN,:DESSENHA,:DESTIPO)", array(
-                    ':DESLOGIN' => $this->getDesLogin(),
-                    ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
-                    ':DESTIPO' => (array_key_exists("DesTipo", $this->getValues())) ? $this->getDesTipo() : 0
-                ));
-                
-                $idUser = $_SESSION[Dao::SESSION];
-                
-                return (int)$idUser;
-            } catch (\PDOException $e) {
-                Model::returnError("Não foi possível Cadastrar o Usuário.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
-            }
+        try {
+            $sql = new Dao();
+            $sql->allQuery("INSERT INTO tbusuario (deslogin,dessenha,destipo)
+                            VALUES (:DESLOGIN,:DESSENHA,:DESTIPO)", array(
+                ':DESLOGIN' => $this->getDesLogin(),
+                ':DESSENHA' => password_hash($this->getDesSenha(), PASSWORD_DEFAULT),
+                ':DESTIPO' => $this->getDesTipo()
+            ));
+            
+            return (int)$_SESSION[Dao::SESSION];
+        } catch (\PDOException $e) {
+            Model::returnError("Não foi possível Cadastrar o Usuário.<br>" . $e->getMessage(), $_SERVER["REQUEST_URI"]);
         }
-
-        return $this->error;
     }
 
     /**
@@ -85,44 +76,6 @@ class User extends Model
         } catch (\PDOException $e) {
             Model::returnError("Não foi possível retornar os dados.<br>" . $e->getMessage());
         }
-    }
-
-    /**
-     * Verifica se o nome de Usuário ou E-mail já existem
-     * Caso SIM - Retorna o resultado encontrado
-     * Caso NAO - Retorna true
-     */
-    private function verifyUsuario()
-    {
-        $sql = new Dao();
-        // Obtém os dados da tabela Usuario
-        $result = $sql->allSelect("SELECT * FROM tbusuario WHERE deslogin = :DESLOGIN", array(
-            ':DESLOGIN' => $this->getDesLogin()
-        ));
-
-        if (is_array($result) && count($result) > 0) {
-            $this->error[] = "Nome de Usuário já existe.";
-        }
-
-        // Obtém os dados da tabela Cliente
-        $result = $sql->allSelect("SELECT * FROM tbcliente WHERE desemail = :DESEMAIL", array(
-            ':DESEMAIL' => $this->getDesEmail()
-        ));
-
-        if (is_array($result) && count($result) > 0) {
-            $this->error[] = "Endereço de E-mail já existe.";
-        }
-
-        // Verifica se o nome de usuário não contém caracteres especiais
-        if (preg_match('/[^a-z.\-_\d]/', $this->getDesLogin())) {
-            $this->error[] = "O nome de usuário informado não atende os padrões.";
-        }
-
-        if (count($this->error) > 0) {
-            return $this->error;
-        }
-
-        return true;
     }
 
     /**

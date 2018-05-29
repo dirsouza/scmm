@@ -41,6 +41,7 @@
         <script src="/public/js/scmm.js"></script>
         <script src="/public/js/custumer.js"></script>
         <script src="/public/js/buscarCep.js"></script>
+        <script src="/public/js/nofify.js"></script>
         <script src="/public/js/assocProdsByCommerce.js"></script>
     </body>
 </html>
