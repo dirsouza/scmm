@@ -35,7 +35,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Login:</label>
+                                                    <label>Usuário:</label>
                                                     <input type="text" name="desLogin" class="form-control" value="<?= ($data != null) ? $data['desLogin'] : null ?>" required>
                                                 </div>
                                             </div>
