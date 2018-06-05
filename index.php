@@ -1,5 +1,5 @@
 <?php
-setlocale(LC_ALL, "pt_BR", "pt_BR-utf-8", "portuguese");
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'portuguese');
 
 define("PATH_DIR", $_SERVER['DOCUMENT_ROOT']);
 define("APP_PATH", PATH_DIR . "/app/View");
@@ -325,7 +325,15 @@ $app->group('/client', function() use ($app) {
     });
 
     $app->get('/history', function() {
-        
+        clientSearchController::actioViewHistory();
+    });
+
+    $app->get('/report/:id', function($id) {
+        clientSearchController::actionViewReport($id);
+    });
+
+    $app->get('/delete/:id', function($id) {
+        clientSearchController::actionDelete($id);
     });
 });
 

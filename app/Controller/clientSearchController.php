@@ -7,6 +7,7 @@ use Core\Controller;
 use App\Model\Login;
 use App\Model\Client;
 use App\Model\ProdsByCommerce;
+use App\Model\ClientSearch;
 
 class clientSearchController extends Controller
 {
@@ -61,23 +62,100 @@ class clientSearchController extends Controller
         $user = self::loginVerify();
         parent::verifyClient($user);
 
-        $v = null;
+        $desFiltro = null;
 
         if (isset($data) && count($data) > 0) {
             foreach ($data as $key => $value) {
                 if ($key < count($data) -1) {
-                    $a = explode(",", $value);
-                    $v .= $a[1] . ", ";
+                    $filter = explode(",", $value);
+                    $desFiltro .= $filter[1] . ",";
                 } else {
-                    $a = explode(",", $value);
-                    $v .= $a[1];
+                    $filter = explode(",", $value);
+                    $desFiltro .= $filter[1];
                 }
             }
             
-            echo $v;
-            //var_dump(explode(",", $data['rowData'][0]));
+            $clientSearch = new ClientSearch();
+            $clientSearch->setData(array(
+                'idCliente' => $user['Idcliente'],
+                'desFiltro' => str_replace("\"","", $desFiltro)
+            ));
+            $result = $clientSearch->addSearch();
+
+            if (is_numeric($result) && $result > 0) {
+                echo 'Cadastro realizado com sucesso!<br>Clique em Visualizar para ver o PDF. <a href="/client/report/' . $result . '" id="btn-viewPDF" class="btn btn-primary" target="_black" onclick="window.location.reload(true);">Visualizar <i class="fa fa-eye"></i></a>';
+            } else {
+                echo $result;
+            }
         } else {
-            echo "POST não recebido.";
+            echo "Nenhum dado foi recebido.";
         }
+    }
+
+    public static function actioViewHistory()
+    {
+        $user = self::loginVerify();
+        parent::verifyClient($user);
+
+        $result = ClientSearch::listSearch((int)$user['Idcliente']);
+        
+        if (is_array($result) && count($result) > 0){
+            foreach($result as $key => &$value) {
+                if ($value['desfiltro']) {
+                    $value['desfiltro'] = count(explode(",", $value['desfiltro']));
+                }
+            }
+        }
+
+        $app = new Slim();
+        $app->render('/template/header.php', array(
+            'user' => $user,
+            'page' => "Histórico de pesquisas"
+        ));
+        $app->render('/clientSearch/searchHistory.php', array(
+            'filters' => $result
+        ));
+        $app->render('/template/footer.php');
+    }
+
+    public static function actionViewReport(int $id)
+    {
+        $user = self::loginVerify();
+        parent::verifyClient($user);
+
+        $result = ClientSearch::listSearchId($id);
+
+        $list = [];
+        $filter = explode(",", $result['desfiltro']);
+
+        foreach($filter as $key => $value) {
+            $filterResult = ProdsByCommerce::listProdutosComerciosId($value);
+            $list[] = $filterResult[0];
+        }
+
+        foreach($list as $key => $value) {
+            $idComercio[$key] = $value['idcomercio'];
+        }
+
+        array_multisort($idComercio, SORT_ASC, $list);
+
+        $app = new Slim();
+        $app->render('/clientSearch/report.php', array(
+            'filters' => $list
+        ));
+    }
+
+    public static function actionDelete(int $id)
+    {
+        $user = self::loginVerify();
+        parent::verifyClient($user);
+
+        $clientSearch = new ClientSearch();
+        $clientSearch->deleteSearch($id);
+
+        parent::notify("success", "Histórico excluído com sucesso!");
+
+        header('location: /client/history');
+        exit;
     }
 }

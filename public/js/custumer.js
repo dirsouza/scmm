@@ -116,7 +116,7 @@ $(function() {
 
     function loadModal($msg) {
         var dialog = bootbox.dialog({
-            size: 'large',
+            size: 'small',
             title: '<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM',
             message: '<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>'
         });
