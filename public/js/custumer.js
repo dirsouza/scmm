@@ -1,4 +1,6 @@
 $(function() {
+    var rowData = [];
+
     /**
      * Evita multiplos click
      */
@@ -13,7 +15,7 @@ $(function() {
      * DataTables
      */
     if (document.getElementById('selectCheckbox') !== null) {
-        $('#selectCheckbox').DataTable({
+        var table = $('#selectCheckbox').DataTable({
             autoWidth: true,
             responsive: true,
             language: {
@@ -31,6 +33,13 @@ $(function() {
             order: [
                 [1, 'asc']
             ]
+        });
+
+        table.on('select', function(e, dt, type, index) {
+            console.log(index);
+            rowData.push(JSON.stringify(table.rows(index).data().toArray()));
+        }).on('deselect', function(e, dt, type, index) {
+            rowData.splice($.inArray(JSON.stringify(table.rows(index).data().toArray()), rowData), 1);
         });
     } else {
         $('#table').DataTable({
@@ -94,4 +103,28 @@ $(function() {
     $('#modalPass').on('shown.bs.modal', function() {
         $('input[name="oldPass"]').focus();
     });
+
+    $('#genaratePDF').on('click', function() {
+        if (rowData.length > 0) {
+            $.post('/client/search', { rowData }).done(function(result) {
+                loadModal(result);
+            });
+        } else {
+            loadModal("Nenhum item foi selecionado.");
+        }
+    });
+
+    function loadModal($msg) {
+        var dialog = bootbox.dialog({
+            size: 'large',
+            title: '<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM',
+            message: '<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>'
+        });
+
+        dialog.init(function() {
+            setTimeout(function() {
+                dialog.find('.bootbox-body').html($msg);
+            }, 900);
+        });
+    }
 });

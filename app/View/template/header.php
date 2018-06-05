@@ -30,12 +30,15 @@
                     </a>
                 </div>
 
+                
+                <?php if ($user['Destipo'] === "1"): ?>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <?php endif; ?>
 
                 <ul class="nav navbar-right navbar-top-links">
                     <li class="dropdown navbar-inverse">
@@ -93,7 +96,7 @@
             <div id="page-wrapper" class="<?= ($user['Destipo'] === "1") ? "page-wrapper-admin" : "page-wrapper-client" ?>">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header"><?= $page ?></h1>
+                        <h1 class="page-header <?= ($user['Destipo'] === "1") ? null : "text-center" ?>"><?= $page ?></h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>

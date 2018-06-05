@@ -9,11 +9,16 @@ use App\Model\User;
 
 class Forgot extends Model
 {
-    const STRING_SECURITY = "c2NtbS5jb20uYnI="; //base64 = scmm.com.br
+    // Chave encriptada (frase de segurança)
+    private const STRING_SECURITY = "c2NtbS5jb20uYnI="; //base64 = scmm.com.br
 
+    /**
+     * Recebe o e-mail do cliente para envio
+     */
     public static function getForgot($email)
     {
         try {
+            // Consuta no banco se o e-mail existe
             $sql = new Dao();
             $results = $sql->allSelect("SELECT * FROM tbusuario a
                              INNER JOIN tbcliente b
@@ -27,10 +32,13 @@ class Forgot extends Model
                 $recovery = self::getRecovery($idRecovery);
                 
                 if (count($recovery) > 0) {
+                    // Recebe a chave encriptada
                     $code_encrypted = self::forgotEncrypt($recovery[0]['idrecovery'], Forgot::STRING_SECURITY);
 
+                    // Recebe o link para envio do e-mail
                     $link = "http://local.scmm.com.br/forgot/reset?code=$code_encrypted";
 
+                    // Instancia a Classe Mailer para envio do e-mail
                     $mailer = new Mailer($recovery[0]['desemail'], $recovery[0]['desnome'], "Redefinir Senha em SCMM", array(
                         'name' => $recovery[0]['desnome'],
                         'link' => $link
@@ -52,6 +60,9 @@ class Forgot extends Model
         }
     }
 
+    /**
+     * Insere no banco de dados os dados de recoperação
+     */
     private function insertRecovery(int $idUser)
     {
         try {
@@ -68,6 +79,9 @@ class Forgot extends Model
         }
     }
 
+    /**
+     * Recupera do banco de dados os dados para redefinir a senha
+     */
     private function getRecovery(int $idRecovery)
     {
         try {
@@ -85,6 +99,9 @@ class Forgot extends Model
         }
     }
 
+    /**
+     * Valida no banco de dados o código de recuperação
+     */
     public static function validForgotDecrypt($code, $password = null)
     {
         try {
@@ -109,6 +126,9 @@ class Forgot extends Model
         }
     }
 
+    /**
+     * Encripta a chave de recuperação
+     */
     private function forgotEncrypt($idRecovery, $key)
     {
         $encryption_id = base64_encode($idRecovery);
@@ -117,6 +137,9 @@ class Forgot extends Model
         return base64_encode($encryption_id . "::" . $encryption_key);
     }
 
+    /**
+     * Decripta a chave de recuperação
+     */
     public static function forgotCodeDecrypt($code)
     {
         $decryption = explode("::", base64_decode($code));
@@ -124,6 +147,9 @@ class Forgot extends Model
         return base64_decode($decryption[0]);
     }
 
+    /**
+     * Atualiza no banco de dados a data que o link de recuperação foi validado
+     */
     private function setForgotUser(int $idrecovery)
     {
         try {
@@ -136,6 +162,9 @@ class Forgot extends Model
         }
     }
 
+    /**
+     * Atualiza a senha do usuário no banco de dados
+     */
     public static function setPassword(int $idUser, $password)
     {
         if (self::validatePassword($password)) {
@@ -153,6 +182,9 @@ class Forgot extends Model
         }
     }
 
+    /**
+     * Valida se a senha não está vazia
+     */
     private function validatePassword($password)
     {
         if (empty(trim($password))) {

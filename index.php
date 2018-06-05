@@ -42,7 +42,7 @@ $app->config(array(
  * Index
  * Url: http:/local.scmm.com.br/index
  */
-$app->get('/', function () {
+$app->get('/', function() {
     Controller::verifyLogin();
 });
 
@@ -50,12 +50,12 @@ $app->get('/', function () {
  * Login
  * Url: http:/local.scmm.com.br/login
  */
-$app->group('/login', function () use ($app) {
-    $app->get('/', function () {
+$app->group('/login', function() use ($app) {
+    $app->get('/', function() {
         loginController::actionIndex();
     });
 
-    $app->post('/', function () {
+    $app->post('/', function() {
         loginController::actionLogin($_POST);
     });
 });
@@ -64,8 +64,8 @@ $app->group('/login', function () use ($app) {
  * Logout
  * Url: http:/local.scmm.com.br/logout
  */
-$app->group('/logout', function () use ($app) {
-    $app->get('/', function () {
+$app->group('/logout', function() use ($app) {
+    $app->get('/', function() {
         loginController::actionLogout();
     });
 });
@@ -74,12 +74,12 @@ $app->group('/logout', function () use ($app) {
  * Registro
  * Url: http:/local.scmm.com.br/register
  */
-$app->group('/register', function () use ($app) {
-    $app->get('/', function () {
+$app->group('/register', function() use ($app) {
+    $app->get('/', function() {
         registerController::actionIndex();
     });
 
-    $app->post('/', function () {
+    $app->post('/', function() {
         $_POST = array_merge($_POST, ['desTipo' => 0]);
         registerController::actionRegister($_POST);
     });
@@ -89,20 +89,20 @@ $app->group('/register', function () use ($app) {
  * Recuperar senha
  * Url: http://local.scmm.com.br/forgot
  */
-$app->group('/forgot', function () use ($app) {
-    $app->get('/', function () {
+$app->group('/forgot', function() use ($app) {
+    $app->get('/', function() {
         forgotController::actionViewIndex();
     });
 
-    $app->post('/', function () {
+    $app->post('/', function() {
         forgotController::actionForgot($_POST);
     });
 
-    $app->get('/reset', function () {
+    $app->get('/reset', function() {
         forgotController::actionViewReset($_GET);
     });
 
-    $app->post('/reset', function () {
+    $app->post('/reset', function() {
         forgotController::actionReset($_POST);
     });
 });
@@ -111,24 +111,24 @@ $app->group('/forgot', function () use ($app) {
  * Painel Administrativo
  * Url: http://local.scmm.com.br/admin
  */
-$app->group('/admin', function () use ($app) {
-    $app->get('/', function () {
+$app->group('/admin', function() use ($app) {
+    $app->get('/', function() {
         homeController::actionIndex();
     });
     /**
      * ComÃ©rcio
      * Url: http:/local.scmm.com.br/admin/commerce
      */
-    $app->group('/commerce', function () use ($app) {
-        $app->get('/', function () {
+    $app->group('/commerce', function() use ($app) {
+        $app->get('/', function() {
             commerceController::actionViewIndex();
         });
 
-        $app->get('/create', function () {
+        $app->get('/create', function() {
             commerceController::actionViewCreate();
         });
 
-        $app->post('/create', function () {
+        $app->post('/create', function() {
             commerceController::actionCreate($_POST);
         });
 
@@ -144,7 +144,7 @@ $app->group('/admin', function () use ($app) {
             commerceController::actionDelete($id);
         });
 
-        $app->get('/report', function () {
+        $app->get('/report', function() {
             commerceController::actionViewReport();
         });
 
@@ -161,16 +161,16 @@ $app->group('/admin', function () use ($app) {
      * Produto
      * Url: http:/local.scmm.com.br/admin/product
      */
-    $app->group('/product', function () use ($app) {
-        $app->get('/', function () {
+    $app->group('/product', function() use ($app) {
+        $app->get('/', function() {
             productController::actionViewIndex();
         });
 
-        $app->get('/create', function () {
+        $app->get('/create', function() {
             productController::actionViewCreate();
         });
 
-        $app->post('/create', function () {
+        $app->post('/create', function() {
             productController::actionCreate($_POST);
         });
 
@@ -186,7 +186,7 @@ $app->group('/admin', function () use ($app) {
             productController::actionDelete($id);
         });
 
-        $app->get('/report', function () {
+        $app->get('/report', function() {
             productController::actionViewReport();
         });
 
@@ -203,12 +203,12 @@ $app->group('/admin', function () use ($app) {
      * Produtos por ComÃ©rcio
      * Url: http:/local.scmm.com.br/admin/prodsByCommerce
      */
-    $app->group('/prodsByCommerce', function () use ($app) {
-        $app->get('/', function () {
+    $app->group('/prodsByCommerce', function() use ($app) {
+        $app->get('/', function() {
             prodsByCommerceController::actionViewIndex();
         });
 
-        $app->get('/create', function () {
+        $app->get('/create', function() {
             prodsByCommerceController::actionViewCreate();
         });
 
@@ -252,21 +252,21 @@ $app->group('/admin', function () use ($app) {
      * UsuÃ¡rios
      * Url: http://local.scmm.com.br/admin/users
      */
-    $app->group('/users', function () use ($app) {
+    $app->group('/users', function() use ($app) {
         /**
          * Administrador
          * Url: http://local.scmm.com.br/admin/users/admins
          */
-        $app->group('/admins', function () use ($app) {
-            $app->get('/', function () use ($app) {
+        $app->group('/admins', function() use ($app) {
+            $app->get('/', function() use ($app) {
                 administratorController::actionViewIndex();
             });
 
-            $app->get('/create', function () {
+            $app->get('/create', function() {
                 administratorController::actionViewCreate();
             });
 
-            $app->post('/create', function () {
+            $app->post('/create', function() {
                 $_POST = array_merge($_POST, ['desTipo' => 1]);
                 administratorController::actionCreate($_POST);
             });
@@ -295,8 +295,8 @@ $app->group('/admin', function () use ($app) {
          * Cliente
          * Url: http://local.scmm.com.br/admin/users/client
          */
-        $app->group('/clients', function () use ($app) {
-            $app->get('/', function () {
+        $app->group('/clients', function() use ($app) {
+            $app->get('/', function() {
                 clientController::actionViewIndex();
             });
 
@@ -311,9 +311,21 @@ $app->group('/admin', function () use ($app) {
  * Cliente
  * Url: http:/local.scmm.com.br/client
  */
-$app->group('/client', function () use ($app) {
-    $app->get('/', function () use ($app) {
+$app->group('/client', function() use ($app) {
+    $app->get('/', function() use ($app) {
         clientSearchController::actionViewIndex();
+    });
+
+    $app->get('/search', function() {
+        clientSearchController::actionViewSearch();
+    });
+
+    $app->post('/search', function() {
+        clientSearchController::actionSearch($_POST['rowData']);
+    });
+
+    $app->get('/history', function() {
+        
     });
 });
 
