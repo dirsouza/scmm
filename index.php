@@ -115,6 +115,10 @@ $app->group('/admin', function() use ($app) {
     $app->get('/', function() {
         homeController::actionIndex();
     });
+
+    $app->get('/filters', function() {
+        homeController::actionGetCount();
+    });
     /**
      * ComÃ©rcio
      * Url: http:/local.scmm.com.br/admin/commerce

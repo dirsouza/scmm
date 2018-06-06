@@ -38,6 +38,8 @@
         <script src="/public/api/select2/js/i18n/pt-BR.js"></script>
         <script src="/public/api/bootbox/bootbox.min.js"></script>
         <script src="/public/api/toastr/toastr.min.js"></script>
+        <script src="/public/api/morris-js/morris.min.js"></script>
+        <script src="/public/api/morris-js/raphael-min.js"></script>
         <script src="/public/js/scmm.js"></script>
         <script src="/public/js/custumer.js"></script>
         <script src="/public/js/buscarCep.js"></script>

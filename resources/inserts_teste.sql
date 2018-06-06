@@ -1,0 +1,184 @@
+use db_scmm;
+
+-- Novo Usuário
+-- Login: teste
+-- Senha: 123
+INSERT INTO tbusuario (idusuario, deslogin, dessenha, destipo) VALUES (2,'teste', '$2y$10$fqBiF5y6xhJxeNBLk0rZROCBVzkEkpekRLxJy59DgdH75KnFmmWlW', 0);
+INSERT INTO tbcliente (idusuario, desnome, desemail) VALUES (2, 'Teste', 'teste@teste.com');
+
+-- Bairros
+INSERT INTO tbbairro (idbairro, descep, desrua, desbairro) VALUES (1, '69057-021', 'Av. Umberto Calderaro', 'Adrianópolis');
+INSERT INTO tbbairro (idbairro, descep, desrua, desbairro) VALUES (2, '69065-000', 'Av. Carvalho Leal', 'Cachoeirinha');
+INSERT INTO tbbairro (idbairro, descep, desrua, desbairro) VALUES (3, '69067-005', 'Av. Gen. Rodrigo Otávio', 'Japiim');
+INSERT INTO tbbairro (idbairro, descep, desrua, desbairro) VALUES (4, '69073-040', 'R. Adalberto Vale', 'Betânia');
+
+-- Comércios
+INSERT INTO tbcomercio (desnome, idbairro) VALUES ('Hiper DB - Paraíba', 1);
+INSERT INTO tbcomercio (desnome, idbairro) VALUES ('DB Supermercados - Cachoeirinha', 2);
+INSERT INTO tbcomercio (desnome, idbairro) VALUES ('Baratão da Carne - Japiim', 3);
+INSERT INTO tbcomercio (desnome, idbairro) VALUES ('Supermercado Baratão da Carne - Betânia', 4);
+
+-- Produtos
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Açúcar', 'União', 'Açúcar');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Açúcar', 'Santa Isabel', 'Açúcar');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Sal', 'Mar e Sol', 'Sal');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Sal', 'Alteza', 'Sal');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Arroz', 'Tio João', 'Arroz');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Arroz', 'Top', 'Arroz');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Feijão', 'Kicaldo', 'Feijão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Feijão', 'Feijão da Casa', 'Feijão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Farinha', 'Manaus', 'Farinha');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Farinha', 'Jutica', 'Farinha');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Macarrão', 'Fortaleza', 'Macarrão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Macarrão', 'Ricosa', 'Macarrão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Café', 'Pilão', 'Café');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Café', 'Santa Clara', 'Café');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Leite Líquido', 'Elegê', 'Leite');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Leite Líquido', 'Piracanjuba', 'Leite');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Óleo', 'Liza', 'Óleo');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Óleo', 'Concordia', 'Óleo');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Sabão em pedra', 'Ypê', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Sabão em pedra', 'Limpol', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Sabão em pó', 'Omo', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Sabão em pó', 'Brilhante', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Detergente', 'Ypê', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Detergente', 'Veja', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Desinfetante', 'Veja', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Desinfetante', 'Assim', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Amaciante', 'Ypê', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Amaciante', 'Confort', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Sabonete', 'Lux', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Sabonete', 'Jhonsons', 'Sabão');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Creme dental', 'Colgate', 'Creme');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Creme dental', 'Soriso', 'Creme');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Desodorante', 'Dove', 'Desodorante');
+INSERT INTO tbproduto (desnome, desmarca, desdescricao) VALUES ('Desodorante', 'Rexona', 'Desodorante');
+
+-- Produtos por Comércios
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 1, 2.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 4, 0.75);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 5, 1.89);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 6, 2.19);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 7, 6.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 8, 5.60);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 9, 6.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 10, 5.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 11, 1.20);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 12, 1.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 13, 7.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 14, 6.89);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 15, 1.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 17, 3.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 18, 3.75);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 19, 4.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 21, 8.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 22, 6.70);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 23, 1.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 24, 3.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 25, 2.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 27, 7.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 28, 9.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 29, 1.25);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 30, 1.35);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 31, 2.79);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 32, 1.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 33, 12.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (1, 34, 17.00);
+
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 1, 2.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 4, 0.85);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 5, 1.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 6, 2.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 7, 6.25);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 8, 5.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 9, 6.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 10, 5.40);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 11, 1.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 12, 1.60);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 13, 7.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 14, 6.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 15, 2.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 17, 3.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 18, 3.75);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 19, 4.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 21, 8.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 22, 6.70);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 23, 1.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 24, 3.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 25, 2.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 27, 7.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 28, 9.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 29, 1.25);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 30, 1.35);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 31, 2.79);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 32, 1.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 33, 12.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (2, 34, 17.00);
+
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 1, 2.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 4, 0.85);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 5, 1.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 6, 2.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 7, 6.25);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 8, 5.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 9, 6.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 10, 5.40);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 11, 1.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 12, 1.60);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 13, 7.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 14, 6.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 15, 2.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 17, 3.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 18, 3.75);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 19, 4.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 21, 8.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 22, 6.70);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 23, 1.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 24, 3.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 25, 2.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 27, 7.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 28, 9.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 29, 1.25);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 30, 1.35);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 31, 2.79);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 32, 1.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 33, 12.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (3, 34, 17.00);
+
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 1, 2.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 4, 0.85);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 5, 1.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 6, 2.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 7, 6.25);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 8, 5.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 9, 6.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 10, 5.40);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 11, 1.10);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 12, 1.60);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 13, 7.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 14, 6.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 15, 2.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 17, 3.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 18, 3.75);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 19, 4.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 21, 8.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 22, 6.70);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 23, 1.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 24, 3.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 25, 2.50);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 27, 7.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 28, 9.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 29, 1.25);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 30, 1.35);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 31, 2.79);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 32, 1.80);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 33, 12.00);
+INSERT INTO tbprodutocomercio (idcomercio, idproduto, despreco) VALUES (4, 34, 17.00);
+
+-- Filtro
+INSERT INTO tbfiltrocliente (idcliente, desfiltro, dtfiltro) VALUES (1, '1,32,102,2,105,74,24,96,42,93,95,19,57,108,114,99,22', '2018-06-01 10:04:02');
+INSERT INTO tbfiltrocliente (idcliente, desfiltro, dtfiltro) VALUES (1, '1,32,102,2,105,74,24,96,42,93,95,19,57,108,114,99,22', '2018-06-02 11:04:02');
+INSERT INTO tbfiltrocliente (idcliente, desfiltro, dtfiltro) VALUES (1, '1,32,102,2,105,74,24,96,42,93,95,19,57,108,114,99,22', '2018-06-03 12:04:02');
+INSERT INTO tbfiltrocliente (idcliente, desfiltro, dtfiltro) VALUES (1, '1,32,102,2,105,74,24,96,42,93,95,19,57,108,114,99,22', '2018-06-04 13:04:02');
+INSERT INTO tbfiltrocliente (idcliente, desfiltro, dtfiltro) VALUES (1, '1,32,102,2,105,74,24,96,42,93,95,19,57,108,114,99,22', '2018-06-05 14:04:02');
+INSERT INTO tbfiltrocliente (idcliente, desfiltro, dtfiltro) VALUES (1, '1,32,102,2,105,74,24,96,42,93,95,19,57,108,114,99,22', '2018-06-06 15:04:02');

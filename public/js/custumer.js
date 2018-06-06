@@ -127,4 +127,31 @@ $(function() {
             }, 900);
         });
     }
+
+    var day_data = [
+        { "date": "01/06/2018", "value": 1 },
+        { "date": "02/06/2018", "value": 5 },
+        { "date": "03/06/2018", "value": 3 },
+        { "date": "04/06/2018", "value": 0 },
+        { "date": "05/06/2018", "value": 6 },
+        { "date": "06/06/2018", "value": 10}
+    ];
+
+    function graph() {
+        Morris.Line({
+            element: 'graph',
+            data: day_data,
+            xkey: 'date',
+            ykeys: ['value'],
+            labels: ['Acessos'],
+            parseTime: false
+        });
+    }
+
+    function update() {
+        $('#graph').empty();
+        graph();
+    }
+
+    setInterval(update, 1000);
 });

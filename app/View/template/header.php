@@ -15,6 +15,7 @@
         <link href="/public/api/select2/css/select2.min.css" rel="stylesheet">
         <link href="/public/api/select2/css/select2-bootstrap.min.css" rel="stylesheet">
         <link href="/public/api/toastr/toastr.min.css" rel="stylesheet">
+        <link href="/public/api/morris-js/morris.css" rel="stylesheet">
         <link href="/public/css/scmm.css" rel="stylesheet">
     </head>
     <body class="clearfix">

@@ -103,7 +103,7 @@
                                 Teste
                             </div>
                             <div class="panel-body">
-                                teste
+                                <div id="graph"></div>
                             </div>
                         </div>
                     </div>
