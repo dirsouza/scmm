@@ -38,6 +38,25 @@ class homeController extends Controller
         $userName = Administrator::listAdministradorId((int)$user['Idusuario']);
         $userName = explode(" ", $userName[0]['desnome']);
         $_SESSION['userName'] = $userName[0];
+
+        $mes_pt = array(
+            1 => "Jan",
+            2 => "Fev",
+            3 => "Mar",
+            4 => "Abr",
+            5 => "Mai",
+            6 => "Jun",
+            7 => "Jul",
+            8 => "Ago",
+            9 => "Set",
+            10 => "Out",
+            11 => "Nov",
+            12 => "Dez"
+        );
+        print_r($mes_pt); exit;
+
+        $numero = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+        echo $numero; exit;
         
         $app = new Slim();
         $app->render('/template/header.php', array(
