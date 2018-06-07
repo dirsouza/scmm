@@ -48,11 +48,11 @@ class homeController extends Controller
         $app->render('/template/footer.php');
     }
 
-    public static function actionGetCount()
+    public static function actionGetCount(string $month)
     {
         $user = self::loginVerify();
         parent::verifyAdmin($user);
 
-        print_r($result = Home::getCountFilters());
+        echo json_encode($result = Home::getCountFilters($month));
     }
 }

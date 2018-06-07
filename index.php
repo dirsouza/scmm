@@ -1,5 +1,5 @@
 <?php
-setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'portuguese');
+setlocale(LC_ALL, "pt_BR", "pt_BR.iso-8859-1", "pt_BR.utf-8", "portuguese");
 
 define("PATH_DIR", $_SERVER['DOCUMENT_ROOT']);
 define("APP_PATH", PATH_DIR . "/app/View");
@@ -116,8 +116,8 @@ $app->group('/admin', function() use ($app) {
         homeController::actionIndex();
     });
 
-    $app->get('/filters', function() {
-        homeController::actionGetCount();
+    $app->get('/filters/:month', function($month) {
+        homeController::actionGetCount($month);
     });
     /**
      * ComÃ©rcio

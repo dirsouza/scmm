@@ -128,14 +128,34 @@ $(function() {
         });
     }
 
-    var day_data = [
-        { "date": "01/06/2018", "value": 1 },
-        { "date": "02/06/2018", "value": 5 },
-        { "date": "03/06/2018", "value": 3 },
-        { "date": "04/06/2018", "value": 0 },
-        { "date": "05/06/2018", "value": 6 },
-        { "date": "06/06/2018", "value": 10}
-    ];
+    var setMonth = $('#month').val();
+    $('#month').on('change', function() {
+        setMonth = $(this).val();
+        startSetInterval();
+    });
+
+    var day_data = [];
+
+    function getCountFilters() {
+        $('#graph').empty();
+        $.ajax({
+            method: "GET",
+            url: "/admin/filters/" + setMonth,
+            dataType: "JSON",
+            success: function($result) {
+                console.log($result);
+                if ($result != null) {
+                    day_data.length = 0;
+                    $.each($result, function(i, item) {
+                        day_data.push({ date: item.date, value: item.dtFilter });
+                    });
+                }
+            },
+            error: function($error) {
+                console.log($error);
+            }
+        });
+    }
 
     function graph() {
         Morris.Line({
@@ -148,10 +168,12 @@ $(function() {
         });
     }
 
-    function update() {
-        $('#graph').empty();
-        graph();
-    }
+    startSetInterval();
 
-    setInterval(update, 1000);
+    function startSetInterval() {
+        setInterval(function() {
+            getCountFilters();
+            graph();
+        }, 5000);
+    }
 });

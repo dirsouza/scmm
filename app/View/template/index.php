@@ -100,7 +100,23 @@
                     <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Teste
+                                <i class="fa fa-line-chart"></i> Status de Acessos
+                                <div class="pull-right">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            Périodo
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" role="menu">
+                                            <li>
+                                                <a href="#">Selecionar Mês</a>
+                                                <div class="form-group">
+                                                    <input type="month" id="month" max="<?= date('Y-m') ?>" value="<?= date('Y-m') ?>" class="form-control">
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             <div class="panel-body">
                                 <div id="graph"></div>
