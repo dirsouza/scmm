@@ -125,7 +125,7 @@ ob_start();
                     <?php if ($idCommerce != $value['idcomercio']): ?>
                     <tr>
                         <td class="text-center" style="background-color: #bdc3c7; font-weight: bolder;"><?=str_pad($value['idcomercio'], 5, 0, STR_PAD_LEFT)?></td>
-                        <td colspan="3" style="background-color: #bdc3c7; font-weight: bolder;"><?=$value['desComercio']?></td>
+                        <td colspan="3" style="background-color: #bdc3c7; font-weight: bolder;"><?=$value['desComercio'] . " (" . $value['desEndereco'] . ")"?></td>
                     </tr>
                     <?php endif; ?>
                     <tr style="font-style: italic;">

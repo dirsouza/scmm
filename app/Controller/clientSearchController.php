@@ -132,7 +132,7 @@ class clientSearchController extends Controller
             $filterResult = ProdsByCommerce::listProdutosComerciosId($value);
             $list[] = $filterResult[0];
         }
-
+        //print_r($list); exit;
         foreach($list as $key => $value) {
             $idComercio[$key] = $value['idcomercio'];
         }
