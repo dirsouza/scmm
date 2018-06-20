@@ -9,7 +9,8 @@ require_once("vendor/autoload.php");
 session_start();
 
 $_SESSION['system'] = array(
-    'name' => 'SCMM - Sistema de Controle de Mercadorias de Comércios',
+    'name' => 'SCPM - Sistema de Controle de Pesquisa de Mercadoria',
+    'abrev' => "SCPM",
     'version' => '1.0.0'
 );
 
@@ -40,7 +41,7 @@ $app->config(array(
 
 /**
  * Index
- * Url: http:/local.scmm.com.br/index
+ * Url: http:/local.scpm.com.br/index
  */
 $app->get('/', function() {
     Controller::verifyLogin();
@@ -48,7 +49,7 @@ $app->get('/', function() {
 
 /**
  * Login
- * Url: http:/local.scmm.com.br/login
+ * Url: http:/local.scpm.com.br/login
  */
 $app->group('/login', function() use ($app) {
     $app->get('/', function() {
@@ -62,7 +63,7 @@ $app->group('/login', function() use ($app) {
 
 /**
  * Logout
- * Url: http:/local.scmm.com.br/logout
+ * Url: http:/local.scpm.com.br/logout
  */
 $app->group('/logout', function() use ($app) {
     $app->get('/', function() {
@@ -72,7 +73,7 @@ $app->group('/logout', function() use ($app) {
 
 /**
  * Registro
- * Url: http:/local.scmm.com.br/register
+ * Url: http:/local.scpm.com.br/register
  */
 $app->group('/register', function() use ($app) {
     $app->get('/', function() {
@@ -87,7 +88,7 @@ $app->group('/register', function() use ($app) {
 
 /**
  * Recuperar senha
- * Url: http://local.scmm.com.br/forgot
+ * Url: http://local.scpm.com.br/forgot
  */
 $app->group('/forgot', function() use ($app) {
     $app->get('/', function() {
@@ -109,7 +110,7 @@ $app->group('/forgot', function() use ($app) {
 
 /**
  * Painel Administrativo
- * Url: http://local.scmm.com.br/admin
+ * Url: http://local.scpm.com.br/admin
  */
 $app->group('/admin', function() use ($app) {
     $app->get('/', function() {
@@ -121,7 +122,7 @@ $app->group('/admin', function() use ($app) {
     });
     /**
      * ComÃ©rcio
-     * Url: http:/local.scmm.com.br/admin/commerce
+     * Url: http:/local.scpm.com.br/admin/commerce
      */
     $app->group('/commerce', function() use ($app) {
         $app->get('/', function() {
@@ -163,7 +164,7 @@ $app->group('/admin', function() use ($app) {
 
     /**
      * Produto
-     * Url: http:/local.scmm.com.br/admin/product
+     * Url: http:/local.scpm.com.br/admin/product
      */
     $app->group('/product', function() use ($app) {
         $app->get('/', function() {
@@ -205,7 +206,7 @@ $app->group('/admin', function() use ($app) {
 
     /**
      * Produtos por ComÃ©rcio
-     * Url: http:/local.scmm.com.br/admin/prodsByCommerce
+     * Url: http:/local.scpm.com.br/admin/prodsByCommerce
      */
     $app->group('/prodsByCommerce', function() use ($app) {
         $app->get('/', function() {
@@ -254,12 +255,12 @@ $app->group('/admin', function() use ($app) {
     });
     /**
      * UsuÃ¡rios
-     * Url: http://local.scmm.com.br/admin/users
+     * Url: http://local.scpm.com.br/admin/users
      */
     $app->group('/users', function() use ($app) {
         /**
          * Administrador
-         * Url: http://local.scmm.com.br/admin/users/admins
+         * Url: http://local.scpm.com.br/admin/users/admins
          */
         $app->group('/admins', function() use ($app) {
             $app->get('/', function() use ($app) {
@@ -297,7 +298,7 @@ $app->group('/admin', function() use ($app) {
         });
         /**
          * Cliente
-         * Url: http://local.scmm.com.br/admin/users/client
+         * Url: http://local.scpm.com.br/admin/users/client
          */
         $app->group('/clients', function() use ($app) {
             $app->get('/', function() {
@@ -313,7 +314,7 @@ $app->group('/admin', function() use ($app) {
 
 /**
  * Cliente
- * Url: http:/local.scmm.com.br/client
+ * Url: http:/local.scpm.com.br/client
  */
 $app->group('/client', function() use ($app) {
     $app->get('/', function() use ($app) {

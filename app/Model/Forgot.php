@@ -36,10 +36,10 @@ class Forgot extends Model
                     $code_encrypted = self::forgotEncrypt($recovery[0]['idrecovery'], Forgot::STRING_SECURITY);
 
                     // Recebe o link para envio do e-mail
-                    $link = "http://local.scmm.com.br/forgot/reset?code=$code_encrypted";
+                    $link = "http://local.scpm.com.br/forgot/reset?code=$code_encrypted";
 
                     // Instancia a Classe Mailer para envio do e-mail
-                    $mailer = new Mailer($recovery[0]['desemail'], $recovery[0]['desnome'], "Redefinir Senha em SCMM", array(
+                    $mailer = new Mailer($recovery[0]['desemail'], $recovery[0]['desnome'], "Redefinir Senha em SCPM", array(
                         'name' => $recovery[0]['desnome'],
                         'link' => $link
                     ));

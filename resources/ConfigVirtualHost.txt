@@ -1,4 +1,4 @@
-Configuração Virtual Host
+Configuraï¿½ï¿½o Virtual Host
 
 C:\xampp\apache\conf\extra\httpd-vhosts.conf
 
@@ -10,14 +10,14 @@ C:\xampp\apache\conf\extra\httpd-vhosts.conf
 </VirtualHost>
 
 <VirtualHost *:80>
-    ServerAdmin administrador@scmm.com.br
-    DocumentRoot "C:/xampp/htdocs/scmm"
-    ServerName scmm.com.br
-    ServerAlias local.scmm.com.br
+    ServerAdmin administrador@scpm.com.br
+    DocumentRoot "C:/xampp/htdocs/scpm"
+    ServerName scpm.com.br
+    ServerAlias local.scpm.com.br
 </VirtualHost>
 
 
 
 C:\Windows\System32\drivers\etc
 
-127.0.0.1       local.scmm.com.br
+127.0.0.1       local.scpm.com.br

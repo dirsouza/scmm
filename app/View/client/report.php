@@ -8,7 +8,7 @@ ob_start();
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
-        <title>SCMM - Usuários Clientes</title>
+        <title><?= $_SESSION['system']['abrev'] ?> - Usuários Clientes</title>
         <link rel="shortcut icon" href="<?= PATH_DIR ?>/public/img/logo-mini.png">
         <style>
             @page { margin: 100px 25px; }

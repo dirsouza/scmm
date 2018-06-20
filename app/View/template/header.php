@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>SCMM</title>
+        <title><?= $_SESSION['system']['abrev'] ?></title>
         <link rel="shortcut icon" href="/public/img/logo-mini.png">
         <link href="/public/api/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="/public/api/metismenu/metisMenu.min.css" rel="stylesheet">
@@ -16,7 +16,7 @@
         <link href="/public/api/select2/css/select2-bootstrap.min.css" rel="stylesheet">
         <link href="/public/api/toastr/toastr.min.css" rel="stylesheet">
         <link href="/public/api/morris-js/morris.css" rel="stylesheet">
-        <link href="/public/css/scmm.css" rel="stylesheet">
+        <link href="/public/css/scpm.css" rel="stylesheet">
     </head>
     <body class="clearfix">
 
@@ -27,7 +27,7 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="/">
                         <i class="glyphicon glyphicon-shopping-cart"></i>
-                        SCMM
+                        <?= $_SESSION['system']['abrev'] ?>
                     </a>
                 </div>
 

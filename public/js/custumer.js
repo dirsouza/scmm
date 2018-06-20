@@ -96,7 +96,7 @@ $(function() {
     $('.btnAltPass').on('click', function() {
         $('#frmModal').attr("action", "/admin/users/admins/altPass/" + $(this).attr('data-user-id'));
         $('.modal-title').empty();
-        $('.modal-title').append('<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM - Alterar Senha do Usuário: <b><u><i>' + $(this).attr('data-user-name') + '</i></u></b>');
+        $('.modal-title').append('<i class="glyphicon glyphicon-shopping-cart"> </i> SCPM - Alterar Senha do Usuário: <b><u><i>' + $(this).attr('data-user-name') + '</i></u></b>');
         $('#modalPass').modal('show');
     });
 
@@ -117,7 +117,7 @@ $(function() {
     function loadModal($msg) {
         var dialog = bootbox.dialog({
             size: 'small',
-            title: '<i class="glyphicon glyphicon-shopping-cart"> </i> SCMM',
+            title: '<i class="glyphicon glyphicon-shopping-cart"> </i> SCPM',
             message: '<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>'
         });
 

@@ -1,2 +1,2 @@
-# SCMM
-Sistema de Controle de Mercadorias de Mercado
+# SCPM
+Sistema de Controle de Pesquisa de Mercadoria

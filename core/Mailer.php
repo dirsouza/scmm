@@ -11,7 +11,7 @@ class Mailer
 {
     const USERNAME = "scmm.suporte@gmail.com";
     const PASSWORD = "@dm1n1st4@d04";
-    const NAME_FROM = "SCMM";
+    const NAME_FROM = "SCPM";
 
     private $mail;
 
@@ -78,7 +78,7 @@ class Mailer
         $this->mail->msgHTML($html);
 
         // Substitua o corpo do texto simples por um criado manualmente
-        $this->mail->AltBody = 'E-mail de Recuperação de Senha no SCMM';
+        $this->mail->AltBody = 'E-mail de Recuperação de Senha no ' . $_SESSION['system']['abrev'];
     }
 
     // envia a mensagem

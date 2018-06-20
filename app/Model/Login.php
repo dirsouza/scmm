@@ -17,7 +17,7 @@ class Login extends Model
      * Valida o login e senha do usuário
      * @param type $login
      * @param type $password
-     * @return \SCMM\Controllers\Login
+     * @return \SCPM\Controllers\Login
      */
     public static function login(string $login, string $password)
     {

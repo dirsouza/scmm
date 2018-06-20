@@ -40,7 +40,7 @@
         <script src="/public/api/toastr/toastr.min.js"></script>
         <script src="/public/api/morris-js/morris.min.js"></script>
         <script src="/public/api/morris-js/raphael-min.js"></script>
-        <script src="/public/js/scmm.js"></script>
+        <script src="/public/js/scpm.js"></script>
         <script src="/public/js/custumer.js"></script>
         <script src="/public/js/buscarCep.js"></script>
         <script src="/public/js/nofify.js"></script>
